@@ -1,7 +1,7 @@
 languageCode = "zh-cn"
 title = "Amazing-Gao"
 theme = "crab"
-baseurl = "https://amazingao.xyz"
+baseurl = "/"
 
 [params]
 description = "Find, discover, explorer and enjoy!"
