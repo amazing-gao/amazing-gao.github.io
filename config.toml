@@ -14,7 +14,7 @@ copyright = "Amazing-Gao"
 
 
 [permalinks]
-blog  = "/blog/:year/:month/:title/"
+blog  = "/blog/:year/:month/:title"
 
 [taxonomies]
 tags = "tags"
