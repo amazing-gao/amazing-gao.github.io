@@ -1,1 +1,14 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Amazing-Gao</title><link>/</link><description>Recent content on Amazing-Gao</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sun, 27 Sep 2020 10:48:03 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title>Test</title><link>/blog/2020/09/test/</link><pubDate>Sun, 27 Sep 2020 10:48:03 +0800</pubDate><guid>/blog/2020/09/test/</guid><description>Test</description></item><item><title/><link>/about/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>/about/</guid><description>About</description></item></channel></rss>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Amazing-Gao</title><link>/</link><description>Recent content on Amazing-Gao</description><generator>Hugo 0.75.1 -- gohugo.io</generator><language>zh-cn</language><managingEditor>amazing.gao@qq.com (AmazingGao)</managingEditor><webMaster>amazing.gao@qq.com (AmazingGao)</webMaster><copyright>Amazing-Gao — All rights reserved.</copyright><atom:link href="/index.xml" rel="self" type="application/rss+xml"/><item><title/><link>/about/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>amazing.gao@qq.com (AmazingGao)</author><guid isPermaLink="true">/about/</guid><description>&lt;p>喜欢倒腾的backend coder，常用Go/Node.Js/C/C++，对系统架构的设计与实现、微服务、ServiceMesh、DevOps、操作系统以及常用中间件略知一二。&lt;/p>
+&lt;p>喜欢解决问题的感觉，自认为是一个Problem slover，包括但不限于CS方向。如果觉得有必要，会不断优化争取把事情做到满意。&lt;/p>
+&lt;p>对技术有一点点小追求，偶尔在业务和产品方面也有一点点小想法，希望可以做出牛X的产品，为大家解决一些问题或者带来一些快乐。&lt;/p>
+&lt;h1 id="经历">经历&lt;/h1>
+&lt;ul>
+&lt;li>2013-2015 某安全公司 网络取证 C++/Node.js&lt;/li>
+&lt;li>2015-至今 十某大券商 互联网金融 Node.js/Go&lt;/li>
+&lt;/ul>
+&lt;h1 id="联系我">联系我&lt;/h1>
+&lt;ul>
+&lt;li>&lt;a href="https://github.com/amazing-gao">Github&lt;/a>&lt;/li>
+&lt;li>Email: &lt;a href="mailto:amazing.gao@qq.com">amazing.gao@qq.com&lt;/a>&lt;/li>
+&lt;li>Wechat: amazing-gao&lt;/li>
+&lt;/ul></description></item></channel></rss>
