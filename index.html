@@ -10,36 +10,36 @@
 <span>Tags</span> [
 <a href=/tags/go>go</a>
 <a href=/tags/godoc>godoc</a>
-]</div></div><div><p>在写<a href=https://github.com/boxgo/box>boxgo</a>的过程中，想要生成漂亮的godoc，发现不太熟悉godoc的用法，所以就有了本篇文章，记录一下。</p><p>Go团队非常重视文档，文档对项目的可阅读性、可维护性起到重要作用，所以写好文档变得非常重要。Go团队提供了<code>godoc</code>工具以帮助开发者方便、准确，容易的生成项目文档。<code>godoc</code>解析Go源代码（包括注释），并以HTML或纯文本格式生成文档。</p><h1 id=生成文档>生成文档</h1><p>提取规则：</p><ol><li>类型、变量、常量、函数，包都可以通过在声明的前面写注释的方法生成文档（中间不要有空行）。</li></ol><div class=highlight><pre class=chroma><code class=language-go data-lang=go><span class=c1>// Package doc 包注释  --- good
+]</div></div><div><p>在写<a href=https://github.com/boxgo/box>boxgo</a>的过程中，想要生成漂亮的godoc，发现不太熟悉godoc的用法，所以就有了本篇文章，记录一下。</p><p>Go团队非常重视文档，文档对项目的可阅读性、可维护性起到重要作用，所以写好文档变得非常重要。Go团队提供了<code>godoc</code>工具以帮助开发者方便、准确，容易的生成项目文档。<code>godoc</code>解析Go源代码（包括注释），并以HTML或纯文本格式生成文档。</p><h1 id=生成文档>生成文档</h1><p>提取规则：</p><ol><li><p>类型、变量、常量、函数，包都可以通过在声明的前面写注释的方法生成文档（中间不要有空行）。</p><div class=highlight><pre class=chroma><code class=language-go data-lang=go><span class=c1>// Package doc 包注释  --- good
 </span><span class=c1></span><span class=kn>package</span> <span class=nx>doc</span>
-
+   
 <span class=kd>type</span> <span class=p>(</span>
   <span class=c1>// UserType 类型注释  --- good
 </span><span class=c1></span>  <span class=nx>UserType</span> <span class=kt>string</span>
 <span class=p>)</span>
-
+   
 <span class=kd>var</span> <span class=p>(</span>
   <span class=c1>// userType 变量注释  --- good
 </span><span class=c1></span>  <span class=nx>userType</span> <span class=nx>UserType</span>
 <span class=p>)</span>
-
+   
 <span class=kd>const</span> <span class=p>(</span>
   <span class=c1>// Zero 常量注释  --- good
 </span><span class=c1></span>  <span class=nx>Zero</span> <span class=p>=</span> <span class=mi>0</span>
 <span class=p>)</span>
-
+   
 <span class=c1>// Test 函数注释  --- good
 </span><span class=c1></span><span class=kd>func</span> <span class=nf>Test</span><span class=p>()</span> <span class=p>{</span>
-
+   
 <span class=p>}</span>
-
-
+   
+   
 <span class=c1>// Test1 函数注释  --- bad（不要有空行）
-</span><span class=c1></span>
+</span><span class=c1></span>   
 <span class=kd>func</span> <span class=nf>Test1</span><span class=p>()</span> <span class=p>{</span>
-
+   
 <span class=p>}</span>
-</code></pre></div><ol start=2><li><p>注释开头的字母需要与被注释的元素名称保持一致（<code>包</code>除外）。如函数<code>Fprint</code>注释开头的第一个字母也是<code>Fprint</code>。</p><div class=highlight><pre class=chroma><code class=language-go data-lang=go><span class=c1>// Fprint formats using the default formats for its operands and writes to w.
+</code></pre></div></li><li><p>注释开头的字母需要与被注释的元素名称保持一致（<code>包</code>除外）。如函数<code>Fprint</code>注释开头的第一个字母也是<code>Fprint</code>。</p><div class=highlight><pre class=chroma><code class=language-go data-lang=go><span class=c1>// Fprint formats using the default formats for its operands and writes to w.
 </span><span class=c1>// Spaces are added between operands when neither is a string.
 </span><span class=c1>// It returns the number of bytes written and any write error encountered.
 </span><span class=c1></span><span class=kd>func</span> <span class=nf>Fprint</span><span class=p>(</span><span class=nx>w</span> <span class=nx>io</span><span class=p>.</span><span class=nx>Writer</span><span class=p>,</span> <span class=nx>a</span> <span class=o>...</span><span class=kd>interface</span><span class=p>{})</span> <span class=p>(</span><span class=nx>n</span> <span class=kt>int</span><span class=p>,</span> <span class=nx>err</span> <span class=kt>error</span><span class=p>)</span> <span class=p>{</span>
@@ -61,4 +61,4 @@ godoc -http<span class=o>=</span><span class=s2>&#34;:6060&#34;</span>
 
 <span class=c1># mac下查看文档。其他操作系统请打开浏览器访问。</span>
 open http://127.0.0.1:6060/pkg/<span class=nv>$your_module_path</span>
-</code></pre></div><p>效果图</p><p><img src=godoc.assets/image-20200928142135082.png alt=image-20200928142135082></p><h1 id=参考文档>参考文档</h1><p><a href=https://pkg.go.dev/golang.org/x/tools/cmd/godoc>godoc command</a></p><p><a href=https://blog.golang.org/godoc>godoc blog</a></p></div></div><div class=pagination-content><div class="pure-menu pure-menu-horizontal"><ul class=pure-menu-list><li class="pure-menu-item pure-menu-disabled">Pages</li><li class="pure-menu-item pure-menu-selected"><a href=/ class=pure-menu-link>First</a></li><li class="pure-menu-item pure-menu-selected"><a href=/ class=pure-menu-link>Last</a></li></ul></div></div><div class=footer><div class="pure-menu pure-menu-horizontal"><ul class=pure-menu-list><li class=pure-menu-item title="My repository"><a class=pure-menu-link href=https://github.com/amazing-gao>GitHub</a></li><li class=pure-menu-item title="RSS Feed"><a href=/index.xml class=pure-menu-link>RSS</a></li><li class="pure-menu-item fix-cursor-pointer" title="Go to top"><a class=pure-menu-link id=btn-gototop><span class=fix-placement-up>&#8679;&#xfe0e;</span></a></li></ul></div><div class="pure-menu pure-menu-horizontal"><ul class=pure-menu-list><li class="pure-menu-item pure-menu-disabled">&copy; 2020 &mdash; Amazing-Gao — All rights reserved.</li></ul></div></div></div><div class="pure-u-1-24 pure-u-md-5-24"></div></div></body></html>
+</code></pre></div><p>效果图</p><p><img src=/posts/godoc/image-20200928161749381.png alt=image-20200928161749381></p><h1 id=参考文档>参考文档</h1><p><a href=https://pkg.go.dev/golang.org/x/tools/cmd/godoc>godoc command</a></p><p><a href=https://blog.golang.org/godoc>godoc blog</a></p></div></div><div class=pagination-content><div class="pure-menu pure-menu-horizontal"><ul class=pure-menu-list><li class="pure-menu-item pure-menu-disabled">Pages</li><li class="pure-menu-item pure-menu-selected"><a href=/ class=pure-menu-link>First</a></li><li class="pure-menu-item pure-menu-selected"><a href=/ class=pure-menu-link>Last</a></li></ul></div></div><div class=footer><div class="pure-menu pure-menu-horizontal"><ul class=pure-menu-list><li class=pure-menu-item title="My repository"><a class=pure-menu-link href=https://github.com/amazing-gao>GitHub</a></li><li class=pure-menu-item title="RSS Feed"><a href=/index.xml class=pure-menu-link>RSS</a></li><li class="pure-menu-item fix-cursor-pointer" title="Go to top"><a class=pure-menu-link id=btn-gototop><span class=fix-placement-up>&#8679;&#xfe0e;</span></a></li></ul></div><div class="pure-menu pure-menu-horizontal"><ul class=pure-menu-list><li class="pure-menu-item pure-menu-disabled">&copy; 2020 &mdash; Amazing-Gao — All rights reserved.</li></ul></div></div></div><div class="pure-u-1-24 pure-u-md-5-24"></div></div></body></html>

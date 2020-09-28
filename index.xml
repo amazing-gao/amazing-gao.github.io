@@ -3,8 +3,8 @@
 &lt;h1 id="生成文档">生成文档&lt;/h1>
 &lt;p>提取规则：&lt;/p>
 &lt;ol>
-&lt;li>类型、变量、常量、函数，包都可以通过在声明的前面写注释的方法生成文档（中间不要有空行）。&lt;/li>
-&lt;/ol>
+&lt;li>
+&lt;p>类型、变量、常量、函数，包都可以通过在声明的前面写注释的方法生成文档（中间不要有空行）。&lt;/p>
 &lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="c1">// Package doc 包注释 --- good
 &lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="kn">package&lt;/span> &lt;span class="nx">doc&lt;/span>
 &lt;span class="kd">type&lt;/span> &lt;span class="p">(&lt;/span>
@@ -26,7 +26,7 @@
 &lt;/span>&lt;span class="c1">&lt;/span>
 &lt;span class="kd">func&lt;/span> &lt;span class="nf">Test1&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
 &lt;span class="p">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="2">
+&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
 &lt;li>
 &lt;p>注释开头的字母需要与被注释的元素名称保持一致（&lt;code>包&lt;/code>除外）。如函数&lt;code>Fprint&lt;/code>注释开头的第一个字母也是&lt;code>Fprint&lt;/code>。&lt;/p>
 &lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="c1">// Fprint formats using the default formats for its operands and writes to w.
@@ -71,7 +71,7 @@ godoc -http&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;:6060&amp;
 &lt;span class="c1"># mac下查看文档。其他操作系统请打开浏览器访问。&lt;/span>
 open http://127.0.0.1:6060/pkg/&lt;span class="nv">$your_module_path&lt;/span>
 &lt;/code>&lt;/pre>&lt;/div>&lt;p>效果图&lt;/p>
-&lt;p>&lt;img src="godoc.assets/image-20200928142135082.png" alt="image-20200928142135082">&lt;/p>
+&lt;p>&lt;img src="/posts/godoc/image-20200928161749381.png" alt="image-20200928161749381">&lt;/p>
 &lt;h1 id="参考文档">参考文档&lt;/h1>
 &lt;p>&lt;a href="https://pkg.go.dev/golang.org/x/tools/cmd/godoc">godoc command&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://blog.golang.org/godoc">godoc blog&lt;/a>&lt;/p></description></item><item><title/><link>/about/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><author>amazing.gao@qq.com (AmazingGao)</author><guid isPermaLink="true">/about/</guid><description>&lt;p>喜欢倒腾的backend coder，常用Go/Node.Js/C/C++，对系统架构的设计与实现、微服务、ServiceMesh、DevOps、操作系统以及常用中间件略知一二。&lt;/p>
