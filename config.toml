@@ -66,6 +66,9 @@ opengraph = false
 schema = false
 twitter_cards = false
 
+# 百度访问统计
+baiduAnalysis = "5acab59b8bfaab1554b123eb424ffec8"
+
 [menu]
 [[menu.main]]
 identifier = "posts"
