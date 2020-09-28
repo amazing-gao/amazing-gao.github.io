@@ -7,7 +7,7 @@
 
 # 经历
 * 2013-2015 某安全公司 网络取证 C++/Node.js
-* 2015-至今 十某大券商 互联网金融 Node.js/Go
+* 2015-至今 某十大券商 互联网金融 Go/Node.js
 
 # 联系我
 * [Github](https://github.com/amazing-gao)
