@@ -12,6 +12,7 @@ tags:
   - godoc
 series:
   - Go工具链
+typora-root-url: ../../static
 ---
 
 在写[boxgo](https://github.com/boxgo/box)的过程中，想要生成漂亮的godoc，发现不太熟悉godoc的用法，所以就有了本篇文章，记录一下。
@@ -24,37 +25,37 @@ Go团队非常重视文档，文档对项目的可阅读性、可维护性起到
 
 1. 类型、变量、常量、函数，包都可以通过在声明的前面写注释的方法生成文档（中间不要有空行）。
 
-```go
-// Package doc 包注释  --- good
-package doc
-
-type (
-  // UserType 类型注释  --- good
-  UserType string
-)
-
-var (
-  // userType 变量注释  --- good
-  userType UserType
-)
-
-const (
-  // Zero 常量注释  --- good
-  Zero = 0
-)
-
-// Test 函数注释  --- good
-func Test() {
-
-}
-
-
-// Test1 函数注释  --- bad（不要有空行）
-
-func Test1() {
-
-}
-```
+   ```go
+   // Package doc 包注释  --- good
+   package doc
+   
+   type (
+     // UserType 类型注释  --- good
+     UserType string
+   )
+   
+   var (
+     // userType 变量注释  --- good
+     userType UserType
+   )
+   
+   const (
+     // Zero 常量注释  --- good
+     Zero = 0
+   )
+   
+   // Test 函数注释  --- good
+   func Test() {
+   
+   }
+   
+   
+   // Test1 函数注释  --- bad（不要有空行）
+   
+   func Test1() {
+   
+   }
+   ```
 
 2. 注释开头的字母需要与被注释的元素名称保持一致（`包`除外）。如函数`Fprint`注释开头的第一个字母也是`Fprint`。
 
@@ -107,9 +108,7 @@ open http://127.0.0.1:6060/pkg/$your_module_path
 
 效果图
 
-![image-20200928142135082](godoc.assets/image-20200928142135082.png)
-
-
+![image-20200928161749381](/posts/godoc/image-20200928161749381.png)
 
 # 参考文档
 
