@@ -1,4 +1,4 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>go on Amazing-Gao 实在是高</title><link>/categories/go/</link><description>Recent content in go on Amazing-Gao 实在是高</description><generator>Hugo 0.75.1 -- gohugo.io</generator><language>zh-cn</language><managingEditor>amazing.gao@qq.com (AmazingGao)</managingEditor><webMaster>amazing.gao@qq.com (AmazingGao)</webMaster><copyright>Amazing-Gao — All rights reserved.</copyright><lastBuildDate>Wed, 30 Sep 2020 22:40:58 +0800</lastBuildDate><atom:link href="/categories/go/index.xml" rel="self" type="application/rss+xml"/><item><title>Go设计模式之Singleton</title><link>/posts/2020/09/go-patterns/singleton/</link><pubDate>Wed, 30 Sep 2020 22:40:58 +0800</pubDate><author>amazing.gao@qq.com (AmazingGao)</author><guid isPermaLink="true">/posts/2020/09/go-patterns/singleton/</guid><description>&lt;h1 id="singleton---单例模式">Singleton - 单例模式&lt;/h1>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>设计模式 on Amazing-Gao 实在是高</title><link>/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</link><description>Recent content in 设计模式 on Amazing-Gao 实在是高</description><generator>Hugo 0.75.1 -- gohugo.io</generator><language>zh-cn</language><managingEditor>amazing.gao@qq.com (AmazingGao)</managingEditor><webMaster>amazing.gao@qq.com (AmazingGao)</webMaster><copyright>Amazing-Gao — All rights reserved.</copyright><lastBuildDate>Wed, 30 Sep 2020 22:40:58 +0800</lastBuildDate><atom:link href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.xml" rel="self" type="application/rss+xml"/><item><title>Go设计模式之Singleton</title><link>/posts/2020/09/go-patterns/singleton/</link><pubDate>Wed, 30 Sep 2020 22:40:58 +0800</pubDate><author>amazing.gao@qq.com (AmazingGao)</author><guid isPermaLink="true">/posts/2020/09/go-patterns/singleton/</guid><description>&lt;h1 id="singleton---单例模式">Singleton - 单例模式&lt;/h1>
 &lt;p>保证一个类仅有一个实例，并提供一个访问它的全局访问点。&lt;/p>
 &lt;h1 id="实现">实现&lt;/h1>
 &lt;h2 id="饿汉式">饿汉式&lt;/h2>
@@ -116,80 +116,4 @@
 &lt;span class="p">}&lt;/span>
 &lt;span class="nx">wg&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Wait&lt;/span>&lt;span class="p">()&lt;/span>
 &lt;span class="p">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Go工具链之godoc指南</title><link>/posts/2020/09/godoc/</link><pubDate>Sun, 27 Sep 2020 21:30:30 +0800</pubDate><author>amazing.gao@qq.com (AmazingGao)</author><guid isPermaLink="true">/posts/2020/09/godoc/</guid><description>&lt;p>在写&lt;a href="https://github.com/boxgo/box">boxgo&lt;/a>的过程中，想要生成漂亮的godoc，发现不太熟悉godoc的用法，所以就有了本篇文章，记录一下。&lt;/p>
-&lt;p>Go团队非常重视文档，文档对项目的可阅读性、可维护性起到重要作用，所以写好文档变得非常重要。Go团队提供了&lt;code>godoc&lt;/code>工具以帮助开发者方便、准确，容易的生成项目文档。&lt;code>godoc&lt;/code>解析Go源代码（包括注释），并以HTML或纯文本格式生成文档。&lt;/p>
-&lt;h1 id="生成文档">生成文档&lt;/h1>
-&lt;p>提取规则：&lt;/p>
-&lt;ol>
-&lt;li>
-&lt;p>类型、变量、常量、函数，包都可以通过在声明的前面写注释的方法生成文档（中间不要有空行）。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="c1">// Package doc 包注释 --- good
-&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="kn">package&lt;/span> &lt;span class="nx">doc&lt;/span>
-&lt;span class="kd">type&lt;/span> &lt;span class="p">(&lt;/span>
-&lt;span class="c1">// UserType 类型注释 --- good
-&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="nx">UserType&lt;/span> &lt;span class="kt">string&lt;/span>
-&lt;span class="p">)&lt;/span>
-&lt;span class="kd">var&lt;/span> &lt;span class="p">(&lt;/span>
-&lt;span class="c1">// userType 变量注释 --- good
-&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="nx">userType&lt;/span> &lt;span class="nx">UserType&lt;/span>
-&lt;span class="p">)&lt;/span>
-&lt;span class="kd">const&lt;/span> &lt;span class="p">(&lt;/span>
-&lt;span class="c1">// Zero 常量注释 --- good
-&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="nx">Zero&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="mi">0&lt;/span>
-&lt;span class="p">)&lt;/span>
-&lt;span class="c1">// Test 函数注释 --- good
-&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="kd">func&lt;/span> &lt;span class="nf">Test&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;span class="p">}&lt;/span>
-&lt;span class="c1">// Test1 函数注释 --- bad（不要有空行）
-&lt;/span>&lt;span class="c1">&lt;/span>
-&lt;span class="kd">func&lt;/span> &lt;span class="nf">Test1&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;span class="p">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
-&lt;li>
-&lt;p>注释开头的字母需要与被注释的元素名称保持一致（&lt;code>包&lt;/code>除外）。如函数&lt;code>Fprint&lt;/code>注释开头的第一个字母也是&lt;code>Fprint&lt;/code>。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="c1">// Fprint formats using the default formats for its operands and writes to w.
-&lt;/span>&lt;span class="c1">// Spaces are added between operands when neither is a string.
-&lt;/span>&lt;span class="c1">// It returns the number of bytes written and any write error encountered.
-&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="kd">func&lt;/span> &lt;span class="nf">Fprint&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">w&lt;/span> &lt;span class="nx">io&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Writer&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">a&lt;/span> &lt;span class="o">...&lt;/span>&lt;span class="kd">interface&lt;/span>&lt;span class="p">{})&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">n&lt;/span> &lt;span class="kt">int&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="kt">error&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;span class="c1">//
-&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="p">}&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
-&lt;li>
-&lt;p>&lt;code>doc.go&lt;/code> - 包注释比较多的话也可以使用单独的&lt;code>doc.go&lt;/code>来编写文档。参考&lt;a href="https://golang.org/src/encoding/gob/doc.go">gob package&amp;rsquo;s doc&lt;/a>。&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>&lt;code>BUG(who)&lt;/code> - 注释与被注释主体之间通常不能有空行或者空注释，但是&lt;code>BUG(who)&lt;/code>是一个例外，&lt;code>BUG&lt;/code>将在godoc的文档中展示。参考：&lt;a href="https://golang.org/pkg/bytes/#pkg-note-BUG">bytes package&lt;/a>。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="c1">// Title treats s as UTF-8-encoded bytes and returns a copy with all Unicode letters that begin
-&lt;/span>&lt;span class="c1">// words mapped to their title case.
-&lt;/span>&lt;span class="c1">//
-&lt;/span>&lt;span class="c1">// BUG(rsc): The rule Title uses for word boundaries does not handle Unicode punctuation properly.
-&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="kd">func&lt;/span> &lt;span class="nf">Title&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">s&lt;/span> &lt;span class="p">[]&lt;/span>&lt;span class="kt">byte&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">[]&lt;/span>&lt;span class="kt">byte&lt;/span> &lt;span class="p">{&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;/li>
-&lt;li>
-&lt;p>&lt;code>Deprecated&lt;/code> - 可以描述struct field, function, type, variable, const甚至是package，表示被弃用，后续不再使用，但必须保持兼容性。&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>多个相邻的注释行，生成文档时被视为一个段落，如果想要生成多个段落，请留空行。&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>预格式文本需要相对上下文的注释有缩进。&lt;/p>
-&lt;/li>
-&lt;li>
-&lt;p>URL无需标记，文档中也会被转换成URL。&lt;/p>
-&lt;/li>
-&lt;/ol>
-&lt;h1 id="查看文档">查看文档&lt;/h1>
-&lt;p>几行代码带你查看你项目的godoc。&lt;/p>
-&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="c1"># 进入你的项目源代码目录&lt;/span>
-&lt;span class="nb">cd&lt;/span> &lt;span class="nv">$your_project_dir&lt;/span>
-&lt;span class="c1"># 为项目建立软连接，因为godoc目前对go mod支持的不是很好，所以需要将项目软链到GOPATH内。如果你的项目在GOPATH目录中，跳过此步骤。&lt;/span>
-ln -s &lt;span class="nv">$your_project_dir&lt;/span> &lt;span class="nv">$GOPATH&lt;/span>/src/&lt;span class="nv">$your_module_path&lt;/span>
-&lt;span class="c1"># 启动godoc服务&lt;/span>
-godoc -http&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;:6060&amp;#34;&lt;/span>
-&lt;span class="c1"># mac下查看文档。其他操作系统请打开浏览器访问。&lt;/span>
-open http://127.0.0.1:6060/pkg/&lt;span class="nv">$your_module_path&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>效果图&lt;/p>
-&lt;p>&lt;img src="/posts/godoc/image-20200928161749381.png" alt="image-20200928161749381">&lt;/p>
-&lt;h1 id="参考文档">参考文档&lt;/h1>
-&lt;p>&lt;a href="https://pkg.go.dev/golang.org/x/tools/cmd/godoc">godoc command&lt;/a>&lt;/p>
-&lt;p>&lt;a href="https://blog.golang.org/godoc">godoc blog&lt;/a>&lt;/p></description></item></channel></rss>
+&lt;/code>&lt;/pre>&lt;/div></description></item></channel></rss>

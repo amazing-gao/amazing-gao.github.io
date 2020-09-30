@@ -1,4 +1,122 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>go on Amazing-Gao</title><link>/tags/go/</link><description>Recent content in go on Amazing-Gao</description><generator>Hugo 0.75.1 -- gohugo.io</generator><language>zh-cn</language><managingEditor>amazing.gao@qq.com (AmazingGao)</managingEditor><webMaster>amazing.gao@qq.com (AmazingGao)</webMaster><copyright>Amazing-Gao — All rights reserved.</copyright><lastBuildDate>Sun, 27 Sep 2020 21:30:30 +0800</lastBuildDate><atom:link href="/tags/go/index.xml" rel="self" type="application/rss+xml"/><item><title>Go工具链之godoc指南</title><link>/posts/2020/09/go%E5%B7%A5%E5%85%B7%E9%93%BE%E4%B9%8Bgodoc%E6%8C%87%E5%8D%97/</link><pubDate>Sun, 27 Sep 2020 21:30:30 +0800</pubDate><author>amazing.gao@qq.com (AmazingGao)</author><guid isPermaLink="true">/posts/2020/09/go%E5%B7%A5%E5%85%B7%E9%93%BE%E4%B9%8Bgodoc%E6%8C%87%E5%8D%97/</guid><description>&lt;p>在写&lt;a href="https://github.com/boxgo/box">boxgo&lt;/a>的过程中，想要生成漂亮的godoc，发现不太熟悉godoc的用法，所以就有了本篇文章，记录一下。&lt;/p>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>go on Amazing-Gao 实在是高</title><link>/tags/go/</link><description>Recent content in go on Amazing-Gao 实在是高</description><generator>Hugo 0.75.1 -- gohugo.io</generator><language>zh-cn</language><managingEditor>amazing.gao@qq.com (AmazingGao)</managingEditor><webMaster>amazing.gao@qq.com (AmazingGao)</webMaster><copyright>Amazing-Gao — All rights reserved.</copyright><lastBuildDate>Wed, 30 Sep 2020 22:40:58 +0800</lastBuildDate><atom:link href="/tags/go/index.xml" rel="self" type="application/rss+xml"/><item><title>Go设计模式之Singleton</title><link>/posts/2020/09/go-patterns/singleton/</link><pubDate>Wed, 30 Sep 2020 22:40:58 +0800</pubDate><author>amazing.gao@qq.com (AmazingGao)</author><guid isPermaLink="true">/posts/2020/09/go-patterns/singleton/</guid><description>&lt;h1 id="singleton---单例模式">Singleton - 单例模式&lt;/h1>
+&lt;p>保证一个类仅有一个实例，并提供一个访问它的全局访问点。&lt;/p>
+&lt;h1 id="实现">实现&lt;/h1>
+&lt;h2 id="饿汉式">饿汉式&lt;/h2>
+&lt;p>饿汉式单例是指在方法调用前，实例就已经创建好了。&lt;/p>
+&lt;p>按照&lt;strong>用法&lt;/strong>使用，可以看到控制台输出10次单例的内存地址是一样的。&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="kn">package&lt;/span> &lt;span class="nx">main&lt;/span>
+&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;span class="s">&amp;#34;fmt&amp;#34;&lt;/span>
+&lt;span class="s">&amp;#34;sync&amp;#34;&lt;/span>
+&lt;span class="s">&amp;#34;time&amp;#34;&lt;/span>
+&lt;span class="p">)&lt;/span>
+&lt;span class="kd">type&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;span class="nx">server&lt;/span> &lt;span class="kd">struct&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nx">port&lt;/span> &lt;span class="kt">int&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="p">)&lt;/span>
+&lt;span class="kd">var&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;span class="nx">instance&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">server&lt;/span>&lt;span class="p">{}&lt;/span>
+&lt;span class="p">)&lt;/span>
+&lt;span class="kd">func&lt;/span> &lt;span class="nf">getServerSingleton&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">server&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">return&lt;/span> &lt;span class="nx">instance&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="cm">/*
+&lt;/span>&lt;span class="cm">server ptr: 0x1182ec0
+&lt;/span>&lt;span class="cm">server ptr: 0x1182ec0
+&lt;/span>&lt;span class="cm">server ptr: 0x1182ec0
+&lt;/span>&lt;span class="cm">server ptr: 0x1182ec0
+&lt;/span>&lt;span class="cm">server ptr: 0x1182ec0
+&lt;/span>&lt;span class="cm">server ptr: 0x1182ec0
+&lt;/span>&lt;span class="cm">server ptr: 0x1182ec0
+&lt;/span>&lt;span class="cm">server ptr: 0x1182ec0
+&lt;/span>&lt;span class="cm">server ptr: 0x1182ec0
+&lt;/span>&lt;span class="cm">server ptr: 0x1182ec0
+&lt;/span>&lt;span class="cm">*/&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="懒汉式---非goroutine安全">懒汉式 - 非Goroutine安全&lt;/h2>
+&lt;p>懒汉式单例是指在方法调用获取实例时才创建实例，因为相对饿汉式显得“不急迫”，所以被叫做“懒汉模式”。&lt;/p>
+&lt;p>按照&lt;strong>用法&lt;/strong>使用，可以看到控制台输出10次单例的内存地址并不完全一样。&lt;/p>
+&lt;p>一共有以下3个指针：&lt;/p>
+&lt;ul>
+&lt;li>0xc0000c4000&lt;/li>
+&lt;li>0xc0000ca000&lt;/li>
+&lt;li>0xc0000c2000&lt;/li>
+&lt;/ul>
+&lt;p>可见此懒汉模式不支持在实例未初始化时高并发调用。&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="kn">package&lt;/span> &lt;span class="nx">main&lt;/span>
+&lt;span class="kd">type&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;span class="nx">server&lt;/span> &lt;span class="kd">struct&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nx">port&lt;/span> &lt;span class="kt">int&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="p">)&lt;/span>
+&lt;span class="kd">var&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;span class="nx">instance&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">server&lt;/span>
+&lt;span class="p">)&lt;/span>
+&lt;span class="kd">func&lt;/span> &lt;span class="nf">getServerSingleton&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">server&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">if&lt;/span> &lt;span class="nx">instance&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="kc">nil&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nx">instance&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">server&lt;/span>&lt;span class="p">{}&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="k">return&lt;/span> &lt;span class="nx">instance&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="cm">/*
+&lt;/span>&lt;span class="cm">server ptr: 0xc0000c4000
+&lt;/span>&lt;span class="cm">server ptr: 0xc0000ca000
+&lt;/span>&lt;span class="cm">server ptr: 0xc0000c4000
+&lt;/span>&lt;span class="cm">server ptr: 0xc0000c2000
+&lt;/span>&lt;span class="cm">server ptr: 0xc0000c2000
+&lt;/span>&lt;span class="cm">server ptr: 0xc0000ca000
+&lt;/span>&lt;span class="cm">server ptr: 0xc0000ca000
+&lt;/span>&lt;span class="cm">server ptr: 0xc0000ca000
+&lt;/span>&lt;span class="cm">server ptr: 0xc0000ca000
+&lt;/span>&lt;span class="cm">server ptr: 0xc0000ca000
+&lt;/span>&lt;span class="cm">*/&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="懒汉式---goroutine安全">懒汉式 - Goroutine安全&lt;/h2>
+&lt;p>我们可以利用golang sync包提供的Once结构体来解决Goroutine安全问题。Once提供了在应用程序生命周期中仅会被调用一次的解决方案。我们将实例的生成过程使用Once保护起来，那么即可以做到单例。&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="kn">package&lt;/span> &lt;span class="nx">main&lt;/span>
+&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;span class="s">&amp;#34;sync&amp;#34;&lt;/span>
+&lt;span class="p">)&lt;/span>
+&lt;span class="kd">type&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;span class="nx">server&lt;/span> &lt;span class="kd">struct&lt;/span>&lt;span class="p">{}&lt;/span>
+&lt;span class="p">)&lt;/span>
+&lt;span class="kd">var&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;span class="nx">instance&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">server&lt;/span>
+&lt;span class="nx">once&lt;/span> &lt;span class="nx">sync&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Once&lt;/span>
+&lt;span class="p">)&lt;/span>
+&lt;span class="kd">func&lt;/span> &lt;span class="nf">getServerSingleton&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">server&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nx">once&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Do&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kd">func&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nx">instance&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="nx">server&lt;/span>&lt;span class="p">{}&lt;/span>
+&lt;span class="p">})&lt;/span>
+&lt;span class="k">return&lt;/span> &lt;span class="nx">instance&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="cm">/*
+&lt;/span>&lt;span class="cm">server ptr: 0x1182f88
+&lt;/span>&lt;span class="cm">server ptr: 0x1182f88
+&lt;/span>&lt;span class="cm">server ptr: 0x1182f88
+&lt;/span>&lt;span class="cm">server ptr: 0x1182f88
+&lt;/span>&lt;span class="cm">server ptr: 0x1182f88
+&lt;/span>&lt;span class="cm">server ptr: 0x1182f88
+&lt;/span>&lt;span class="cm">server ptr: 0x1182f88
+&lt;/span>&lt;span class="cm">server ptr: 0x1182f88
+&lt;/span>&lt;span class="cm">server ptr: 0x1182f88
+&lt;/span>&lt;span class="cm">server ptr: 0x1182f88
+&lt;/span>&lt;span class="cm">*/&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="用法">用法&lt;/h1>
+&lt;p>模拟10个并发请求获取单例。&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="kd">func&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nx">wg&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">sync&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">WaitGroup&lt;/span>&lt;span class="p">{}&lt;/span>
+&lt;span class="k">for&lt;/span> &lt;span class="nx">index&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="nx">index&lt;/span> &lt;span class="p">&amp;lt;&lt;/span> &lt;span class="mi">10&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="nx">index&lt;/span>&lt;span class="o">++&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nx">wg&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Add&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="k">go&lt;/span> &lt;span class="kd">func&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nx">time&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Sleep&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">time&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Millisecond&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="mi">100&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="nx">server&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nf">getServerSingleton&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Printf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;server ptr: %p \n&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">server&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="nx">wg&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Done&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;span class="p">}()&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="nx">wg&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Wait&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Go工具链之godoc指南</title><link>/posts/2020/09/godoc/</link><pubDate>Sun, 27 Sep 2020 21:30:30 +0800</pubDate><author>amazing.gao@qq.com (AmazingGao)</author><guid isPermaLink="true">/posts/2020/09/godoc/</guid><description>&lt;p>在写&lt;a href="https://github.com/boxgo/box">boxgo&lt;/a>的过程中，想要生成漂亮的godoc，发现不太熟悉godoc的用法，所以就有了本篇文章，记录一下。&lt;/p>
 &lt;p>Go团队非常重视文档，文档对项目的可阅读性、可维护性起到重要作用，所以写好文档变得非常重要。Go团队提供了&lt;code>godoc&lt;/code>工具以帮助开发者方便、准确，容易的生成项目文档。&lt;code>godoc&lt;/code>解析Go源代码（包括注释），并以HTML或纯文本格式生成文档。&lt;/p>
 &lt;h1 id="生成文档">生成文档&lt;/h1>
 &lt;p>提取规则：&lt;/p>
