@@ -1,3 +1,12 @@
+---
+slug: about
+description: 关于我的一些介绍
+date: 2020-09-26T21:30:30+08:00
+type: about
+draft: false
+typora-root-url: ../../static
+---
+
 喜欢倒腾的backend coder，常用Go/Node.Js/C/C++，对系统架构的设计与实现、微服务、ServiceMesh、DevOps、操作系统以及常用中间件略知一二。
 
 喜欢解决问题的感觉，自认为是一个Problem slover，包括但不限于CS方向。如果觉得有必要，会不断优化争取把事情做到满意。
