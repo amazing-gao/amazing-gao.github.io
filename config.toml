@@ -3,7 +3,7 @@ copyright = "Amazing-Gao — All rights reserved."
 defaultContentLanguage = "zh-cn"
 languageCode = "zh-cn"
 theme = "slick"
-title = "Amazing-Gao"
+title = "Amazing-Gao 实在是高"
 
 paginate = 10
 paginatePath = "page"
@@ -12,7 +12,7 @@ canonifyURLs = true
 preserveTaxonomyNames = true
 
 [permalinks]
-posts = "/posts/:year/:month/:title"
+posts = "/posts/:year/:month/:slug"
 
 [markup]
 [markup.goldmark]
@@ -37,7 +37,7 @@ limit = 10
 
 [params]
 dateFmt = "2006-01-02"
-description = "一个程序员的个人技术博客"
+description = "实在是高的个人技术博客"
 favicon = ""
 subtitle = "Find, discover, explorer and enjoy!"
 
