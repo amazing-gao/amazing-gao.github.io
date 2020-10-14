@@ -1,0 +1,108 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><title>Go设计模式之Factory | Amazing-Gao 实在是高</title><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=description content="Factory - 工厂模式 工厂模式在Go中使用的非常广泛，比如常用于数据的读写模块。假设我们需要从某种介质中读取数据，并将更新后的结果保存到该介质中。考虑到以后可能更换为其他类型的介质，为了避免日后更换介质而大面积变更代码，我们就会用到本模式。
+实现 1.定义工厂方法所创建对象的接口 假设我们的存储模块只有Read和Write两个功能，我们需要先定义存储器inteface。
+package store import &#34;io&#34; type Store interface { Read(string) ([]byte, error) Save(string, []byte) (error) } 2.实现对象接口 假设我们需要将Redis或磁盘作为存储介质，我们需要分别实现Redis与磁盘的存储功能。
+FileSystem pacakge store type FileStore struct{ /*your codes*/ } func (store *FileStore) Read(string) ([]byte, error) { /*your codes*/ } func (store *FileStore) Save(string, []byte) (error) { /*your codes*/ } // 注意这里要返回 Store 接口，而不是FileStore的指针。 // 可以保证工厂方法只能调用到对象接口方法，避免封装被破坏。 func newFileStore() Store { /*your codes*/ } Redis pacakge store type RedisStore struct{ /*your codes*/ } func (store *RedisStore) Read(string) ([]byte, error) { /*your codes*/ } func (store *RedisStore) Save(string, []byte) (error) { /*your codes*/ } // 注意这里要返回 Store 接口，而不是RedisStore的指针。 // 可以保证工厂方法只能调用到对象接口方法，避免封装被破坏。 func newRedisStore() Store { /*your codes*/ } 3."><meta name=author content="AmazingGao"><meta name=generator content="Hugo 0.76.4"><link href=/index.xml rel=alternate type=application/rss+xml title="Amazing-Gao 实在是高 Feed"><link rel=stylesheet href=/style.7c6d960b20273ed88bc63a60591a57e7739fb21f243b77f27c3bc730ef6205c0.css><script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="https://hm.baidu.com/hm.js?815a521e3c0aee7749c5f8350acb8c6d";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script><script defer src=/script.9df38729991a6ec08d83b60514e841529cebd5ccc800cf8e1f98fb63e73aaa73.js></script></head><body><div class=pure-g><div class="pure-u-1-24 pure-u-md-5-24"></div><div class="pure-u-22-24 pure-u-md-14-24"><div class=navigation><div class="navigation-header clearfix"><div class="pure-menu pure-menu-horizontal"><a class="pure-menu-heading pure-menu-link" href=/>Amazing-Gao 实在是高</a><ul class="pure-menu-list navigation-header-subtitle pull-end"><li class="pure-menu-item pure-menu-disabled">Find, discover, explorer and enjoy!</li></ul></div></div><div class=navigation-content><div class="pure-menu pure-menu-horizontal"><ul class=pure-menu-list><li class=pure-menu-item title="All posts"><a class=pure-menu-link href=/posts/>Posts</a></li><li class=pure-menu-item title="All tags"><a class=pure-menu-link href=/tags/>Tags</a></li><li class=pure-menu-item title="All series"><a class=pure-menu-link href=/series/>Series</a></li><li class=pure-menu-item title="All categories"><a class=pure-menu-link href=/categories/>Categories</a></li><li class=pure-menu-item title="About me"><a class=pure-menu-link href=/about/>About</a></li></ul></div></div></div><div><div><h2 class=post-title>Go设计模式之Factory</h2><div class=post-meta><span>Date</span> [
+<time datetime=2020-10-14T20:30:39+08:00>2020-10-14</time>
+]
+<span>Categories</span> [
+<a href=/categories/go>go</a>
+]
+<span>Series</span> [
+<a href=/series/go%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f>Go设计模式</a>
+]
+<span>Tags</span> [
+<a href=/tags/go>go</a>
+<a href=/tags/%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f>设计模式</a>
+]</div></div><div><h1 id=factory---工厂模式>Factory - 工厂模式</h1><p>工厂模式在Go中使用的非常广泛，比如常用于数据的读写模块。假设我们需要从某种介质中读取数据，并将更新后的结果保存到该介质中。考虑到以后可能更换为其他类型的介质，为了避免日后更换介质而大面积变更代码，我们就会用到本模式。</p><h1 id=实现>实现</h1><h2 id=1定义工厂方法所创建对象的接口>1.定义工厂方法所创建对象的接口</h2><p>假设我们的存储模块只有<strong>Read</strong>和<strong>Write</strong>两个功能，我们需要先定义存储器<strong>inteface</strong>。</p><div class=highlight><pre class=chroma><code class=language-go data-lang=go><span class=kn>package</span> <span class=nx>store</span>
+
+<span class=kn>import</span> <span class=s>&#34;io&#34;</span>
+
+<span class=kd>type</span> <span class=nx>Store</span> <span class=kd>interface</span> <span class=p>{</span>
+    <span class=nf>Read</span><span class=p>(</span><span class=kt>string</span><span class=p>)</span> <span class=p>([]</span><span class=kt>byte</span><span class=p>,</span> <span class=kt>error</span><span class=p>)</span>
+    <span class=nf>Save</span><span class=p>(</span><span class=kt>string</span><span class=p>,</span> <span class=p>[]</span><span class=kt>byte</span><span class=p>)</span> <span class=p>(</span><span class=kt>error</span><span class=p>)</span>
+<span class=p>}</span>
+</code></pre></div><h2 id=2实现对象接口>2.实现对象接口</h2><p>假设我们需要将Redis或磁盘作为存储介质，我们需要分别实现Redis与磁盘的存储功能。</p><h3 id=filesystem>FileSystem</h3><div class=highlight><pre class=chroma><code class=language-go data-lang=go><span class=nx>pacakge</span> <span class=nx>store</span>
+
+<span class=kd>type</span> <span class=nx>FileStore</span> <span class=kd>struct</span><span class=p>{</span>
+  <span class=cm>/*your codes*/</span>
+<span class=p>}</span>
+
+<span class=kd>func</span> <span class=p>(</span><span class=nx>store</span> <span class=o>*</span><span class=nx>FileStore</span><span class=p>)</span> <span class=nf>Read</span><span class=p>(</span><span class=kt>string</span><span class=p>)</span> <span class=p>([]</span><span class=kt>byte</span><span class=p>,</span> <span class=kt>error</span><span class=p>)</span> <span class=p>{</span>
+  <span class=cm>/*your codes*/</span>
+<span class=p>}</span>
+
+<span class=kd>func</span> <span class=p>(</span><span class=nx>store</span> <span class=o>*</span><span class=nx>FileStore</span><span class=p>)</span> <span class=nf>Save</span><span class=p>(</span><span class=kt>string</span><span class=p>,</span> <span class=p>[]</span><span class=kt>byte</span><span class=p>)</span> <span class=p>(</span><span class=kt>error</span><span class=p>)</span> <span class=p>{</span>
+  <span class=cm>/*your codes*/</span>
+<span class=p>}</span>
+
+<span class=c1>// 注意这里要返回 Store 接口，而不是FileStore的指针。
+</span><span class=c1>// 可以保证工厂方法只能调用到对象接口方法，避免封装被破坏。
+</span><span class=c1></span><span class=kd>func</span> <span class=nf>newFileStore</span><span class=p>()</span> <span class=nx>Store</span> <span class=p>{</span>
+  <span class=cm>/*your codes*/</span>
+<span class=p>}</span>
+</code></pre></div><h3 id=redis>Redis</h3><div class=highlight><pre class=chroma><code class=language-go data-lang=go><span class=nx>pacakge</span> <span class=nx>store</span>
+
+<span class=kd>type</span> <span class=nx>RedisStore</span> <span class=kd>struct</span><span class=p>{</span>
+  <span class=cm>/*your codes*/</span>
+<span class=p>}</span>
+
+<span class=kd>func</span> <span class=p>(</span><span class=nx>store</span> <span class=o>*</span><span class=nx>RedisStore</span><span class=p>)</span> <span class=nf>Read</span><span class=p>(</span><span class=kt>string</span><span class=p>)</span> <span class=p>([]</span><span class=kt>byte</span><span class=p>,</span> <span class=kt>error</span><span class=p>)</span> <span class=p>{</span>
+  <span class=cm>/*your codes*/</span>
+<span class=p>}</span>
+
+<span class=kd>func</span> <span class=p>(</span><span class=nx>store</span> <span class=o>*</span><span class=nx>RedisStore</span><span class=p>)</span> <span class=nf>Save</span><span class=p>(</span><span class=kt>string</span><span class=p>,</span> <span class=p>[]</span><span class=kt>byte</span><span class=p>)</span> <span class=p>(</span><span class=kt>error</span><span class=p>)</span> <span class=p>{</span>
+  <span class=cm>/*your codes*/</span>
+<span class=p>}</span>
+
+<span class=c1>// 注意这里要返回 Store 接口，而不是RedisStore的指针。
+</span><span class=c1>// 可以保证工厂方法只能调用到对象接口方法，避免封装被破坏。
+</span><span class=c1></span><span class=kd>func</span> <span class=nf>newRedisStore</span><span class=p>()</span> <span class=nx>Store</span> <span class=p>{</span>
+  <span class=cm>/*your codes*/</span>
+<span class=p>}</span>
+</code></pre></div><h2 id=3实现工厂方法>3.实现工厂方法</h2><p>工厂方法是暴露给模块外部使用的，用于创建实例的方法。我们需要将各种类型<strong>Store</strong>实例的创建过程封装到该方法里面，避免暴露给外部模块。由工厂方法统一提供创建功能。</p><div class=highlight><pre class=chroma><code class=language-go data-lang=go><span class=nx>pacakge</span> <span class=nx>store</span>
+
+<span class=kd>type</span> <span class=p>(</span>
+  <span class=nx>StoreType</span> <span class=kt>int</span>
+<span class=p>)</span>
+
+<span class=kd>const</span> <span class=p>(</span>
+  <span class=nx>File</span> <span class=nx>StorageType</span> <span class=p>=</span> <span class=mi>1</span> <span class=o>&lt;&lt;</span> <span class=kc>iota</span>
+  <span class=nx>Redis</span>
+<span class=p>)</span>
+
+<span class=kd>func</span> <span class=nf>NewStore</span><span class=p>(</span><span class=nx>storeType</span> <span class=nx>StoreType</span><span class=p>)</span> <span class=nx>Store</span> <span class=p>{</span>
+  <span class=k>switch</span> <span class=nx>storeType</span> <span class=p>{</span>
+    <span class=k>case</span> <span class=nx>File</span><span class=p>:</span>
+      <span class=k>return</span> <span class=nf>newFileStore</span><span class=p>()</span>
+    <span class=k>case</span> <span class=nx>Redis</span><span class=p>:</span>
+      <span class=k>return</span> <span class=nf>newRedisStore</span><span class=p>()</span>
+    <span class=k>default</span><span class=p>:</span>
+      <span class=nb>panic</span><span class=p>(</span><span class=s>&#34;尚未支持的存储类型！&#34;</span><span class=p>)</span>
+  <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div><h1 id=使用>使用</h1><p>假设我们需要使用<strong>Redis</strong>作为存储介质，我们只需要在工厂方法中传入<strong>store.Redis</strong>参数。</p><div class=highlight><pre class=chroma><code class=language-go data-lang=go><span class=kn>package</span> <span class=nx>main</span>
+
+<span class=kn>import</span> <span class=p>(</span>
+  <span class=s>&#34;fmt&#34;</span>
+
+  <span class=s>&#34;xxxx/store&#34;</span> <span class=c1>// 你的模块地址
+</span><span class=c1></span><span class=p>)</span>
+
+<span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+  <span class=nx>st</span> <span class=o>:=</span> <span class=nx>store</span><span class=p>.</span><span class=nf>NewStore</span><span class=p>(</span><span class=nx>store</span><span class=p>.</span><span class=nx>Redis</span><span class=p>)</span>
+
+  <span class=c1>// 读取数据
+</span><span class=c1></span>  <span class=nx>data</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>st</span><span class=p>.</span><span class=nf>Read</span><span class=p>(</span><span class=s>&#34;/foo&#34;</span><span class=p>)</span>
+  <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>err</span><span class=p>,</span> <span class=nx>data</span><span class=p>)</span>
+
+  <span class=c1>// 保存数据
+</span><span class=c1></span>  <span class=nx>err</span> <span class=p>=</span> <span class=nx>st</span><span class=p>.</span><span class=nf>Write</span><span class=p>(</span><span class=s>&#34;/foo&#34;</span><span class=p>,</span> <span class=nx>data</span><span class=p>)</span>
+  <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+<span class=p>}</span>
+</code></pre></div><p>如果现在我们想更换介质为文件系统，我们只需要更换工厂方法中传入的参数为<strong>store.File</strong>即可完成介质更换。</p><div class=highlight><pre class=chroma><code class=language-go data-lang=go><span class=c1>// 其他代码不变
+</span><span class=c1></span>
+<span class=c1>// 工厂方法的参数更改为store.File即可。
+</span><span class=c1></span><span class=nx>st</span> <span class=o>:=</span> <span class=nx>store</span><span class=p>.</span><span class=nf>NewStore</span><span class=p>(</span><span class=nx>store</span><span class=p>.</span><span class=nx>File</span><span class=p>)</span>
+
+<span class=c1>// 其他代码不变
+</span></code></pre></div></div></div><div class=footer><div class="pure-menu pure-menu-horizontal"><ul class=pure-menu-list><li class=pure-menu-item title="My repository"><a class=pure-menu-link href=https://github.com/amazing-gao>GitHub</a></li><li class=pure-menu-item title="RSS Feed"><a href=/index.xml class=pure-menu-link>RSS</a></li><li class="pure-menu-item fix-cursor-pointer" title="Go to top"><a class=pure-menu-link id=btn-gototop><span class=fix-placement-up>&#8679;&#xfe0e;</span></a></li></ul></div><div class="pure-menu pure-menu-horizontal"><ul class=pure-menu-list><li class="pure-menu-item pure-menu-disabled">&copy; 2020 &mdash; Amazing-Gao — All rights reserved.</li></ul></div></div></div><div class="pure-u-1-24 pure-u-md-5-24"></div></div></body></html>

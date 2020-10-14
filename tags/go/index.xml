@@ -1,4 +1,91 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>go on Amazing-Gao 实在是高</title><link>/tags/go/</link><description>Recent content in go on Amazing-Gao 实在是高</description><generator>Hugo 0.75.1 -- gohugo.io</generator><language>zh-cn</language><managingEditor>amazing.gao@qq.com (AmazingGao)</managingEditor><webMaster>amazing.gao@qq.com (AmazingGao)</webMaster><copyright>Amazing-Gao — All rights reserved.</copyright><lastBuildDate>Wed, 30 Sep 2020 22:40:58 +0800</lastBuildDate><atom:link href="/tags/go/index.xml" rel="self" type="application/rss+xml"/><item><title>Go设计模式之Singleton</title><link>/posts/2020/09/go-patterns/singleton/</link><pubDate>Wed, 30 Sep 2020 22:40:58 +0800</pubDate><author>amazing.gao@qq.com (AmazingGao)</author><guid isPermaLink="true">/posts/2020/09/go-patterns/singleton/</guid><description>&lt;h1 id="singleton---单例模式">Singleton - 单例模式&lt;/h1>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>go on Amazing-Gao 实在是高</title><link>/tags/go/</link><description>Recent content in go on Amazing-Gao 实在是高</description><generator>Hugo 0.76.4 -- gohugo.io</generator><language>zh-cn</language><managingEditor>amazing.gao@qq.com (AmazingGao)</managingEditor><webMaster>amazing.gao@qq.com (AmazingGao)</webMaster><copyright>Amazing-Gao — All rights reserved.</copyright><lastBuildDate>Wed, 14 Oct 2020 20:30:39 +0800</lastBuildDate><atom:link href="/tags/go/index.xml" rel="self" type="application/rss+xml"/><item><title>Go设计模式之Factory</title><link>/posts/2020/10/factory/</link><pubDate>Wed, 14 Oct 2020 20:30:39 +0800</pubDate><author>amazing.gao@qq.com (AmazingGao)</author><guid isPermaLink="true">/posts/2020/10/factory/</guid><description>&lt;h1 id="factory---工厂模式">Factory - 工厂模式&lt;/h1>
+&lt;p>工厂模式在Go中使用的非常广泛，比如常用于数据的读写模块。假设我们需要从某种介质中读取数据，并将更新后的结果保存到该介质中。考虑到以后可能更换为其他类型的介质，为了避免日后更换介质而大面积变更代码，我们就会用到本模式。&lt;/p>
+&lt;h1 id="实现">实现&lt;/h1>
+&lt;h2 id="1定义工厂方法所创建对象的接口">1.定义工厂方法所创建对象的接口&lt;/h2>
+&lt;p>假设我们的存储模块只有&lt;strong>Read&lt;/strong>和&lt;strong>Write&lt;/strong>两个功能，我们需要先定义存储器&lt;strong>inteface&lt;/strong>。&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="kn">package&lt;/span> &lt;span class="nx">store&lt;/span>
+&lt;span class="kn">import&lt;/span> &lt;span class="s">&amp;#34;io&amp;#34;&lt;/span>
+&lt;span class="kd">type&lt;/span> &lt;span class="nx">Store&lt;/span> &lt;span class="kd">interface&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nf">Read&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">string&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">([]&lt;/span>&lt;span class="kt">byte&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">error&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="nf">Save&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">string&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="p">[]&lt;/span>&lt;span class="kt">byte&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">error&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="2实现对象接口">2.实现对象接口&lt;/h2>
+&lt;p>假设我们需要将Redis或磁盘作为存储介质，我们需要分别实现Redis与磁盘的存储功能。&lt;/p>
+&lt;h3 id="filesystem">FileSystem&lt;/h3>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="nx">pacakge&lt;/span> &lt;span class="nx">store&lt;/span>
+&lt;span class="kd">type&lt;/span> &lt;span class="nx">FileStore&lt;/span> &lt;span class="kd">struct&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;span class="cm">/*your codes*/&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="kd">func&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">store&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">FileStore&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nf">Read&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">string&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">([]&lt;/span>&lt;span class="kt">byte&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">error&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="cm">/*your codes*/&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="kd">func&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">store&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">FileStore&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nf">Save&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">string&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="p">[]&lt;/span>&lt;span class="kt">byte&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">error&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="cm">/*your codes*/&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="c1">// 注意这里要返回 Store 接口，而不是FileStore的指针。
+&lt;/span>&lt;span class="c1">// 可以保证工厂方法只能调用到对象接口方法，避免封装被破坏。
+&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="kd">func&lt;/span> &lt;span class="nf">newFileStore&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="nx">Store&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="cm">/*your codes*/&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h3 id="redis">Redis&lt;/h3>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="nx">pacakge&lt;/span> &lt;span class="nx">store&lt;/span>
+&lt;span class="kd">type&lt;/span> &lt;span class="nx">RedisStore&lt;/span> &lt;span class="kd">struct&lt;/span>&lt;span class="p">{&lt;/span>
+&lt;span class="cm">/*your codes*/&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="kd">func&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">store&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">RedisStore&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nf">Read&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">string&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">([]&lt;/span>&lt;span class="kt">byte&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">error&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="cm">/*your codes*/&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="kd">func&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nx">store&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="nx">RedisStore&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nf">Save&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">string&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="p">[]&lt;/span>&lt;span class="kt">byte&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">error&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="cm">/*your codes*/&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="c1">// 注意这里要返回 Store 接口，而不是RedisStore的指针。
+&lt;/span>&lt;span class="c1">// 可以保证工厂方法只能调用到对象接口方法，避免封装被破坏。
+&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="kd">func&lt;/span> &lt;span class="nf">newRedisStore&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="nx">Store&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="cm">/*your codes*/&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="3实现工厂方法">3.实现工厂方法&lt;/h2>
+&lt;p>工厂方法是暴露给模块外部使用的，用于创建实例的方法。我们需要将各种类型&lt;strong>Store&lt;/strong>实例的创建过程封装到该方法里面，避免暴露给外部模块。由工厂方法统一提供创建功能。&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="nx">pacakge&lt;/span> &lt;span class="nx">store&lt;/span>
+&lt;span class="kd">type&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;span class="nx">StoreType&lt;/span> &lt;span class="kt">int&lt;/span>
+&lt;span class="p">)&lt;/span>
+&lt;span class="kd">const&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;span class="nx">File&lt;/span> &lt;span class="nx">StorageType&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="mi">1&lt;/span> &lt;span class="o">&amp;lt;&amp;lt;&lt;/span> &lt;span class="kc">iota&lt;/span>
+&lt;span class="nx">Redis&lt;/span>
+&lt;span class="p">)&lt;/span>
+&lt;span class="kd">func&lt;/span> &lt;span class="nf">NewStore&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">storeType&lt;/span> &lt;span class="nx">StoreType&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="nx">Store&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">switch&lt;/span> &lt;span class="nx">storeType&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="k">case&lt;/span> &lt;span class="nx">File&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;span class="k">return&lt;/span> &lt;span class="nf">newFileStore&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;span class="k">case&lt;/span> &lt;span class="nx">Redis&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;span class="k">return&lt;/span> &lt;span class="nf">newRedisStore&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;span class="k">default&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;span class="nb">panic&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;尚未支持的存储类型！&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="使用">使用&lt;/h1>
+&lt;p>假设我们需要使用&lt;strong>Redis&lt;/strong>作为存储介质，我们只需要在工厂方法中传入&lt;strong>store.Redis&lt;/strong>参数。&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="kn">package&lt;/span> &lt;span class="nx">main&lt;/span>
+&lt;span class="kn">import&lt;/span> &lt;span class="p">(&lt;/span>
+&lt;span class="s">&amp;#34;fmt&amp;#34;&lt;/span>
+&lt;span class="s">&amp;#34;xxxx/store&amp;#34;&lt;/span> &lt;span class="c1">// 你的模块地址
+&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="kd">func&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;span class="nx">st&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">store&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">NewStore&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">store&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">Redis&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="c1">// 读取数据
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="nx">data&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">st&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Read&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/foo&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Println&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">err&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">data&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="c1">// 保存数据
+&lt;/span>&lt;span class="c1">&lt;/span> &lt;span class="nx">err&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="nx">st&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Write&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/foo&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nx">data&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="nx">fmt&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">Println&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">err&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="p">}&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>如果现在我们想更换介质为文件系统，我们只需要更换工厂方法中传入的参数为&lt;strong>store.File&lt;/strong>即可完成介质更换。&lt;/p>
+&lt;div class="highlight">&lt;pre class="chroma">&lt;code class="language-go" data-lang="go">&lt;span class="c1">// 其他代码不变
+&lt;/span>&lt;span class="c1">&lt;/span>
+&lt;span class="c1">// 工厂方法的参数更改为store.File即可。
+&lt;/span>&lt;span class="c1">&lt;/span>&lt;span class="nx">st&lt;/span> &lt;span class="o">:=&lt;/span> &lt;span class="nx">store&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nf">NewStore&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nx">store&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="nx">File&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;span class="c1">// 其他代码不变
+&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Go设计模式之Singleton</title><link>/posts/2020/09/go-patterns/singleton/</link><pubDate>Wed, 30 Sep 2020 22:40:58 +0800</pubDate><author>amazing.gao@qq.com (AmazingGao)</author><guid isPermaLink="true">/posts/2020/09/go-patterns/singleton/</guid><description>&lt;h1 id="singleton---单例模式">Singleton - 单例模式&lt;/h1>
 &lt;p>保证一个类仅有一个实例，并提供一个访问它的全局访问点。&lt;/p>
 &lt;h1 id="实现">实现&lt;/h1>
 &lt;h2 id="饿汉式">饿汉式&lt;/h2>
