@@ -1,4 +1,4 @@
-<!doctype html><html lang=zh-cn><head><meta charset=utf-8><title>Amazing-Gao 实在是高</title><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=description content="实在是高的个人技术博客"><meta name=author content="AmazingGao"><meta name=generator content="Hugo 0.76.4"><link href=/index.xml rel=alternate type=application/rss+xml title="Amazing-Gao 实在是高 Feed"><link rel=stylesheet href=/style.7c6d960b20273ed88bc63a60591a57e7739fb21f243b77f27c3bc730ef6205c0.css><script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="https://hm.baidu.com/hm.js?815a521e3c0aee7749c5f8350acb8c6d";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script><script defer src=/script.9df38729991a6ec08d83b60514e841529cebd5ccc800cf8e1f98fb63e73aaa73.js></script></head><body><div class=pure-g><div class="pure-u-1-24 pure-u-md-5-24"></div><div class="pure-u-22-24 pure-u-md-14-24"><div class=navigation><div class="navigation-header clearfix"><div class="pure-menu pure-menu-horizontal"><a class="pure-menu-heading pure-menu-link" href=/>Amazing-Gao 实在是高</a><ul class="pure-menu-list navigation-header-subtitle pull-end"><li class="pure-menu-item pure-menu-disabled">Find, discover, explorer and enjoy!</li></ul></div></div><div class=navigation-content><div class="pure-menu pure-menu-horizontal"><ul class=pure-menu-list><li class=pure-menu-item title="All posts"><a class=pure-menu-link href=/posts/>Posts</a></li><li class=pure-menu-item title="All tags"><a class=pure-menu-link href=/tags/>Tags</a></li><li class=pure-menu-item title="All series"><a class=pure-menu-link href=/series/>Series</a></li><li class=pure-menu-item title="All categories"><a class=pure-menu-link href=/categories/>Categories</a></li><li class=pure-menu-item title="About me"><a class=pure-menu-link href=/about/>About</a></li></ul></div></div></div><div><div><h2 class=post-title><a href=/posts/2020/10/factory/>Go设计模式之Factory</a></h2><div class=post-meta><span>Date</span> [
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><title>Amazing-Gao 实在是高</title><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=description content="实在是高的个人技术博客"><meta name=author content="AmazingGao"><meta name=generator content="Hugo 0.76.5"><link href=/index.xml rel=alternate type=application/rss+xml title="Amazing-Gao 实在是高 Feed"><link rel=stylesheet href=/style.7c6d960b20273ed88bc63a60591a57e7739fb21f243b77f27c3bc730ef6205c0.css><script defer src=/script.9df38729991a6ec08d83b60514e841529cebd5ccc800cf8e1f98fb63e73aaa73.js></script></head><body><div class=pure-g><div class="pure-u-1-24 pure-u-md-5-24"></div><div class="pure-u-22-24 pure-u-md-14-24"><div class=navigation><div class="navigation-header clearfix"><div class="pure-menu pure-menu-horizontal"><a class="pure-menu-heading pure-menu-link" href=/>Amazing-Gao 实在是高</a><ul class="pure-menu-list navigation-header-subtitle pull-end"><li class="pure-menu-item pure-menu-disabled">Find, discover, explorer and enjoy!</li></ul></div></div><div class=navigation-content><div class="pure-menu pure-menu-horizontal"><ul class=pure-menu-list><li class=pure-menu-item title="All posts"><a class=pure-menu-link href=/posts/>Posts</a></li><li class=pure-menu-item title="All tags"><a class=pure-menu-link href=/tags/>Tags</a></li><li class=pure-menu-item title="All series"><a class=pure-menu-link href=/series/>Series</a></li><li class=pure-menu-item title="All categories"><a class=pure-menu-link href=/categories/>Categories</a></li><li class=pure-menu-item title="About me"><a class=pure-menu-link href=/about/>About</a></li></ul></div></div></div><div><div><h2 class=post-title><a href=/posts/2020/10/factory/>Go设计模式之Factory</a></h2><div class=post-meta><span>Date</span> [
 <time datetime=2020-10-14T20:30:39+08:00>2020-10-14</time>
 ]
 <span>Categories</span> [
@@ -10,98 +10,98 @@
 <span>Tags</span> [
 <a href=/tags/go>go</a>
 <a href=/tags/%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f>设计模式</a>
-]</div></div><div><h1 id=factory---工厂模式>Factory - 工厂模式</h1><p>工厂模式在Go中使用的非常广泛，比如常用于数据的读写模块。假设我们需要从某种介质中读取数据，并将更新后的结果保存到该介质中。考虑到以后可能更换为其他类型的介质，为了避免日后更换介质而大面积变更代码，我们就会用到本模式。</p><h1 id=实现>实现</h1><h2 id=1定义工厂方法所创建对象的接口>1.定义工厂方法所创建对象的接口</h2><p>假设我们的存储模块只有<strong>Read</strong>和<strong>Write</strong>两个功能，我们需要先定义存储器<strong>inteface</strong>。</p><div class=highlight><pre class=chroma><code class=language-go data-lang=go><span class=kn>package</span> <span class=nx>store</span>
+]</div></div><div><h1 id=factory---工厂模式>Factory - 工厂模式</h1><p>工厂模式在Go中使用的非常广泛，比如常用于数据的读写模块。假设我们需要从某种介质中读取数据，并将更新后的结果保存到该介质中。考虑到以后可能更换为其他类型的介质，为了避免日后更换介质而大面积变更代码，我们就会用到本模式。</p><h1 id=实现>实现</h1><h2 id=1定义工厂方法所创建对象的接口>1.定义工厂方法所创建对象的接口</h2><p>假设我们的存储模块只有<strong>Read</strong>和<strong>Write</strong>两个功能，我们需要先定义存储器<strong>inteface</strong>。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>store</span>
 
-<span class=kn>import</span> <span class=s>&#34;io&#34;</span>
+<span style=color:#f92672>import</span> <span style=color:#e6db74>&#34;io&#34;</span>
 
-<span class=kd>type</span> <span class=nx>Store</span> <span class=kd>interface</span> <span class=p>{</span>
-    <span class=nf>Read</span><span class=p>(</span><span class=kt>string</span><span class=p>)</span> <span class=p>([]</span><span class=kt>byte</span><span class=p>,</span> <span class=kt>error</span><span class=p>)</span>
-    <span class=nf>Save</span><span class=p>(</span><span class=kt>string</span><span class=p>,</span> <span class=p>[]</span><span class=kt>byte</span><span class=p>)</span> <span class=p>(</span><span class=kt>error</span><span class=p>)</span>
-<span class=p>}</span>
-</code></pre></div><h2 id=2实现对象接口>2.实现对象接口</h2><p>假设我们需要将Redis或磁盘作为存储介质，我们需要分别实现Redis与磁盘的存储功能。</p><h3 id=filesystem>FileSystem</h3><div class=highlight><pre class=chroma><code class=language-go data-lang=go><span class=nx>pacakge</span> <span class=nx>store</span>
+<span style=color:#66d9ef>type</span> <span style=color:#a6e22e>Store</span> <span style=color:#66d9ef>interface</span> {
+    <span style=color:#a6e22e>Read</span>(<span style=color:#66d9ef>string</span>) ([]<span style=color:#66d9ef>byte</span>, <span style=color:#66d9ef>error</span>)
+    <span style=color:#a6e22e>Save</span>(<span style=color:#66d9ef>string</span>, []<span style=color:#66d9ef>byte</span>) (<span style=color:#66d9ef>error</span>)
+}
+</code></pre></div><h2 id=2实现对象接口>2.实现对象接口</h2><p>假设我们需要将Redis或磁盘作为存储介质，我们需要分别实现Redis与磁盘的存储功能。</p><h3 id=filesystem>FileSystem</h3><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#a6e22e>pacakge</span> <span style=color:#a6e22e>store</span>
 
-<span class=kd>type</span> <span class=nx>FileStore</span> <span class=kd>struct</span><span class=p>{</span>
-  <span class=cm>/*your codes*/</span>
-<span class=p>}</span>
+<span style=color:#66d9ef>type</span> <span style=color:#a6e22e>FileStore</span> <span style=color:#66d9ef>struct</span>{
+  <span style=color:#75715e>/*your codes*/</span>
+}
 
-<span class=kd>func</span> <span class=p>(</span><span class=nx>store</span> <span class=o>*</span><span class=nx>FileStore</span><span class=p>)</span> <span class=nf>Read</span><span class=p>(</span><span class=kt>string</span><span class=p>)</span> <span class=p>([]</span><span class=kt>byte</span><span class=p>,</span> <span class=kt>error</span><span class=p>)</span> <span class=p>{</span>
-  <span class=cm>/*your codes*/</span>
-<span class=p>}</span>
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>store</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>FileStore</span>) <span style=color:#a6e22e>Read</span>(<span style=color:#66d9ef>string</span>) ([]<span style=color:#66d9ef>byte</span>, <span style=color:#66d9ef>error</span>) {
+  <span style=color:#75715e>/*your codes*/</span>
+}
 
-<span class=kd>func</span> <span class=p>(</span><span class=nx>store</span> <span class=o>*</span><span class=nx>FileStore</span><span class=p>)</span> <span class=nf>Save</span><span class=p>(</span><span class=kt>string</span><span class=p>,</span> <span class=p>[]</span><span class=kt>byte</span><span class=p>)</span> <span class=p>(</span><span class=kt>error</span><span class=p>)</span> <span class=p>{</span>
-  <span class=cm>/*your codes*/</span>
-<span class=p>}</span>
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>store</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>FileStore</span>) <span style=color:#a6e22e>Save</span>(<span style=color:#66d9ef>string</span>, []<span style=color:#66d9ef>byte</span>) (<span style=color:#66d9ef>error</span>) {
+  <span style=color:#75715e>/*your codes*/</span>
+}
 
-<span class=c1>// 注意这里要返回 Store 接口，而不是FileStore的指针。
-</span><span class=c1>// 可以保证工厂方法只能调用到对象接口方法，避免封装被破坏。
-</span><span class=c1></span><span class=kd>func</span> <span class=nf>newFileStore</span><span class=p>()</span> <span class=nx>Store</span> <span class=p>{</span>
-  <span class=cm>/*your codes*/</span>
-<span class=p>}</span>
-</code></pre></div><h3 id=redis>Redis</h3><div class=highlight><pre class=chroma><code class=language-go data-lang=go><span class=nx>pacakge</span> <span class=nx>store</span>
+<span style=color:#75715e>// 注意这里要返回 Store 接口，而不是FileStore的指针。
+</span><span style=color:#75715e>// 可以保证工厂方法只能调用到对象接口方法，避免封装被破坏。
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>newFileStore</span>() <span style=color:#a6e22e>Store</span> {
+  <span style=color:#75715e>/*your codes*/</span>
+}
+</code></pre></div><h3 id=redis>Redis</h3><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#a6e22e>pacakge</span> <span style=color:#a6e22e>store</span>
 
-<span class=kd>type</span> <span class=nx>RedisStore</span> <span class=kd>struct</span><span class=p>{</span>
-  <span class=cm>/*your codes*/</span>
-<span class=p>}</span>
+<span style=color:#66d9ef>type</span> <span style=color:#a6e22e>RedisStore</span> <span style=color:#66d9ef>struct</span>{
+  <span style=color:#75715e>/*your codes*/</span>
+}
 
-<span class=kd>func</span> <span class=p>(</span><span class=nx>store</span> <span class=o>*</span><span class=nx>RedisStore</span><span class=p>)</span> <span class=nf>Read</span><span class=p>(</span><span class=kt>string</span><span class=p>)</span> <span class=p>([]</span><span class=kt>byte</span><span class=p>,</span> <span class=kt>error</span><span class=p>)</span> <span class=p>{</span>
-  <span class=cm>/*your codes*/</span>
-<span class=p>}</span>
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>store</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>RedisStore</span>) <span style=color:#a6e22e>Read</span>(<span style=color:#66d9ef>string</span>) ([]<span style=color:#66d9ef>byte</span>, <span style=color:#66d9ef>error</span>) {
+  <span style=color:#75715e>/*your codes*/</span>
+}
 
-<span class=kd>func</span> <span class=p>(</span><span class=nx>store</span> <span class=o>*</span><span class=nx>RedisStore</span><span class=p>)</span> <span class=nf>Save</span><span class=p>(</span><span class=kt>string</span><span class=p>,</span> <span class=p>[]</span><span class=kt>byte</span><span class=p>)</span> <span class=p>(</span><span class=kt>error</span><span class=p>)</span> <span class=p>{</span>
-  <span class=cm>/*your codes*/</span>
-<span class=p>}</span>
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>store</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>RedisStore</span>) <span style=color:#a6e22e>Save</span>(<span style=color:#66d9ef>string</span>, []<span style=color:#66d9ef>byte</span>) (<span style=color:#66d9ef>error</span>) {
+  <span style=color:#75715e>/*your codes*/</span>
+}
 
-<span class=c1>// 注意这里要返回 Store 接口，而不是RedisStore的指针。
-</span><span class=c1>// 可以保证工厂方法只能调用到对象接口方法，避免封装被破坏。
-</span><span class=c1></span><span class=kd>func</span> <span class=nf>newRedisStore</span><span class=p>()</span> <span class=nx>Store</span> <span class=p>{</span>
-  <span class=cm>/*your codes*/</span>
-<span class=p>}</span>
-</code></pre></div><h2 id=3实现工厂方法>3.实现工厂方法</h2><p>工厂方法是暴露给模块外部使用的，用于创建实例的方法。我们需要将各种类型<strong>Store</strong>实例的创建过程封装到该方法里面，避免暴露给外部模块。由工厂方法统一提供创建功能。</p><div class=highlight><pre class=chroma><code class=language-go data-lang=go><span class=nx>pacakge</span> <span class=nx>store</span>
+<span style=color:#75715e>// 注意这里要返回 Store 接口，而不是RedisStore的指针。
+</span><span style=color:#75715e>// 可以保证工厂方法只能调用到对象接口方法，避免封装被破坏。
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>newRedisStore</span>() <span style=color:#a6e22e>Store</span> {
+  <span style=color:#75715e>/*your codes*/</span>
+}
+</code></pre></div><h2 id=3实现工厂方法>3.实现工厂方法</h2><p>工厂方法是暴露给模块外部使用的，用于创建实例的方法。我们需要将各种类型<strong>Store</strong>实例的创建过程封装到该方法里面，避免暴露给外部模块。由工厂方法统一提供创建功能。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#a6e22e>pacakge</span> <span style=color:#a6e22e>store</span>
 
-<span class=kd>type</span> <span class=p>(</span>
-  <span class=nx>StoreType</span> <span class=kt>int</span>
-<span class=p>)</span>
+<span style=color:#66d9ef>type</span> (
+  <span style=color:#a6e22e>StoreType</span> <span style=color:#66d9ef>int</span>
+)
 
-<span class=kd>const</span> <span class=p>(</span>
-  <span class=nx>File</span> <span class=nx>StorageType</span> <span class=p>=</span> <span class=mi>1</span> <span class=o>&lt;&lt;</span> <span class=kc>iota</span>
-  <span class=nx>Redis</span>
-<span class=p>)</span>
+<span style=color:#66d9ef>const</span> (
+  <span style=color:#a6e22e>File</span> <span style=color:#a6e22e>StorageType</span> = <span style=color:#ae81ff>1</span> <span style=color:#f92672>&lt;&lt;</span> <span style=color:#66d9ef>iota</span>
+  <span style=color:#a6e22e>Redis</span>
+)
 
-<span class=kd>func</span> <span class=nf>NewStore</span><span class=p>(</span><span class=nx>storeType</span> <span class=nx>StoreType</span><span class=p>)</span> <span class=nx>Store</span> <span class=p>{</span>
-  <span class=k>switch</span> <span class=nx>storeType</span> <span class=p>{</span>
-    <span class=k>case</span> <span class=nx>File</span><span class=p>:</span>
-      <span class=k>return</span> <span class=nf>newFileStore</span><span class=p>()</span>
-    <span class=k>case</span> <span class=nx>Redis</span><span class=p>:</span>
-      <span class=k>return</span> <span class=nf>newRedisStore</span><span class=p>()</span>
-    <span class=k>default</span><span class=p>:</span>
-      <span class=nb>panic</span><span class=p>(</span><span class=s>&#34;尚未支持的存储类型！&#34;</span><span class=p>)</span>
-  <span class=p>}</span>
-<span class=p>}</span>
-</code></pre></div><h1 id=使用>使用</h1><p>假设我们需要使用<strong>Redis</strong>作为存储介质，我们只需要在工厂方法中传入<strong>store.Redis</strong>参数。</p><div class=highlight><pre class=chroma><code class=language-go data-lang=go><span class=kn>package</span> <span class=nx>main</span>
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>NewStore</span>(<span style=color:#a6e22e>storeType</span> <span style=color:#a6e22e>StoreType</span>) <span style=color:#a6e22e>Store</span> {
+  <span style=color:#66d9ef>switch</span> <span style=color:#a6e22e>storeType</span> {
+    <span style=color:#66d9ef>case</span> <span style=color:#a6e22e>File</span>:
+      <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>newFileStore</span>()
+    <span style=color:#66d9ef>case</span> <span style=color:#a6e22e>Redis</span>:
+      <span style=color:#66d9ef>return</span> <span style=color:#a6e22e>newRedisStore</span>()
+    <span style=color:#66d9ef>default</span>:
+      panic(<span style=color:#e6db74>&#34;尚未支持的存储类型！&#34;</span>)
+  }
+}
+</code></pre></div><h1 id=使用>使用</h1><p>假设我们需要使用<strong>Redis</strong>作为存储介质，我们只需要在工厂方法中传入<strong>store.Redis</strong>参数。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>main</span>
 
-<span class=kn>import</span> <span class=p>(</span>
-  <span class=s>&#34;fmt&#34;</span>
+<span style=color:#f92672>import</span> (
+  <span style=color:#e6db74>&#34;fmt&#34;</span>
 
-  <span class=s>&#34;xxxx/store&#34;</span> <span class=c1>// 你的模块地址
-</span><span class=c1></span><span class=p>)</span>
+  <span style=color:#e6db74>&#34;xxxx/store&#34;</span> <span style=color:#75715e>// 你的模块地址
+</span><span style=color:#75715e></span>)
 
-<span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
-  <span class=nx>st</span> <span class=o>:=</span> <span class=nx>store</span><span class=p>.</span><span class=nf>NewStore</span><span class=p>(</span><span class=nx>store</span><span class=p>.</span><span class=nx>Redis</span><span class=p>)</span>
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>main</span>() {
+  <span style=color:#a6e22e>st</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>store</span>.<span style=color:#a6e22e>NewStore</span>(<span style=color:#a6e22e>store</span>.<span style=color:#a6e22e>Redis</span>)
 
-  <span class=c1>// 读取数据
-</span><span class=c1></span>  <span class=nx>data</span><span class=p>,</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>st</span><span class=p>.</span><span class=nf>Read</span><span class=p>(</span><span class=s>&#34;/foo&#34;</span><span class=p>)</span>
-  <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>err</span><span class=p>,</span> <span class=nx>data</span><span class=p>)</span>
+  <span style=color:#75715e>// 读取数据
+</span><span style=color:#75715e></span>  <span style=color:#a6e22e>data</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>st</span>.<span style=color:#a6e22e>Read</span>(<span style=color:#e6db74>&#34;/foo&#34;</span>)
+  <span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#a6e22e>err</span>, <span style=color:#a6e22e>data</span>)
 
-  <span class=c1>// 保存数据
-</span><span class=c1></span>  <span class=nx>err</span> <span class=p>=</span> <span class=nx>st</span><span class=p>.</span><span class=nf>Write</span><span class=p>(</span><span class=s>&#34;/foo&#34;</span><span class=p>,</span> <span class=nx>data</span><span class=p>)</span>
-  <span class=nx>fmt</span><span class=p>.</span><span class=nf>Println</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
-<span class=p>}</span>
-</code></pre></div><p>如果现在我们想更换介质为文件系统，我们只需要更换工厂方法中传入的参数为<strong>store.File</strong>即可完成介质更换。</p><div class=highlight><pre class=chroma><code class=language-go data-lang=go><span class=c1>// 其他代码不变
-</span><span class=c1></span>
-<span class=c1>// 工厂方法的参数更改为store.File即可。
-</span><span class=c1></span><span class=nx>st</span> <span class=o>:=</span> <span class=nx>store</span><span class=p>.</span><span class=nf>NewStore</span><span class=p>(</span><span class=nx>store</span><span class=p>.</span><span class=nx>File</span><span class=p>)</span>
+  <span style=color:#75715e>// 保存数据
+</span><span style=color:#75715e></span>  <span style=color:#a6e22e>err</span> = <span style=color:#a6e22e>st</span>.<span style=color:#a6e22e>Write</span>(<span style=color:#e6db74>&#34;/foo&#34;</span>, <span style=color:#a6e22e>data</span>)
+  <span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#a6e22e>err</span>)
+}
+</code></pre></div><p>如果现在我们想更换介质为文件系统，我们只需要更换工厂方法中传入的参数为<strong>store.File</strong>即可完成介质更换。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#75715e>// 其他代码不变
+</span><span style=color:#75715e></span>
+<span style=color:#75715e>// 工厂方法的参数更改为store.File即可。
+</span><span style=color:#75715e></span><span style=color:#a6e22e>st</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>store</span>.<span style=color:#a6e22e>NewStore</span>(<span style=color:#a6e22e>store</span>.<span style=color:#a6e22e>File</span>)
 
-<span class=c1>// 其他代码不变
+<span style=color:#75715e>// 其他代码不变
 </span></code></pre></div></div></div><div class=post-divider><div><h2 class=post-title><a href=/posts/2020/09/go-patterns/singleton/>Go设计模式之Singleton</a></h2><div class=post-meta><span>Date</span> [
 <time datetime=2020-09-30T22:40:58+08:00>2020-09-30</time>
 ]
@@ -114,125 +114,125 @@
 <span>Tags</span> [
 <a href=/tags/go>go</a>
 <a href=/tags/%e8%ae%be%e8%ae%a1%e6%a8%a1%e5%bc%8f>设计模式</a>
-]</div></div><div><h1 id=singleton---单例模式>Singleton - 单例模式</h1><p>保证一个类仅有一个实例，并提供一个访问它的全局访问点。</p><h1 id=实现>实现</h1><h2 id=饿汉式>饿汉式</h2><p>饿汉式单例是指在方法调用前，实例就已经创建好了。</p><p>按照<strong>用法</strong>使用，可以看到控制台输出10次单例的内存地址是一样的。</p><div class=highlight><pre class=chroma><code class=language-go data-lang=go><span class=kn>package</span> <span class=nx>main</span>
+]</div></div><div><h1 id=singleton---单例模式>Singleton - 单例模式</h1><p>保证一个类仅有一个实例，并提供一个访问它的全局访问点。</p><h1 id=实现>实现</h1><h2 id=饿汉式>饿汉式</h2><p>饿汉式单例是指在方法调用前，实例就已经创建好了。</p><p>按照<strong>用法</strong>使用，可以看到控制台输出10次单例的内存地址是一样的。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>main</span>
 
-<span class=kn>import</span> <span class=p>(</span>
-	<span class=s>&#34;fmt&#34;</span>
-	<span class=s>&#34;sync&#34;</span>
-	<span class=s>&#34;time&#34;</span>
-<span class=p>)</span>
+<span style=color:#f92672>import</span> (
+	<span style=color:#e6db74>&#34;fmt&#34;</span>
+	<span style=color:#e6db74>&#34;sync&#34;</span>
+	<span style=color:#e6db74>&#34;time&#34;</span>
+)
 
-<span class=kd>type</span> <span class=p>(</span>
-	<span class=nx>server</span> <span class=kd>struct</span> <span class=p>{</span>
-		<span class=nx>port</span> <span class=kt>int</span>
-	<span class=p>}</span>
-<span class=p>)</span>
+<span style=color:#66d9ef>type</span> (
+	<span style=color:#a6e22e>server</span> <span style=color:#66d9ef>struct</span> {
+		<span style=color:#a6e22e>port</span> <span style=color:#66d9ef>int</span>
+	}
+)
 
-<span class=kd>var</span> <span class=p>(</span>
-	<span class=nx>instance</span> <span class=p>=</span> <span class=o>&amp;</span><span class=nx>server</span><span class=p>{}</span>
-<span class=p>)</span>
+<span style=color:#66d9ef>var</span> (
+	<span style=color:#a6e22e>instance</span> = <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>server</span>{}
+)
 
-<span class=kd>func</span> <span class=nf>getServerSingleton</span><span class=p>()</span> <span class=o>*</span><span class=nx>server</span> <span class=p>{</span>
-	<span class=k>return</span> <span class=nx>instance</span>
-<span class=p>}</span>
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>getServerSingleton</span>() <span style=color:#f92672>*</span><span style=color:#a6e22e>server</span> {
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>instance</span>
+}
 
-<span class=cm>/*
-</span><span class=cm>server ptr: 0x1182ec0
-</span><span class=cm>server ptr: 0x1182ec0
-</span><span class=cm>server ptr: 0x1182ec0
-</span><span class=cm>server ptr: 0x1182ec0
-</span><span class=cm>server ptr: 0x1182ec0
-</span><span class=cm>server ptr: 0x1182ec0
-</span><span class=cm>server ptr: 0x1182ec0
-</span><span class=cm>server ptr: 0x1182ec0
-</span><span class=cm>server ptr: 0x1182ec0
-</span><span class=cm>server ptr: 0x1182ec0
-</span><span class=cm>*/</span>
-</code></pre></div><h2 id=懒汉式---非goroutine安全>懒汉式 - 非Goroutine安全</h2><p>懒汉式单例是指在方法调用获取实例时才创建实例，因为相对饿汉式显得“不急迫”，所以被叫做“懒汉模式”。</p><p>按照<strong>用法</strong>使用，可以看到控制台输出10次单例的内存地址并不完全一样。</p><p>一共有以下3个指针：</p><ul><li>0xc0000c4000</li><li>0xc0000ca000</li><li>0xc0000c2000</li></ul><p>可见此懒汉模式不支持在实例未初始化时高并发调用。</p><div class=highlight><pre class=chroma><code class=language-go data-lang=go><span class=kn>package</span> <span class=nx>main</span>
+<span style=color:#75715e>/*
+</span><span style=color:#75715e>server ptr: 0x1182ec0
+</span><span style=color:#75715e>server ptr: 0x1182ec0
+</span><span style=color:#75715e>server ptr: 0x1182ec0
+</span><span style=color:#75715e>server ptr: 0x1182ec0
+</span><span style=color:#75715e>server ptr: 0x1182ec0
+</span><span style=color:#75715e>server ptr: 0x1182ec0
+</span><span style=color:#75715e>server ptr: 0x1182ec0
+</span><span style=color:#75715e>server ptr: 0x1182ec0
+</span><span style=color:#75715e>server ptr: 0x1182ec0
+</span><span style=color:#75715e>server ptr: 0x1182ec0
+</span><span style=color:#75715e>*/</span>
+</code></pre></div><h2 id=懒汉式---非goroutine安全>懒汉式 - 非Goroutine安全</h2><p>懒汉式单例是指在方法调用获取实例时才创建实例，因为相对饿汉式显得“不急迫”，所以被叫做“懒汉模式”。</p><p>按照<strong>用法</strong>使用，可以看到控制台输出10次单例的内存地址并不完全一样。</p><p>一共有以下3个指针：</p><ul><li>0xc0000c4000</li><li>0xc0000ca000</li><li>0xc0000c2000</li></ul><p>可见此懒汉模式不支持在实例未初始化时高并发调用。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>main</span>
 
-<span class=kd>type</span> <span class=p>(</span>
-	<span class=nx>server</span> <span class=kd>struct</span> <span class=p>{</span>
-		<span class=nx>port</span> <span class=kt>int</span>
-	<span class=p>}</span>
-<span class=p>)</span>
+<span style=color:#66d9ef>type</span> (
+	<span style=color:#a6e22e>server</span> <span style=color:#66d9ef>struct</span> {
+		<span style=color:#a6e22e>port</span> <span style=color:#66d9ef>int</span>
+	}
+)
 
-<span class=kd>var</span> <span class=p>(</span>
-	<span class=nx>instance</span> <span class=o>*</span><span class=nx>server</span>
-<span class=p>)</span>
+<span style=color:#66d9ef>var</span> (
+	<span style=color:#a6e22e>instance</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>server</span>
+)
 
-<span class=kd>func</span> <span class=nf>getServerSingleton</span><span class=p>()</span> <span class=o>*</span><span class=nx>server</span> <span class=p>{</span>
-	<span class=k>if</span> <span class=nx>instance</span> <span class=o>==</span> <span class=kc>nil</span> <span class=p>{</span>
-		<span class=nx>instance</span> <span class=p>=</span> <span class=o>&amp;</span><span class=nx>server</span><span class=p>{}</span>
-	<span class=p>}</span>
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>getServerSingleton</span>() <span style=color:#f92672>*</span><span style=color:#a6e22e>server</span> {
+	<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>instance</span> <span style=color:#f92672>==</span> <span style=color:#66d9ef>nil</span> {
+		<span style=color:#a6e22e>instance</span> = <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>server</span>{}
+	}
 
-	<span class=k>return</span> <span class=nx>instance</span>
-<span class=p>}</span>
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>instance</span>
+}
 
-<span class=cm>/*
-</span><span class=cm>server ptr: 0xc0000c4000
-</span><span class=cm>server ptr: 0xc0000ca000
-</span><span class=cm>server ptr: 0xc0000c4000
-</span><span class=cm>server ptr: 0xc0000c2000
-</span><span class=cm>server ptr: 0xc0000c2000
-</span><span class=cm>server ptr: 0xc0000ca000
-</span><span class=cm>server ptr: 0xc0000ca000
-</span><span class=cm>server ptr: 0xc0000ca000
-</span><span class=cm>server ptr: 0xc0000ca000
-</span><span class=cm>server ptr: 0xc0000ca000
-</span><span class=cm>*/</span>
-</code></pre></div><h2 id=懒汉式---goroutine安全>懒汉式 - Goroutine安全</h2><p>我们可以利用golang sync包提供的Once结构体来解决Goroutine安全问题。Once提供了在应用程序生命周期中仅会被调用一次的解决方案。我们将实例的生成过程使用Once保护起来，那么即可以做到单例。</p><div class=highlight><pre class=chroma><code class=language-go data-lang=go><span class=kn>package</span> <span class=nx>main</span>
+<span style=color:#75715e>/*
+</span><span style=color:#75715e>server ptr: 0xc0000c4000
+</span><span style=color:#75715e>server ptr: 0xc0000ca000
+</span><span style=color:#75715e>server ptr: 0xc0000c4000
+</span><span style=color:#75715e>server ptr: 0xc0000c2000
+</span><span style=color:#75715e>server ptr: 0xc0000c2000
+</span><span style=color:#75715e>server ptr: 0xc0000ca000
+</span><span style=color:#75715e>server ptr: 0xc0000ca000
+</span><span style=color:#75715e>server ptr: 0xc0000ca000
+</span><span style=color:#75715e>server ptr: 0xc0000ca000
+</span><span style=color:#75715e>server ptr: 0xc0000ca000
+</span><span style=color:#75715e>*/</span>
+</code></pre></div><h2 id=懒汉式---goroutine安全>懒汉式 - Goroutine安全</h2><p>我们可以利用golang sync包提供的Once结构体来解决Goroutine安全问题。Once提供了在应用程序生命周期中仅会被调用一次的解决方案。我们将实例的生成过程使用Once保护起来，那么即可以做到单例。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#f92672>package</span> <span style=color:#a6e22e>main</span>
 
-<span class=kn>import</span> <span class=p>(</span>
-	<span class=s>&#34;sync&#34;</span>
-<span class=p>)</span>
+<span style=color:#f92672>import</span> (
+	<span style=color:#e6db74>&#34;sync&#34;</span>
+)
 
-<span class=kd>type</span> <span class=p>(</span>
-	<span class=nx>server</span> <span class=kd>struct</span><span class=p>{}</span>
-<span class=p>)</span>
+<span style=color:#66d9ef>type</span> (
+	<span style=color:#a6e22e>server</span> <span style=color:#66d9ef>struct</span>{}
+)
 
-<span class=kd>var</span> <span class=p>(</span>
-	<span class=nx>instance</span> <span class=o>*</span><span class=nx>server</span>
-	<span class=nx>once</span>     <span class=nx>sync</span><span class=p>.</span><span class=nx>Once</span>
-<span class=p>)</span>
+<span style=color:#66d9ef>var</span> (
+	<span style=color:#a6e22e>instance</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>server</span>
+	<span style=color:#a6e22e>once</span>     <span style=color:#a6e22e>sync</span>.<span style=color:#a6e22e>Once</span>
+)
 
-<span class=kd>func</span> <span class=nf>getServerSingleton</span><span class=p>()</span> <span class=o>*</span><span class=nx>server</span> <span class=p>{</span>
-	<span class=nx>once</span><span class=p>.</span><span class=nf>Do</span><span class=p>(</span><span class=kd>func</span><span class=p>()</span> <span class=p>{</span>
-		<span class=nx>instance</span> <span class=p>=</span> <span class=o>&amp;</span><span class=nx>server</span><span class=p>{}</span>
-	<span class=p>})</span>
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>getServerSingleton</span>() <span style=color:#f92672>*</span><span style=color:#a6e22e>server</span> {
+	<span style=color:#a6e22e>once</span>.<span style=color:#a6e22e>Do</span>(<span style=color:#66d9ef>func</span>() {
+		<span style=color:#a6e22e>instance</span> = <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>server</span>{}
+	})
 
-	<span class=k>return</span> <span class=nx>instance</span>
-<span class=p>}</span>
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>instance</span>
+}
 
-<span class=cm>/*
-</span><span class=cm>server ptr: 0x1182f88
-</span><span class=cm>server ptr: 0x1182f88
-</span><span class=cm>server ptr: 0x1182f88
-</span><span class=cm>server ptr: 0x1182f88
-</span><span class=cm>server ptr: 0x1182f88
-</span><span class=cm>server ptr: 0x1182f88
-</span><span class=cm>server ptr: 0x1182f88
-</span><span class=cm>server ptr: 0x1182f88
-</span><span class=cm>server ptr: 0x1182f88
-</span><span class=cm>server ptr: 0x1182f88
-</span><span class=cm>*/</span>
-</code></pre></div><h1 id=用法>用法</h1><p>模拟10个并发请求获取单例。</p><div class=highlight><pre class=chroma><code class=language-go data-lang=go><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
-	<span class=nx>wg</span> <span class=o>:=</span> <span class=nx>sync</span><span class=p>.</span><span class=nx>WaitGroup</span><span class=p>{}</span>
+<span style=color:#75715e>/*
+</span><span style=color:#75715e>server ptr: 0x1182f88
+</span><span style=color:#75715e>server ptr: 0x1182f88
+</span><span style=color:#75715e>server ptr: 0x1182f88
+</span><span style=color:#75715e>server ptr: 0x1182f88
+</span><span style=color:#75715e>server ptr: 0x1182f88
+</span><span style=color:#75715e>server ptr: 0x1182f88
+</span><span style=color:#75715e>server ptr: 0x1182f88
+</span><span style=color:#75715e>server ptr: 0x1182f88
+</span><span style=color:#75715e>server ptr: 0x1182f88
+</span><span style=color:#75715e>server ptr: 0x1182f88
+</span><span style=color:#75715e>*/</span>
+</code></pre></div><h1 id=用法>用法</h1><p>模拟10个并发请求获取单例。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>main</span>() {
+	<span style=color:#a6e22e>wg</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>sync</span>.<span style=color:#a6e22e>WaitGroup</span>{}
 
-	<span class=k>for</span> <span class=nx>index</span> <span class=o>:=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>index</span> <span class=p>&lt;</span> <span class=mi>10</span><span class=p>;</span> <span class=nx>index</span><span class=o>++</span> <span class=p>{</span>
-		<span class=nx>wg</span><span class=p>.</span><span class=nf>Add</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span>
+	<span style=color:#66d9ef>for</span> <span style=color:#a6e22e>index</span> <span style=color:#f92672>:=</span> <span style=color:#ae81ff>0</span>; <span style=color:#a6e22e>index</span> &lt; <span style=color:#ae81ff>10</span>; <span style=color:#a6e22e>index</span><span style=color:#f92672>++</span> {
+		<span style=color:#a6e22e>wg</span>.<span style=color:#a6e22e>Add</span>(<span style=color:#ae81ff>1</span>)
 
-		<span class=k>go</span> <span class=kd>func</span><span class=p>()</span> <span class=p>{</span>
-			<span class=nx>time</span><span class=p>.</span><span class=nf>Sleep</span><span class=p>(</span><span class=nx>time</span><span class=p>.</span><span class=nx>Millisecond</span> <span class=o>*</span> <span class=mi>100</span><span class=p>)</span>
+		<span style=color:#66d9ef>go</span> <span style=color:#66d9ef>func</span>() {
+			<span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Sleep</span>(<span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Millisecond</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>100</span>)
 
-			<span class=nx>server</span> <span class=o>:=</span> <span class=nf>getServerSingleton</span><span class=p>()</span>
-			<span class=nx>fmt</span><span class=p>.</span><span class=nf>Printf</span><span class=p>(</span><span class=s>&#34;server ptr: %p \n&#34;</span><span class=p>,</span> <span class=nx>server</span><span class=p>)</span>
+			<span style=color:#a6e22e>server</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>getServerSingleton</span>()
+			<span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Printf</span>(<span style=color:#e6db74>&#34;server ptr: %p \n&#34;</span>, <span style=color:#a6e22e>server</span>)
 
-			<span class=nx>wg</span><span class=p>.</span><span class=nf>Done</span><span class=p>()</span>
-		<span class=p>}()</span>
-	<span class=p>}</span>
+			<span style=color:#a6e22e>wg</span>.<span style=color:#a6e22e>Done</span>()
+		}()
+	}
 
-	<span class=nx>wg</span><span class=p>.</span><span class=nf>Wait</span><span class=p>()</span>
-<span class=p>}</span>
+	<span style=color:#a6e22e>wg</span>.<span style=color:#a6e22e>Wait</span>()
+}
 </code></pre></div></div></div><div class=post-divider><div><h2 class=post-title><a href=/posts/2020/09/godoc/>Go工具链之godoc指南</a></h2><div class=post-meta><span>Date</span> [
 <time datetime=2020-09-27T21:30:30+08:00>2020-09-27</time>
 ]
@@ -245,55 +245,55 @@
 <span>Tags</span> [
 <a href=/tags/go>go</a>
 <a href=/tags/godoc>godoc</a>
-]</div></div><div><p>在写<a href=https://github.com/boxgo/box>boxgo</a>的过程中，想要生成漂亮的godoc，发现不太熟悉godoc的用法，所以就有了本篇文章，记录一下。</p><p>Go团队非常重视文档，文档对项目的可阅读性、可维护性起到重要作用，所以写好文档变得非常重要。Go团队提供了<code>godoc</code>工具以帮助开发者方便、准确，容易的生成项目文档。<code>godoc</code>解析Go源代码（包括注释），并以HTML或纯文本格式生成文档。</p><h1 id=生成文档>生成文档</h1><p>提取规则：</p><ol><li><p>类型、变量、常量、函数，包都可以通过在声明的前面写注释的方法生成文档（中间不要有空行）。</p><div class=highlight><pre class=chroma><code class=language-go data-lang=go><span class=c1>// Package doc 包注释  --- good
-</span><span class=c1></span><span class=kn>package</span> <span class=nx>doc</span>
+]</div></div><div><p>在写<a href=https://github.com/boxgo/box>boxgo</a>的过程中，想要生成漂亮的godoc，发现不太熟悉godoc的用法，所以就有了本篇文章，记录一下。</p><p>Go团队非常重视文档，文档对项目的可阅读性、可维护性起到重要作用，所以写好文档变得非常重要。Go团队提供了<code>godoc</code>工具以帮助开发者方便、准确，容易的生成项目文档。<code>godoc</code>解析Go源代码（包括注释），并以HTML或纯文本格式生成文档。</p><h1 id=生成文档>生成文档</h1><p>提取规则：</p><ol><li><p>类型、变量、常量、函数，包都可以通过在声明的前面写注释的方法生成文档（中间不要有空行）。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#75715e>// Package doc 包注释  --- good
+</span><span style=color:#75715e></span><span style=color:#f92672>package</span> <span style=color:#a6e22e>doc</span>
    
-<span class=kd>type</span> <span class=p>(</span>
-  <span class=c1>// UserType 类型注释  --- good
-</span><span class=c1></span>  <span class=nx>UserType</span> <span class=kt>string</span>
-<span class=p>)</span>
+<span style=color:#66d9ef>type</span> (
+  <span style=color:#75715e>// UserType 类型注释  --- good
+</span><span style=color:#75715e></span>  <span style=color:#a6e22e>UserType</span> <span style=color:#66d9ef>string</span>
+)
    
-<span class=kd>var</span> <span class=p>(</span>
-  <span class=c1>// userType 变量注释  --- good
-</span><span class=c1></span>  <span class=nx>userType</span> <span class=nx>UserType</span>
-<span class=p>)</span>
+<span style=color:#66d9ef>var</span> (
+  <span style=color:#75715e>// userType 变量注释  --- good
+</span><span style=color:#75715e></span>  <span style=color:#a6e22e>userType</span> <span style=color:#a6e22e>UserType</span>
+)
    
-<span class=kd>const</span> <span class=p>(</span>
-  <span class=c1>// Zero 常量注释  --- good
-</span><span class=c1></span>  <span class=nx>Zero</span> <span class=p>=</span> <span class=mi>0</span>
-<span class=p>)</span>
+<span style=color:#66d9ef>const</span> (
+  <span style=color:#75715e>// Zero 常量注释  --- good
+</span><span style=color:#75715e></span>  <span style=color:#a6e22e>Zero</span> = <span style=color:#ae81ff>0</span>
+)
    
-<span class=c1>// Test 函数注释  --- good
-</span><span class=c1></span><span class=kd>func</span> <span class=nf>Test</span><span class=p>()</span> <span class=p>{</span>
+<span style=color:#75715e>// Test 函数注释  --- good
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>Test</span>() {
    
-<span class=p>}</span>
+}
    
    
-<span class=c1>// Test1 函数注释  --- bad（不要有空行）
-</span><span class=c1></span>   
-<span class=kd>func</span> <span class=nf>Test1</span><span class=p>()</span> <span class=p>{</span>
+<span style=color:#75715e>// Test1 函数注释  --- bad（不要有空行）
+</span><span style=color:#75715e></span>   
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>Test1</span>() {
    
-<span class=p>}</span>
-</code></pre></div></li><li><p>注释开头的字母需要与被注释的元素名称保持一致（<code>包</code>除外）。如函数<code>Fprint</code>注释开头的第一个字母也是<code>Fprint</code>。</p><div class=highlight><pre class=chroma><code class=language-go data-lang=go><span class=c1>// Fprint formats using the default formats for its operands and writes to w.
-</span><span class=c1>// Spaces are added between operands when neither is a string.
-</span><span class=c1>// It returns the number of bytes written and any write error encountered.
-</span><span class=c1></span><span class=kd>func</span> <span class=nf>Fprint</span><span class=p>(</span><span class=nx>w</span> <span class=nx>io</span><span class=p>.</span><span class=nx>Writer</span><span class=p>,</span> <span class=nx>a</span> <span class=o>...</span><span class=kd>interface</span><span class=p>{})</span> <span class=p>(</span><span class=nx>n</span> <span class=kt>int</span><span class=p>,</span> <span class=nx>err</span> <span class=kt>error</span><span class=p>)</span> <span class=p>{</span>
-  <span class=c1>//
-</span><span class=c1></span><span class=p>}</span>
-</code></pre></div></li><li><p><code>doc.go</code> - 包注释比较多的话也可以使用单独的<code>doc.go</code>来编写文档。参考<a href=https://golang.org/src/encoding/gob/doc.go>gob package&rsquo;s doc</a>。</p></li><li><p><code>BUG(who)</code> - 注释与被注释主体之间通常不能有空行或者空注释，但是<code>BUG(who)</code>是一个例外，<code>BUG</code>将在godoc的文档中展示。参考：<a href=https://golang.org/pkg/bytes/#pkg-note-BUG>bytes package</a>。</p><div class=highlight><pre class=chroma><code class=language-go data-lang=go><span class=c1>// Title treats s as UTF-8-encoded bytes and returns a copy with all Unicode letters that begin
-</span><span class=c1>// words mapped to their title case.
-</span><span class=c1>//
-</span><span class=c1>// BUG(rsc): The rule Title uses for word boundaries does not handle Unicode punctuation properly.
-</span><span class=c1></span><span class=kd>func</span> <span class=nf>Title</span><span class=p>(</span><span class=nx>s</span> <span class=p>[]</span><span class=kt>byte</span><span class=p>)</span> <span class=p>[]</span><span class=kt>byte</span> <span class=p>{</span>
-</code></pre></div></li><li><p><code>Deprecated</code> - 可以描述struct field, function, type, variable, const甚至是package，表示被弃用，后续不再使用，但必须保持兼容性。</p></li><li><p>多个相邻的注释行，生成文档时被视为一个段落，如果想要生成多个段落，请留空行。</p></li><li><p>预格式文本需要相对上下文的注释有缩进。</p></li><li><p>URL无需标记，文档中也会被转换成URL。</p></li></ol><h1 id=查看文档>查看文档</h1><p>几行代码带你查看你项目的godoc。</p><div class=highlight><pre class=chroma><code class=language-sh data-lang=sh><span class=c1># 进入你的项目源代码目录</span>
-<span class=nb>cd</span> <span class=nv>$your_project_dir</span>
+}
+</code></pre></div></li><li><p>注释开头的字母需要与被注释的元素名称保持一致（<code>包</code>除外）。如函数<code>Fprint</code>注释开头的第一个字母也是<code>Fprint</code>。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#75715e>// Fprint formats using the default formats for its operands and writes to w.
+</span><span style=color:#75715e>// Spaces are added between operands when neither is a string.
+</span><span style=color:#75715e>// It returns the number of bytes written and any write error encountered.
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>Fprint</span>(<span style=color:#a6e22e>w</span> <span style=color:#a6e22e>io</span>.<span style=color:#a6e22e>Writer</span>, <span style=color:#a6e22e>a</span> <span style=color:#f92672>...</span><span style=color:#66d9ef>interface</span>{}) (<span style=color:#a6e22e>n</span> <span style=color:#66d9ef>int</span>, <span style=color:#a6e22e>err</span> <span style=color:#66d9ef>error</span>) {
+  <span style=color:#75715e>//
+</span><span style=color:#75715e></span>}
+</code></pre></div></li><li><p><code>doc.go</code> - 包注释比较多的话也可以使用单独的<code>doc.go</code>来编写文档。参考<a href=https://golang.org/src/encoding/gob/doc.go>gob package&rsquo;s doc</a>。</p></li><li><p><code>BUG(who)</code> - 注释与被注释主体之间通常不能有空行或者空注释，但是<code>BUG(who)</code>是一个例外，<code>BUG</code>将在godoc的文档中展示。参考：<a href=https://golang.org/pkg/bytes/#pkg-note-BUG>bytes package</a>。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#75715e>// Title treats s as UTF-8-encoded bytes and returns a copy with all Unicode letters that begin
+</span><span style=color:#75715e>// words mapped to their title case.
+</span><span style=color:#75715e>//
+</span><span style=color:#75715e>// BUG(rsc): The rule Title uses for word boundaries does not handle Unicode punctuation properly.
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>Title</span>(<span style=color:#a6e22e>s</span> []<span style=color:#66d9ef>byte</span>) []<span style=color:#66d9ef>byte</span> {
+</code></pre></div></li><li><p><code>Deprecated</code> - 可以描述struct field, function, type, variable, const甚至是package，表示被弃用，后续不再使用，但必须保持兼容性。</p></li><li><p>多个相邻的注释行，生成文档时被视为一个段落，如果想要生成多个段落，请留空行。</p></li><li><p>预格式文本需要相对上下文的注释有缩进。</p></li><li><p>URL无需标记，文档中也会被转换成URL。</p></li></ol><h1 id=查看文档>查看文档</h1><p>几行代码带你查看你项目的godoc。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=color:#75715e># 进入你的项目源代码目录</span>
+cd $your_project_dir
 
-<span class=c1># 为项目建立软连接，因为godoc目前对go mod支持的不是很好，所以需要将项目软链到GOPATH内。如果你的项目在GOPATH目录中，跳过此步骤。</span>
-ln -s <span class=nv>$your_project_dir</span> <span class=nv>$GOPATH</span>/src/<span class=nv>$your_module_path</span>
+<span style=color:#75715e># 为项目建立软连接，因为godoc目前对go mod支持的不是很好，所以需要将项目软链到GOPATH内。如果你的项目在GOPATH目录中，跳过此步骤。</span>
+ln -s $your_project_dir $GOPATH/src/$your_module_path
 
-<span class=c1># 启动godoc服务</span>
-godoc -http<span class=o>=</span><span class=s2>&#34;:6060&#34;</span>
+<span style=color:#75715e># 启动godoc服务</span>
+godoc -http<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;:6060&#34;</span>
 
-<span class=c1># mac下查看文档。其他操作系统请打开浏览器访问。</span>
-open http://127.0.0.1:6060/pkg/<span class=nv>$your_module_path</span>
+<span style=color:#75715e># mac下查看文档。其他操作系统请打开浏览器访问。</span>
+open http://127.0.0.1:6060/pkg/$your_module_path
 </code></pre></div><p>效果图</p><p><img src=/posts/godoc/image-20200928161749381.png alt=image-20200928161749381></p><h1 id=参考文档>参考文档</h1><p><a href=https://pkg.go.dev/golang.org/x/tools/cmd/godoc>godoc command</a></p><p><a href=https://blog.golang.org/godoc>godoc blog</a></p></div></div><div class=pagination-content><div class="pure-menu pure-menu-horizontal"><ul class=pure-menu-list><li class="pure-menu-item pure-menu-disabled">Pages</li><li class="pure-menu-item pure-menu-selected"><a href=/ class=pure-menu-link>First</a></li><li class="pure-menu-item pure-menu-selected"><a href=/ class=pure-menu-link>Last</a></li></ul></div></div><div class=footer><div class="pure-menu pure-menu-horizontal"><ul class=pure-menu-list><li class=pure-menu-item title="My repository"><a class=pure-menu-link href=https://github.com/amazing-gao>GitHub</a></li><li class=pure-menu-item title="RSS Feed"><a href=/index.xml class=pure-menu-link>RSS</a></li><li class="pure-menu-item fix-cursor-pointer" title="Go to top"><a class=pure-menu-link id=btn-gototop><span class=fix-placement-up>&#8679;&#xfe0e;</span></a></li></ul></div><div class="pure-menu pure-menu-horizontal"><ul class=pure-menu-list><li class="pure-menu-item pure-menu-disabled">&copy; 2020 &mdash; Amazing-Gao — All rights reserved.</li></ul></div></div></div><div class="pure-u-1-24 pure-u-md-5-24"></div></div></body></html>
