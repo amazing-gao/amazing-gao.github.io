@@ -5,7 +5,7 @@ languageCode = "zh-cn"
 theme = "slick"
 title = "Amazing-Gao 实在是高"
 
-paginate = 10
+paginate = 5
 paginatePath = "page"
 
 canonifyURLs = true
@@ -21,7 +21,7 @@ unsafe = true # Allow html (needed for some shortcodes)
 [markup.highlight]
 codeFences = true # Enable highlighting inside codefences
 guessSyntax = true # Highlight code without language tag
-noClasses = false # Use the theme's style sheet
+noClasses = true # Use the theme's style sheet
 
 [taxonomies]
 categories = "categories"
@@ -67,7 +67,7 @@ schema = false
 twitter_cards = false
 
 # 百度访问统计
-baiduAnalysis = "815a521e3c0aee7749c5f8350acb8c6d"
+# baiduAnalysis = "815a521e3c0aee7749c5f8350acb8c6d"
 
 [menu]
 [[menu.main]]
