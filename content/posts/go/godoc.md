@@ -1,6 +1,6 @@
 ---
-title: "Go工具链之godoc指南"
-slug: godoc
+title: "godoc使用指南"
+slug: /go/godoc
 description: godoc使用指南
 date: 2020-09-27T21:30:30+08:00
 type: posts
@@ -28,32 +28,32 @@ Go团队非常重视文档，文档对项目的可阅读性、可维护性起到
    ```go
    // Package doc 包注释  --- good
    package doc
-   
+
    type (
      // UserType 类型注释  --- good
      UserType string
    )
-   
+
    var (
      // userType 变量注释  --- good
      userType UserType
    )
-   
+
    const (
      // Zero 常量注释  --- good
      Zero = 0
    )
-   
+
    // Test 函数注释  --- good
    func Test() {
-   
+
    }
-   
-   
+
+
    // Test1 函数注释  --- bad（不要有空行）
-   
+
    func Test1() {
-   
+
    }
    ```
 

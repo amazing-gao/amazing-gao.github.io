@@ -9,8 +9,9 @@ categories:
   - go
 tags:
   - go
+  - go build
 series:
-  -
+  - Go工具链
 ---
 
 Go是支持条件编译，可能很多人都不知道。Go通过在行注释的前面编写如下代码来实现条件编译。
