@@ -390,7 +390,7 @@ panic(&lt;span style="color:#e6db74">&amp;#34;尚未支持的存储类型！&amp
 }
 &lt;span style="color:#a6e22e">wg&lt;/span>.&lt;span style="color:#a6e22e">Wait&lt;/span>()
 }
-&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Go工具链之godoc指南</title><link>/posts/2020/09/godoc/</link><pubDate>Sun, 27 Sep 2020 21:30:30 +0800</pubDate><author>amazing.gao@qq.com (AmazingGao)</author><guid isPermaLink="true">/posts/2020/09/godoc/</guid><description>&lt;p>在写&lt;a href="https://github.com/boxgo/box">boxgo&lt;/a>的过程中，想要生成漂亮的godoc，发现不太熟悉godoc的用法，所以就有了本篇文章，记录一下。&lt;/p>
+&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>godoc使用指南</title><link>/posts/2020/09/go/godoc/</link><pubDate>Sun, 27 Sep 2020 21:30:30 +0800</pubDate><author>amazing.gao@qq.com (AmazingGao)</author><guid isPermaLink="true">/posts/2020/09/go/godoc/</guid><description>&lt;p>在写&lt;a href="https://github.com/boxgo/box">boxgo&lt;/a>的过程中，想要生成漂亮的godoc，发现不太熟悉godoc的用法，所以就有了本篇文章，记录一下。&lt;/p>
 &lt;p>Go团队非常重视文档，文档对项目的可阅读性、可维护性起到重要作用，所以写好文档变得非常重要。Go团队提供了&lt;code>godoc&lt;/code>工具以帮助开发者方便、准确，容易的生成项目文档。&lt;code>godoc&lt;/code>解析Go源代码（包括注释），并以HTML或纯文本格式生成文档。&lt;/p>
 &lt;h1 id="生成文档">生成文档&lt;/h1>
 &lt;p>提取规则：&lt;/p>

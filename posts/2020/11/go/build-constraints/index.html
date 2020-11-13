@@ -5,9 +5,11 @@
 <a href=/categories/go>go</a>
 ]
 <span>Series</span> [
-<a href=/series></a>]
+<a href=/series/go%e5%b7%a5%e5%85%b7%e9%93%be>Go工具链</a>
+]
 <span>Tags</span> [
 <a href=/tags/go>go</a>
+<a href=/tags/go-build>go build</a>
 ]</div></div><div><p>Go是支持条件编译，可能很多人都不知道。Go通过在行注释的前面编写如下代码来实现条件编译。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#75715e>// +build
 </span></code></pre></div><p>条件编译的指令可能出现在任何源代码中，不止是*.go文件，可能是go汇编文件。无论是何种源文件，条件编译指令一定都出现在文件的顶部，并且在空行或者其他行注释之前。所以条件编译指令也必须在package语句之前。</p><hr><h1 id=条件编译规则>条件编译规则</h1><ol><li><p>可以将 // +build 后面的内容当成一个表达式。当表达式返回true时，当前文件参与编译，反之不参与编译。</p></li><li><p>多个片段之间的空格表示它们之间是OR的关系。如下，表示GOOS值是linux或者darwin时，本文件参与编译。</p></li></ol><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#75715e>// +build linux darwin
 </span></code></pre></div><ol start=3><li>多个片段之间的,表示它们之间是AND的关系。如下，表示GOOS值是linux且是amd64架构时，本文件参与编译。</li></ol><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#75715e>// +build linux,amd64
