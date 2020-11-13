@@ -1,4 +1,111 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Amazing-Gao 实在是高</title><link>/posts/</link><description>Recent content in Posts on Amazing-Gao 实在是高</description><generator>Hugo 0.78.1 -- gohugo.io</generator><language>zh-cn</language><managingEditor>amazing.gao@qq.com (AmazingGao)</managingEditor><webMaster>amazing.gao@qq.com (AmazingGao)</webMaster><copyright>Amazing-Gao — All rights reserved.</copyright><lastBuildDate>Sun, 08 Nov 2020 20:16:35 +0800</lastBuildDate><atom:link href="/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Go源码解析之atomic</title><link>/posts/2020/11/go-src/sync/atomic/</link><pubDate>Sun, 08 Nov 2020 20:16:35 +0800</pubDate><author>amazing.gao@qq.com (AmazingGao)</author><guid isPermaLink="true">/posts/2020/11/go-src/sync/atomic/</guid><description>&lt;p>今天我们来聊聊go的&lt;strong>atomic&lt;/strong> pkg，&lt;strong>atomic&lt;/strong>是go并发编程中最为基础的库。如果说它是go并发编程的基石一点也不为过，像标准库中大家使用率非常高的&lt;strong>Mutex&lt;/strong>, &lt;strong>RWMutex&lt;/strong>,&lt;strong>WaitGroup&lt;/strong>,&lt;strong>Once&lt;/strong>等的实现都依赖于&lt;strong>atomic&lt;/strong>。&lt;/p>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Amazing-Gao 实在是高</title><link>/posts/</link><description>Recent content in Posts on Amazing-Gao 实在是高</description><generator>Hugo 0.78.1 -- gohugo.io</generator><language>zh-cn</language><managingEditor>amazing.gao@qq.com (AmazingGao)</managingEditor><webMaster>amazing.gao@qq.com (AmazingGao)</webMaster><copyright>Amazing-Gao — All rights reserved.</copyright><lastBuildDate>Fri, 13 Nov 2020 18:39:55 +0800</lastBuildDate><atom:link href="/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Go条件编译</title><link>/posts/2020/11/go/build-constraints/</link><pubDate>Fri, 13 Nov 2020 18:39:55 +0800</pubDate><author>amazing.gao@qq.com (AmazingGao)</author><guid isPermaLink="true">/posts/2020/11/go/build-constraints/</guid><description>&lt;p>Go是支持条件编译，可能很多人都不知道。Go通过在行注释的前面编写如下代码来实现条件编译。&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#75715e">// +build
+&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>条件编译的指令可能出现在任何源代码中，不止是*.go文件，可能是go汇编文件。无论是何种源文件，条件编译指令一定都出现在文件的顶部，并且在空行或者其他行注释之前。所以条件编译指令也必须在package语句之前。&lt;/p>
+&lt;hr>
+&lt;h1 id="条件编译规则">条件编译规则&lt;/h1>
+&lt;ol>
+&lt;li>
+&lt;p>可以将 // +build 后面的内容当成一个表达式。当表达式返回true时，当前文件参与编译，反之不参与编译。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>多个片段之间的空格表示它们之间是OR的关系。如下，表示GOOS值是linux或者darwin时，本文件参与编译。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#75715e">// +build linux darwin
+&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="3">
+&lt;li>多个片段之间的,表示它们之间是AND的关系。如下，表示GOOS值是linux且是amd64架构时，本文件参与编译。&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#75715e">// +build linux,amd64
+&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="4">
+&lt;li>以!xxx开头的片段表示当tag xxx设置时，当前文件不参与编译。如下，表示GOOS值是linux时，本文件不参与编译。&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#75715e">// +build !linux
+&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="5">
+&lt;li>单文件包含多个条件编译指令时，它们是AND的关系。如下，表示GOOS值是linux且是amd64架构时，本文件参与编译。&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#75715e">// +build linux
+&lt;/span>&lt;span style="color:#75715e">// +build amd64
+&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;ol start="6">
+&lt;li>
+&lt;p>一些内建的关键字。&lt;/p>
+&lt;ol>
+&lt;li>&lt;code>GOOS&lt;/code>的值，目标操作系统，如linux,darwin。&lt;/li>
+&lt;li>&lt;code>GOARCH&lt;/code>的值，目标架构，如amd64。&lt;/li>
+&lt;li>编译器，&lt;code>gc&lt;/code> 或者 &lt;code>gccgo&lt;/code>。&lt;/li>
+&lt;li>&lt;code>cgo&lt;/code> 如果cgo支持，编译。&lt;/li>
+&lt;li>&lt;code>gox.x&lt;/code> 只在特定go版本进行编译，不支持beta or minor版本号的条件编译。&lt;/li>
+&lt;li>&lt;code>go build&lt;/code> 命令的其他tag。&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;li>
+&lt;p>文件名实现条件编译。条件编译支持以下三种格式（&lt;code>源码文件名去除类型后缀和_test后缀后&lt;/code>）：&lt;/p>
+&lt;ol>
+&lt;li>&lt;code>*_GOOS&lt;/code> GOOS值与文件名中的GOOS一致时参与编译。&lt;/li>
+&lt;li>&lt;code>*_GOARCH&lt;/code> GOARCH值与文件名中的GOARCH一致时参与编译。&lt;/li>
+&lt;li>&lt;code>*_GOOS_GOARCH&lt;/code> GOARCH,GOOS值与文件名中的GOARCH,GOOS一致时参与编译。&lt;/li>
+&lt;/ol>
+&lt;p>如 &lt;code>source_windows_amd64.go&lt;/code> 该文件只在&lt;code>windows&lt;/code>系统的&lt;code>amd64&lt;/code>架构下进行编译。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h1 id="示例">示例&lt;/h1>
+&lt;p>示例的文件目录:&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">$ tree .
+$ .
+$ ├── etcd.go
+$ ├── go.mod
+$ ├── main.go
+$ └── redis.go
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>etcd.go&lt;/code> 当tags中出现etcd字符时，不参与编译。&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#75715e">// +build !etcd
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>
+&lt;span style="color:#f92672">package&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>
+&lt;span style="color:#a6e22e">fun&lt;/span> &lt;span style="color:#a6e22e">init&lt;/span>() {
+println(&lt;span style="color:#e6db74">&amp;#34;etcd init&amp;#34;&lt;/span>)
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>redis.go&lt;/code> 当tags中出现redis字符时，不参与编译。&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#75715e">// +build !redis
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>
+&lt;span style="color:#f92672">package&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>
+&lt;span style="color:#a6e22e">fun&lt;/span> &lt;span style="color:#a6e22e">init&lt;/span>() {
+println(&lt;span style="color:#e6db74">&amp;#34;redis redis&amp;#34;&lt;/span>)
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>main.go&lt;/code>&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#f92672">package&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>
+&lt;span style="color:#66d9ef">func&lt;/span> &lt;span style="color:#a6e22e">main&lt;/span>() {
+println(&lt;span style="color:#e6db74">&amp;#34;hell world!&amp;#34;&lt;/span>)
+}
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>下面我们来看看效果吧！&lt;/p>
+&lt;ol>
+&lt;li>直接编译，不执行条件编译&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">$ go run .
+$ etcd init
+$ redis init
+$ hell world!
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>可以看到，etcd.go,redis.go,main.go都被编译了。&lt;/p>
+&lt;ol>
+&lt;li>不编译redis.go文件&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">$ go run -tags redis . &lt;span style="color:#75715e"># 我们使用 `-tags` 来设置编译条件。&lt;/span>
+$ etcd init
+$ hell world!
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>这时候我们看到，只有etcd.go和main.go被编译了，redis.go中的init方法没有被执行。&lt;/p>
+&lt;ol start="3">
+&lt;li>不编译etcd.go文件&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">$ go run -tags etcd . &lt;span style="color:#75715e"># 我们使用 `-tags` 来设置编译条件。&lt;/span>
+$ redis init
+$ hell world!
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>这时候我们看到，只有redis.go和main.go被编译了，main.go中的init方法没有被执行。&lt;/p>
+&lt;ol start="4">
+&lt;li>不编译etcd.go和redis.go文件&lt;/li>
+&lt;/ol>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">$ go run -tags etcd,redis . &lt;span style="color:#75715e"># 我们使用 `-tags` 来设置编译条件。&lt;/span>
+$ hell world!
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>这时候我们看到，只有main.go文件中的main函数被执行了，其他文件中的init方法均没哟被执行。&lt;/p>
+&lt;h1 id="总结">总结&lt;/h1>
+&lt;p>在go的源代码中条件编译使用的非常广泛。比如某些功能在不同操作系统的实现不一样，这时候我们就需要针对不同操作系统分别编写代码，但这些代码都在一个目录中，如果没有条件编译将无法编译成功。又或者我们的配置信息可能来自Redis,Etcd,ZooKeeper等不同的配置源，但在运行时我们只用到Etcd，这时候我们可以对代码进行拆分并编写条件编译指令，在编译时只编译Etcd数据源的代码以减小不必要的依赖。&lt;/p>
+&lt;p>有些靠编写代码没法控制事情，通过条件编译也许可以帮助你，总之掌握条件编译可以帮助我们更好得完成开发工作，甚至实现一些普通程序员无法理解的“黑科技”。&lt;/p></description></item><item><title>Go源码解析之atomic</title><link>/posts/2020/11/go-src/sync/atomic/</link><pubDate>Sun, 08 Nov 2020 20:16:35 +0800</pubDate><author>amazing.gao@qq.com (AmazingGao)</author><guid isPermaLink="true">/posts/2020/11/go-src/sync/atomic/</guid><description>&lt;p>今天我们来聊聊go的&lt;strong>atomic&lt;/strong> pkg，&lt;strong>atomic&lt;/strong>是go并发编程中最为基础的库。如果说它是go并发编程的基石一点也不为过，像标准库中大家使用率非常高的&lt;strong>Mutex&lt;/strong>, &lt;strong>RWMutex&lt;/strong>,&lt;strong>WaitGroup&lt;/strong>,&lt;strong>Once&lt;/strong>等的实现都依赖于&lt;strong>atomic&lt;/strong>。&lt;/p>
 &lt;h1 id="atomic简介">Atomic简介&lt;/h1>
 &lt;p>&lt;strong>atomic&lt;/strong>提供一系列用于实现同步功能的、底层的，原子的方法：&lt;/p>
 &lt;ol>
