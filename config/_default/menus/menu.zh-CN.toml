@@ -6,6 +6,7 @@
 [[main]]
   name = "Projects"
   identifier = "Projects"
+  url = "projects/"
   weight = -108
 [[main]]
   parent = "Projects"
