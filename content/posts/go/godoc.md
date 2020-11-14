@@ -5,6 +5,7 @@ description: godoc使用指南
 date: 2020-09-27T21:30:30+08:00
 type: posts
 draft: false
+toc: true
 categories:
   - go
 tags:
@@ -19,7 +20,7 @@ typora-root-url: ../../static
 
 Go团队非常重视文档，文档对项目的可阅读性、可维护性起到重要作用，所以写好文档变得非常重要。Go团队提供了`godoc`工具以帮助开发者方便、准确，容易的生成项目文档。`godoc`解析Go源代码（包括注释），并以HTML或纯文本格式生成文档。
 
-# 生成文档
+## 生成文档
 
 提取规则：
 
@@ -88,7 +89,7 @@ Go团队非常重视文档，文档对项目的可阅读性、可维护性起到
 
 8. URL无需标记，文档中也会被转换成URL。
 
-# 查看文档
+## 查看文档
 
 几行代码带你查看你项目的godoc。
 
@@ -108,9 +109,9 @@ open http://127.0.0.1:6060/pkg/$your_module_path
 
 效果图
 
-![image-20200928161749381](/posts/godoc/image-20200928161749381.png)
+![preview](/posts/godoc/image-20200928161749381.png)
 
-# 参考文档
+## 参考文档
 
 [godoc command](https://pkg.go.dev/golang.org/x/tools/cmd/godoc)
 

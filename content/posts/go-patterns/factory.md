@@ -5,6 +5,7 @@ description: null
 date: 2020-10-14T20:30:39+08:00
 type: posts
 draft: false
+toc: true
 categories:
   - go
 tags:
@@ -14,13 +15,13 @@ series:
   - Go设计模式
 ---
 
-# Factory - 工厂模式
+## Factory - 工厂模式
 
 工厂模式在Go中使用的非常广泛，比如常用于数据的读写模块。假设我们需要从某种介质中读取数据，并将更新后的结果保存到该介质中。考虑到以后可能更换为其他类型的介质，为了避免日后更换介质而大面积变更代码，我们就会用到本模式。
 
-# 实现
+## 实现
 
-## 1.定义工厂方法所创建对象的接口
+### 1.定义工厂方法所创建对象的接口
 假设我们的存储模块只有**Read**和**Write**两个功能，我们需要先定义存储器**inteface**。
 
 ```go
@@ -34,11 +35,11 @@ type Store interface {
 }
 ```
 
-## 2.实现对象接口
+### 2.实现对象接口
 
 假设我们需要将Redis或磁盘作为存储介质，我们需要分别实现Redis与磁盘的存储功能。
 
-### FileSystem
+#### FileSystem
 ```go
 pacakge store
 
@@ -61,7 +62,7 @@ func newFileStore() Store {
 }
 ```
 
-### Redis
+#### Redis
 ```go
 pacakge store
 
@@ -84,7 +85,7 @@ func newRedisStore() Store {
 }
 ```
 
-## 3.实现工厂方法
+### 3.实现工厂方法
 
 工厂方法是暴露给模块外部使用的，用于创建实例的方法。我们需要将各种类型**Store**实例的创建过程封装到该方法里面，避免暴露给外部模块。由工厂方法统一提供创建功能。
 
@@ -112,7 +113,7 @@ func NewStore(storeType StoreType) Store {
 }
 ```
 
-# 使用
+## 使用
 
 假设我们需要使用**Redis**作为存储介质，我们只需要在工厂方法中传入**store.Redis**参数。
 

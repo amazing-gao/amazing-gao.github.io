@@ -5,6 +5,7 @@ description: null
 date: 2020-11-08T20:16:35+08:00
 type: posts
 draft: false
+toc: true
 categories:
   - go
 tags:
@@ -17,7 +18,7 @@ series:
 
 今天我们来聊聊go的**atomic** pkg，**atomic**是go并发编程中最为基础的库。如果说它是go并发编程的基石一点也不为过，像标准库中大家使用率非常高的**Mutex**, **RWMutex**,**WaitGroup**,**Once**等的实现都依赖于**atomic**。
 
-# Atomic简介
+## Atomic简介
 
 **atomic**提供一系列用于实现同步功能的、底层的，原子的方法：
 
@@ -42,7 +43,7 @@ return false
 
 那么go是如何让这些方法变成了原子操作呢？我们接着往下看。
 
-# 刨根问底
+## 刨根问底
 
 为了搞清楚**atomic**到底是如何工作的，我们以**CompareAndSwapInt32**为例来分析。我打开了[atomic](https://github.com/golang/go/tree/master/src/sync/atomic)的源代码。
 
@@ -60,7 +61,7 @@ value_test.go
 
 这是一个go汇编文件，我摘取了部分重要的内容。
 
-```assembly
+```asm
 // +build !race
 
 #include "textflag.h"
@@ -71,22 +72,22 @@ TEXT ·SwapInt32(SB),NOSPLIT,$0
 // ...略去...
 
 TEXT ·CompareAndSwapInt32(SB),NOSPLIT,$0
-	JMP	runtime∕internal∕atomic·Cas(SB)	
+	JMP	runtime∕internal∕atomic·Cas(SB)
 
 // ...略去...
 
 TEXT ·AddInt32(SB),NOSPLIT,$0
 	JMP	runtime∕internal∕atomic·Xadd(SB)
-	
+
 // ...略去...
-	
+
 TEXT ·LoadInt32(SB),NOSPLIT,$0
-	JMP	runtime∕internal∕atomic·Load(SB)	
+	JMP	runtime∕internal∕atomic·Load(SB)
 
 // ...略去...
 
 TEXT ·StoreInt32(SB),NOSPLIT,$0
-	JMP	runtime∕internal∕atomic·Store(SB)	
+	JMP	runtime∕internal∕atomic·Store(SB)
 ```
 
 `// +build !race` 这是go的条件编译，表示race时不编译，不是本文重点，欲知更多请查看[Go build constraints](https://golang.org/cmd/go/#hdr-Build_constraints)。`#include "textflag.h"` 引用头文件，定义了一些宏。
@@ -97,7 +98,7 @@ TEXT ·StoreInt32(SB),NOSPLIT,$0
 
 经过一番侦查，在[asm_amd64.s](https://github.com/golang/go/blob/master/src/runtime/internal/atomic/asm_amd64.s#L17)中发现了汇编实现的函数体。
 
-```assembly
+```asm
 // bool Cas(int32 *val, int32 old, int32 new)
 // Atomically:
 //	if(*val == old){
@@ -129,18 +130,16 @@ TEXT runtime∕internal∕atomic·Cas(SB),NOSPLIT,$0-17
 
 第七行RET 函数返回。
 
----
 
-这里最重要的是**LOCK**与**CMPXCHGL**两个命令，两条命令组合完成了Cas操作。这是CPU支持的原子操作。后续补充CPU这块关于LOCK的一些介绍。
 
----
+    这里最重要的是**LOCK**与**CMPXCHGL**两个命令，两条命令组合完成了Cas操作。
+    这是CPU支持的原子操作。关于CPU的LOCK指令后续我们单独介绍。
 
 
 
 atomic中其他方法实现原子操作的方案基本与此一致，在此就不赘述了，有兴趣的童鞋可以自己研究一下。
 
 
-
-# 参考文档：
+## 参考文档
 
 1. [探索 Golang 一致性原语](https://wweir.cc/post/%E6%8E%A2%E7%B4%A2-golang-%E4%B8%80%E8%87%B4%E6%80%A7%E5%8E%9F%E8%AF%AD/)
