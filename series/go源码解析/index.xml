@@ -1,80 +1,9 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Go源码解析 on Amazing-Gao 实在是高</title><link>/series/go%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</link><description>Recent content in Go源码解析 on Amazing-Gao 实在是高</description><generator>Hugo 0.78.1 -- gohugo.io</generator><language>zh-cn</language><managingEditor>amazing.gao@qq.com (AmazingGao)</managingEditor><webMaster>amazing.gao@qq.com (AmazingGao)</webMaster><copyright>Amazing-Gao — All rights reserved.</copyright><lastBuildDate>Sun, 08 Nov 2020 20:16:35 +0800</lastBuildDate><atom:link href="/series/go%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/index.xml" rel="self" type="application/rss+xml"/><item><title>Go源码解析之atomic</title><link>/posts/2020/11/go-src/sync/atomic/</link><pubDate>Sun, 08 Nov 2020 20:16:35 +0800</pubDate><author>amazing.gao@qq.com (AmazingGao)</author><guid isPermaLink="true">/posts/2020/11/go-src/sync/atomic/</guid><description>&lt;p>今天我们来聊聊go的&lt;strong>atomic&lt;/strong> pkg，&lt;strong>atomic&lt;/strong>是go并发编程中最为基础的库。如果说它是go并发编程的基石一点也不为过，像标准库中大家使用率非常高的&lt;strong>Mutex&lt;/strong>, &lt;strong>RWMutex&lt;/strong>,&lt;strong>WaitGroup&lt;/strong>,&lt;strong>Once&lt;/strong>等的实现都依赖于&lt;strong>atomic&lt;/strong>。&lt;/p>
-&lt;h1 id="atomic简介">Atomic简介&lt;/h1>
-&lt;p>&lt;strong>atomic&lt;/strong>提供一系列用于实现同步功能的、底层的，原子的方法：&lt;/p>
-&lt;ol>
-&lt;li>&lt;strong>AddT&lt;/strong> 系列将增量增加到源值上，并返回新值。&lt;/li>
-&lt;li>&lt;strong>CompareAndSwapT&lt;/strong> 系列比较两个变量的值，并进行交换。&lt;/li>
-&lt;li>&lt;strong>SwapT&lt;/strong>系列交换值，并返回旧值。&lt;/li>
-&lt;li>&lt;strong>LoadT&lt;/strong> 系列获取值。&lt;/li>
-&lt;li>&lt;strong>StoreT&lt;/strong> 系列更新值。&lt;/li>
-&lt;li>&lt;strong>Value&lt;/strong> 存储器，支持Load,Store。&lt;/li>
-&lt;/ol>
-&lt;p>这些方法是原子操作，不会被CPU中断，也就说在多个goroutine之间访问是安全的。&lt;/p>
-&lt;p>比如&lt;strong>CompareAndSwapT&lt;/strong>方法，其实它包含多个步骤，在CPU执行时也是多个命令完成这个功能。&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-go" data-lang="go">&lt;span style="color:#66d9ef">if&lt;/span> &lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">addr&lt;/span> &lt;span style="color:#f92672">==&lt;/span> &lt;span style="color:#a6e22e">old&lt;/span> {
-&lt;span style="color:#f92672">*&lt;/span>&lt;span style="color:#a6e22e">addr&lt;/span> = &lt;span style="color:#a6e22e">new&lt;/span>
-&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">true&lt;/span>
-}
-&lt;span style="color:#66d9ef">return&lt;/span> &lt;span style="color:#66d9ef">false&lt;/span>
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>那么go是如何让这些方法变成了原子操作呢？我们接着往下看。&lt;/p>
-&lt;h1 id="刨根问底">刨根问底&lt;/h1>
-&lt;p>为了搞清楚&lt;strong>atomic&lt;/strong>到底是如何工作的，我们以&lt;strong>CompareAndSwapInt32&lt;/strong>为例来分析。我打开了&lt;a href="https://github.com/golang/go/tree/master/src/sync/atomic">atomic&lt;/a>的源代码。&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-sh" data-lang="sh">asm.s
-atomic_test.go
-doc.go
-example_test.go
-race.s
-value.go
-value_test.go
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>包内的文件数并不多，打开第一个&lt;strong>asm.s&lt;/strong>，我们就看到非常重要的内容。&lt;/p>
-&lt;p>这是一个go汇编文件，我摘取了部分重要的内容。&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-fallback" data-lang="fallback">// +build !race
-#include &amp;#34;textflag.h&amp;#34;
-TEXT ·SwapInt32(SB),NOSPLIT,$0
-JMP runtime∕internal∕atomic·Xchg(SB)
-// ...略去...
-TEXT ·CompareAndSwapInt32(SB),NOSPLIT,$0
-JMP runtime∕internal∕atomic·Cas(SB)
-// ...略去...
-TEXT ·AddInt32(SB),NOSPLIT,$0
-JMP runtime∕internal∕atomic·Xadd(SB)
-// ...略去...
-TEXT ·LoadInt32(SB),NOSPLIT,$0
-JMP runtime∕internal∕atomic·Load(SB)
-// ...略去...
-TEXT ·StoreInt32(SB),NOSPLIT,$0
-JMP runtime∕internal∕atomic·Store(SB)
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;code>// +build !race&lt;/code> 这是go的条件编译，表示race时不编译，不是本文重点，欲知更多请查看&lt;a href="https://golang.org/cmd/go/#hdr-Build_constraints">Go build constraints&lt;/a>。&lt;code>#include &amp;quot;textflag.h&amp;quot;&lt;/code> 引用头文件，定义了一些宏。&lt;/p>
-&lt;p>下面来到我们的重点 &lt;code>TEXT ·CompareAndSwapInt32(SB),NOSPLIT,$0&lt;/code> 定义了CompareAndSwapInt32函数，可以看到它并没有什么逻辑，直接跳转去了&lt;code>runtime∕internal∕atomic·Cas&lt;/code>。那么我们就跟过去。&lt;/p>
-&lt;p>我们查看amd64版本代码&lt;a href="https://github.com/golang/go/blob/master/src/runtime/internal/atomic/stubs.go#L12">stubs.go&lt;/a>，看到了函数的声明*&lt;em>func Cas(ptr &lt;em>uint32, old, new uint32) bool&lt;/em>&lt;/em>，但是并没有函数体。Go还可以这么玩？函数体去哪里了？&lt;/p>
-&lt;p>经过一番侦查，在&lt;a href="https://github.com/golang/go/blob/master/src/runtime/internal/atomic/asm_amd64.s#L17">asm_amd64.s&lt;/a>中发现了汇编实现的函数体。&lt;/p>
-&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-fallback" data-lang="fallback">// bool Cas(int32 *val, int32 old, int32 new)
-// Atomically:
-// if(*val == old){
-// *val = new;
-// return 1;
-// } else
-// return 0;
-TEXT runtime∕internal∕atomic·Cas(SB),NOSPLIT,$0-17
-MOVQ ptr+0(FP), BX
-MOVL old+8(FP), AX
-MOVL new+12(FP), CX
-LOCK
-CMPXCHGL CX, 0(BX)
-SETEQ ret+16(FP)
-RET
-&lt;/code>&lt;/pre>&lt;/div>&lt;p>第一行MOVQ ptr到BX寄存器。&lt;strong>FP&lt;/strong> 是go汇编定义的伪寄存器，伪FP寄存器对应的是函数的帧指针，一般用来访问函数的参数和返回值。Go汇编是基于&lt;a href="https://9p.io/sys/doc/asm.html">plan9&lt;/a>的，MOV的方向和我们常规学习到的相反。&lt;/p>
-&lt;p>第二行MOVL old值到AX寄存器。&lt;/p>
-&lt;p>第三行MOVL new值到CX寄存器。&lt;/p>
-&lt;p>第四行&lt;strong>LOCK&lt;/strong>，这个命令非常陌生。经过一番资料查询了解到&lt;a href="https://software.intel.com/sites/default/files/managed/39/c5/325462-sdm-vol-1-2abcd-3abcd.pdf">Intel® 64 and IA-32 Architectures Software Developer’s Manual&lt;/a>，LOCK能将后续的指令变成原子操作，那么后续的&lt;strong>CMPXCHGL&lt;/strong>也将被原子化。&lt;/p>
-&lt;p>第五行CMPXCHGL CX, 0(BX)，将BX的值(ptr)与CX的值(new)比较。如果相等，CX更新到ptr，否者BX更新到AX。&lt;/p>
-&lt;p>第六行SETEQ ret+16(FP)，如果ZF标志位为0，设置1到返回值(FP偏移16位)，否者设置0。&lt;/p>
-&lt;p>第七行RET 函数返回。&lt;/p>
-&lt;hr>
-&lt;p>这里最重要的是&lt;strong>LOCK&lt;/strong>与&lt;strong>CMPXCHGL&lt;/strong>两个命令，两条命令组合完成了Cas操作。这是CPU支持的原子操作。后续补充CPU这块关于LOCK的一些介绍。&lt;/p>
-&lt;hr>
-&lt;p>atomic中其他方法实现原子操作的方案基本与此一致，在此就不赘述了，有兴趣的童鞋可以自己研究一下。&lt;/p>
-&lt;h1 id="参考文档">参考文档：&lt;/h1>
-&lt;ol>
-&lt;li>&lt;a href="https://wweir.cc/post/%E6%8E%A2%E7%B4%A2-golang-%E4%B8%80%E8%87%B4%E6%80%A7%E5%8E%9F%E8%AF%AD/">探索 Golang 一致性原语&lt;/a>&lt;/li>
-&lt;/ol></description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Go源码解析 on Amazing-Gao 实在是高</title><link>/series/go%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</link><description>Recent content in Go源码解析 on Amazing-Gao 实在是高</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><managingEditor>amazing.gao@qq.com (AmazingGao)</managingEditor><webMaster>amazing.gao@qq.com (AmazingGao)</webMaster><copyright>Amazing-Gao — All rights reserved.</copyright><lastBuildDate>Sun, 08 Nov 2020 20:16:35 +0800</lastBuildDate><atom:link href="/series/go%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/index.xml" rel="self" type="application/rss+xml"/><item><title>Go源码解析之atomic</title><link>/posts/2020/11/go-src/sync/atomic/</link><pubDate>Sun, 08 Nov 2020 20:16:35 +0800</pubDate><author>amazing.gao@qq.com (AmazingGao)</author><guid>/posts/2020/11/go-src/sync/atomic/</guid><description>今天我们来聊聊go的atomic pkg，atomic是go并发编程中最为基础的库。如果说它是go并发编程的基石一点也不为过，像标准库中大家使用率非常高的Mutex, RWMutex,WaitGroup,Once等的实现都依赖于atomic。
+Atomic简介 atomic提供一系列用于实现同步功能的、底层的，原子的方法：
+AddT 系列将增量增加到源值上，并返回新值。 CompareAndSwapT 系列比较两个变量的值，并进行交换。 SwapT系列交换值，并返回旧值。 LoadT 系列获取值。 StoreT 系列更新值。 Value 存储器，支持Load,Store。 这些方法是原子操作，不会被CPU中断，也就说在多个goroutine之间访问是安全的。
+比如CompareAndSwapT方法，其实它包含多个步骤，在CPU执行时也是多个命令完成这个功能。
+1if *addr == old { 2 *addr = new 3 return true 4} 5return false 那么go是如何让这些方法变成了原子操作呢？我们接着往下看。
+刨根问底 为了搞清楚atomic到底是如何工作的，我们以CompareAndSwapInt32为例来分析。我打开了atomic的源代码。
+1asm.s 2atomic_test.go 3doc.go 4example_test.go 5race.s 6value.go 7value_test.go 包内的文件数并不多，打开第一个asm.s，我们就看到非常重要的内容。
+这是一个go汇编文件，我摘取了部分重要的内容。
+1// +build !race 2 3#include &amp;#34;textflag.h&amp;#34; 4 5TEXT ·SwapInt32(SB),NOSPLIT,$0 6 JMP runtime∕internal∕atomic·Xchg(SB) 7 8// ...略去... 9 10TEXT ·CompareAndSwapInt32(SB),NOSPLIT,$0 11 JMP runtime∕internal∕atomic·Cas(SB) 12 13// .</description></item></channel></rss>
