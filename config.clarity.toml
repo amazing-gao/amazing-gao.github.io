@@ -1,0 +1,17 @@
+[params]
+author = "Amazing Gao"
+introDescription = "Find, discover, explorer and enjoy!"
+numberOfTagsShown = 10
+codeMaxLines = 100
+codeLineNumbers = true
+enableMathNotation = true
+mainSections = ["posts"]
+centerLogo = false
+logo = "images/avatar.jpeg"
+mobileNavigation = "left"
+languageMenuName = "🌐"
+comment = true
+numberOfRecentPosts = 5
+numberOfFeaturedPosts = 5
+dateFormat = "2006-01-02"
+customJS = ["js/baidu.js"]

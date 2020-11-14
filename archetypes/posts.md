@@ -5,6 +5,8 @@ description: null
 date: {{ .Date }}
 type: {{ .Type }}
 draft: true
+toc: true
+featured: true
 categories:
   -
 tags:

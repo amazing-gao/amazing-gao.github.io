@@ -4,3 +4,6 @@
 [submodule "themes/slick"]
 	path = themes/slick
 	url = https://github.com/spookey/slick
+[submodule "themes/clarity"]
+	path = themes/clarity
+	url = https://github.com/chipzoller/hugo-clarity
