@@ -122,13 +122,58 @@ func Add() {
 
 这段代码与之前的区别就是`Line#27`,`Line#28`，我们对累加操作进行了保护，声明这里是临界区，禁止多个goroutine并发访问。
 
-无论我们执行多少次代码，发现结果始终都是1000。这是如何实现的呢？请继续往下看。
+无论我们执行多少次代码，发现结果始终都是1000。这在Go中是如何实现的呢？请继续往下看。
 
 
 
 ## 一探究竟
 
-打开源代码，[`Mutex`](https://github.com/golang/go/blob/master/src/sync/mutex.go#L25-L28)的定义非常简单，但没有注释，我们并不知道state与sema分别是做什么用的。
+打开源代码，我们看到一段关于 [Mutex fairness](https://github.com/golang/go/blob/master/src/sync/mutex.go#L42-L65) 的注释。
+
+```go
+	// Mutex fairness.
+	//
+	// Mutex can be in 2 modes of operations: normal and starvation.
+	// In normal mode waiters are queued in FIFO order, but a woken up waiter
+	// does not own the mutex and competes with new arriving goroutines over
+	// the ownership. New arriving goroutines have an advantage -- they are
+	// already running on CPU and there can be lots of them, so a woken up
+	// waiter has good chances of losing. In such case it is queued at front
+	// of the wait queue. If a waiter fails to acquire the mutex for more than 1ms,
+	// it switches mutex to the starvation mode.
+	//
+	// In starvation mode ownership of the mutex is directly handed off from
+	// the unlocking goroutine to the waiter at the front of the queue.
+	// New arriving goroutines don't try to acquire the mutex even if it appears
+	// to be unlocked, and don't try to spin. Instead they queue themselves at
+	// the tail of the wait queue.
+	//
+	// If a waiter receives ownership of the mutex and sees that either
+	// (1) it is the last waiter in the queue, or (2) it waited for less than 1 ms,
+	// it switches mutex back to normal operation mode.
+	//
+	// Normal mode has considerably better performance as a goroutine can acquire
+	// a mutex several times in a row even if there are blocked waiters.
+	// Starvation mode is important to prevent pathological cases of tail latency.
+```
+
+大致意思是：
+
+1. `Mutex`是一把`公平锁（Mutex fairness）`。
+2. `Mutex`有两种模式：`标准模式`和`饥饿模式`
+	1. `标准模式`：在标准模式，`waiters`是按照先进先出的顺序进行排队，但是一个被唤醒的`waiter`不会直接占有锁，而是需要和其他新请求锁的goroutines一起竞争锁的所有权。新请求锁的goroutines有一个优势 --- 它们已经运行在CPU中并且可能数量不少，所以一个被唤醒的waiter有很大机会会竞争输了。在这种情况它将被排在等待队列的前面。如果`waiter`超过`1ms`没有成功获取锁，锁将切换为`饥饿模式`。
+	2. `饥饿模式`：在饥饿模式，锁的所有权直接从一个刚解锁的goroutine手中直接传递到等待队列最前面的`waiter`手中。新请求锁的goroutines不会尝试获取锁即使看起来是未锁的状态，也不会尝试自旋。取而代之的是，它们将排在等待队列的队尾。
+3. 如果`waiter`获取到锁的所有权时，发现自己是队列中最后一个`waiter`或者自己等待时间小于`1ms`，那么锁将切换回`标准模式`。
+4. `标准模式`拥有非常好的性能表现，因为即使存在阻塞的`waiter`，一个goroutine也能够多次获取锁。
+5. `饥饿模式`对于预防极端的长尾时延（tail latency）非常重要。
+
+PS：这里`waiter`和`waiters`表示等待的goroutines。
+
+作者详细的描述了互斥锁的设计思路与运行过程，这对于我们理解代码至关重要。
+
+
+
+让我们继续，[`Mutex`](https://github.com/golang/go/blob/master/src/sync/mutex.go#L25-L28)的定义非常简单，但没有注释，我们并不知道state与sema分别是做什么用的。
 
 ```go
 type Mutex struct {
@@ -137,7 +182,7 @@ type Mutex struct {
 }
 ```
 
-那我们就看看[`Lock`](https://github.com/golang/go/blob/master/src/sync/mutex.go#L72-L82)方法吧。
+那我们就带着问题看看[`Lock`](https://github.com/golang/go/blob/master/src/sync/mutex.go#L72-L82)方法吧。
 
 ```go
 func (m *Mutex) Lock() {
@@ -153,39 +198,51 @@ func (m *Mutex) Lock() {
 }
 ```
 
- `Line#3` 是一个`CompareAndSwapInt32` 。这个方法我们之前聊过（请查看[Go源码解析之atomic](https://amazingao.com/posts/2020/11/go-src/sync/atomic/)），将 `m.state` 与 `0` 比较，如果相等那么 `mutexLocked` 的值将赋值给 `m.state` 并返回 true。也就是说这里就可以初步判断锁的状态。 `mutexLocked` 是在代码的开头部分声明的常量。`通过此我们可以推断出来state表示互斥锁的状态：0 表示未锁；1 表示已锁(mutexLocked的值)`。
+ `Line#3` 是一个`CompareAndSwapInt32` 。这个方法我们之前聊过（请查看[Go源码解析之atomic](https://amazingao.com/posts/2020/11/go-src/sync/atomic/)），将 `m.state` 与 `0` 比较，如果相等那么 `mutexLocked` 的值将赋值给 `m.state` 并返回 true。也就是说这里就可以初步判断锁的状态。 `mutexLocked` 是在代码的开头部分声明的常量。`通过变量名与此我们可以推断出来state可以表示互斥锁的状态`。
 
-`Line#4-6` 是开启race检测时的一些逻辑，我们暂时忽略。
+`Line#4-6` 是开启race检测时的一些逻辑，我们暂时忽略，下次专门写一篇文章介绍。
 
 `Line#10` 我们看到调用了自身的方法 `lockSlow()` ，让我们看看这个方法。
 
 
 
-[slowLock](https://github.com/golang/go/blob/master/src/sync/mutex.go#L84-L171) 这段代码稍微长一些。
+[slowLock](https://github.com/golang/go/blob/master/src/sync/mutex.go#L84-L171) 这段代码稍微长一些，我们直接在代码里通过注释进行解析。
 
 ```go
 func (m *Mutex) lockSlow() {
-	var waitStartTime int64
-	starving := false
-	awoke := false
-	iter := 0
-	old := m.state
+	var waitStartTime int64 // 当前goroutine的等待时间
+	starving := false // 是否饥饿
+	awoke := false // 是否唤醒状态
+	iter := 0 // 自旋次数
+	old := m.state // copy锁的状态
 	for {
 		// Don't spin in starvation mode, ownership is handed off to waiters
 		// so we won't be able to acquire the mutex anyway.
+		// 在饥饿模式不进行自旋，锁的所有权会自己移交给waiters。
+		// 所以无论如何我们都无法获取锁。
 		if old&(mutexLocked|mutexStarving) == mutexLocked && runtime_canSpin(iter) {
+			// "old&(mutexLocked|mutexStarving) == mutexLocked" 判断锁是lock状态还是starving状态。
+			// "runtime_canSpin(iter)" 判断是否可以自旋。
+			// 只有当锁是lock状态并且可以自旋时才进入本块逻辑。
+      
 			// Active spinning makes sense.
 			// Try to set mutexWoken flag to inform Unlock
 			// to not wake other blocked goroutines.
 			if !awoke && old&mutexWoken == 0 && old>>mutexWaiterShift != 0 &&
 				atomic.CompareAndSwapInt32(&m.state, old, old|mutexWoken) {
+				// !awoke 非唤醒状态。
+				// old&mutexWoken == 0 锁也是未唤醒状态。
+				// old>>mutexWaiterShift != 0 waiter的数量为0。
+				// atomic.CompareAndSwapInt32(&m.state, old, old|mutexWoken) 比较m.state和old，如果一样更新为old|mutexWoken。
+				// 只有这些条件都满足时，才会设置awoke为true状态。
 				awoke = true
 			}
-			runtime_doSpin()
-			iter++
-			old = m.state
-			continue
+			runtime_doSpin() // 自旋
+			iter++ // 自旋次数递增
+			old = m.state // 保存状态
+			continue // 继续尝试自旋
 		}
+    
 		new := old
 		// Don't try to acquire starving mutex, new arriving goroutines must queue.
 		if old&mutexStarving == 0 {
