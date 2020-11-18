@@ -15,9 +15,16 @@ jobs:
           fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
 
       - name: Hugo setup
-        uses: peaceiris/actions-hugo@v2.4.12
+        uses: peaceiris/actions-hugo@v2
         with:
           hugo-version: "0.75.1"
+
+      - uses: actions/cache@v2
+        with:
+          path: /tmp/hugo_cache
+          key: ${{ runner.os }}-hugomod-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-hugomod-
 
       - name: Build
         run: hugo -t clarity --minify --config config.toml,config.clarity.toml
