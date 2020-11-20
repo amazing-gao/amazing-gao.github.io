@@ -2,7 +2,7 @@
 author = "Amazing Gao"
 introDescription = "Find, discover, explorer and enjoy!"
 numberOfTagsShown = 10
-codeMaxLines = 100
+codeMaxLines = 200
 codeLineNumbers = true
 enableMathNotation = true
 mainSections = ["posts"]
