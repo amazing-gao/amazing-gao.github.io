@@ -1,0 +1,296 @@
+<!doctype html><html lang=zh-cn data-figures class=page><head><title>ELF格式简介 | Amazing-Gao 实在是高</title><meta charset=utf-8><meta name=generator content="Hugo 0.75.1"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta http-equiv=x-ua-compatible content="IE=edge"><meta property="og:locale" content="zh-cn"><meta property="og:type" content="article"><meta name=description content="概要 ELF 是一种文件格式。首次发布在名为 System Release 4 的 Unix 操作系统版本的 ABI 规范中，后来使用在 Tool interface standard中，然后迅速被不同的 Unix 发行版使用。在1999年，ELF 被选为 Unix 和 Unix-like 系统x86处理器的标准二进制 …"><meta name=twitter:card content="summary"><meta name=twitter:creator content><meta name=twitter:title content="ELF格式简介"><meta property="og:url" content="/posts/2020/12/linux/elf/"><meta property="og:title" content="ELF格式简介"><meta property="og:description" content="概要 ELF 是一种文件格式。首次发布在名为 System Release 4 的 Unix 操作系统版本的 ABI 规范中，后来使用在 Tool interface standard中，然后迅速被不同的 Unix 发行版使用。在1999年，ELF 被选为 Unix 和 Unix-like 系统x86处理器的标准二进制 …"><meta property="og:image" content="/"><link rel=apple-touch-icon sizes=180x180 href=/icons/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/icons/favicon-32x32.png><link rel=manifest href=/icons/site.webmanifest><link rel=mask-icon href=/safari-pinned-tab.svg color=#002538><meta name=msapplication-TileColor content="#002538"><meta name=theme-color content="#002538"><link rel=canonical href=/posts/2020/12/linux/elf/><link rel=preload href=/css/styles.17bd8db1e1e9d3fde7e52431779c901a12c654a66914bb4472fd4b0c6880c72ea87f9dc818f7ca35bf2e934c65a6a7d6c7afa12a18e60a79ff4e093e3ac621ba.css integrity="sha512-F72NseHp0/3n5SQxd5yQGhLGVKZpFLtEcv1LDGiAxy6of53IGPfKNb8uk0xlpqfWx6+hKhjmCnn/Tgk+OsYhug==" as=style crossorigin=anonymous><link rel=preload href=/js/bundle.min.8b116c5871c1ff939ca10bcc9bbaa00a4673e45d64b836c153bce69c0a4aa6f8f9fb406e700a7f3491d7e6655b056a6a66052fccd6046215b11a9888c229cdc5.js as=script integrity="sha512-ixFsWHHB/5OcoQvMm7qgCkZz5F1kuDbBU7zmnApKpvj5+0BucAp/NJHX5mVbBWpqZgUvzNYEYhWxGpiIwinNxQ==" crossorigin=anonymous><link rel=stylesheet type=text/css href=/css/styles.17bd8db1e1e9d3fde7e52431779c901a12c654a66914bb4472fd4b0c6880c72ea87f9dc818f7ca35bf2e934c65a6a7d6c7afa12a18e60a79ff4e093e3ac621ba.css integrity="sha512-F72NseHp0/3n5SQxd5yQGhLGVKZpFLtEcv1LDGiAxy6of53IGPfKNb8uk0xlpqfWx6+hKhjmCnn/Tgk+OsYhug==" crossorigin=anonymous></head><body data-code=200 data-lines=true id=documentTop><header class=nav_header><nav class=nav><a href=/ class="nav_brand nav_item"><img src=/images/avatar.jpeg class=logo><div class=nav_close><div><svg class="icon"><use xlink:href="#open-menu"/></svg><svg class="icon"><use xlink:href="#closeme"/></svg></div></div></a><div class="nav_body nav_body_left"><div class=nav_parent><a href=/ class=nav_item>Home</a></div><div class=nav_parent><a href=/projects/ class=nav_item>Projects <img src=/icons/caret-icon.svg alt=icon class=nav_icon></a><div class=nav_sub><span class=nav_child></span><a href=https://github.com/boxgo class="nav_child nav_item">BOX</a>
+<a href=https://github.com/oaijs class="nav_child nav_item">OAI.JS</a></div></div><div class=nav_parent><a href=/about/ class=nav_item>About</a></div><div class=follow><div class=color_mode><input type=checkbox class=color_choice id=mode></div></div></div></nav></header><main><div class="grid-inverse wrap content"><article class=post_content><h1 class=post_title>ELF格式简介</h1><div class=post_meta><svg class="icon"><use xlink:href="#calendar"/></svg><span class=post_date>2020-12-28</span>
+<a href=/tags/linux class="post_tag button button_translucent">linux</a>
+<a href=/tags/unix class="post_tag button button_translucent">unix</a>
+<a href=/tags/elf class="post_tag button button_translucent">ELF</a></div><div class=post_share>分享到:
+<a href="https://twitter.com/intent/tweet?text=ELF%e6%a0%bc%e5%bc%8f%e7%ae%80%e4%bb%8b&url=%2fposts%2f2020%2f12%2flinux%2felf%2f&tw_p=tweetbutton" class=twitter title="分享到 Twitter" target=_blank rel=nofollow><svg class="icon"><use xlink:href="#twitter"/></svg></a><a href="https://www.facebook.com/sharer.php?u=%2fposts%2f2020%2f12%2flinux%2felf%2f&t=ELF%e6%a0%bc%e5%bc%8f%e7%ae%80%e4%bb%8b" class=facebook title="分享到 Facebook" target=_blank rel=nofollow><svg class="icon"><use xlink:href="#facebook"/></svg></a><a href=#linkedinshare id=linkedinshare class=linkedin title="分享到 LinkedIn" rel=nofollow><svg class="icon"><use xlink:href="#linkedin"/></svg></a><a href=/posts/2020/12/linux/elf/ title="Copy Link" class="link link_yank"><svg class="icon"><use xlink:href="#copy"/></svg></a></div><h2>Overview</h2><nav id=TableOfContents><ul><li><a href=#概要>概要</a></li><li><a href=#文件格式>文件格式</a><ul><li><a href=#elf-file-header>ELF file header</a></li><li><a href=#program-header>Program header</a></li><li><a href=#section-header>Section header</a></li></ul></li><li><a href=#示例>示例</a></li></ul></nav><hr><h2 id=概要>概要</h2><p><a href=https://en.wikipedia.org/wiki/Executable_and_Linkable_Format>ELF</a> 是一种文件格式。首次发布在名为 System Release 4 的 Unix 操作系统版本的 <a href=https://en.wikipedia.org/wiki/Application_binary_interface>ABI</a> 规范中，后来使用在 Tool interface standard中，然后迅速被不同的 Unix 发行版使用。在1999年，ELF 被选为 Unix 和 Unix-like 系统x86处理器的标准二进制文件格式。</p><h2 id=文件格式>文件格式</h2><p>ELF 文件由 ELF File Header 和 Data 组成，Data 又由以下部分组成：</p><ol><li>Program header table</li><li>Section header table</li><li>1, 2 表头中引用的数据</li></ol><p><img src=/posts/linux/elf/elf.png alt="ELF Format"></p><h3 id=elf-file-header>ELF file header</h3><p><img src=/posts/linux/elf/elf_header1.png alt=:inline>
+<img src=/posts/linux/elf/elf_header2.png alt=:inline>
+<img src=/posts/linux/elf/elf_header3.png alt=:inline></p><h3 id=program-header>Program header</h3><p><img src=/posts/linux/elf/program_header.png alt="Program header"></p><h3 id=section-header>Section header</h3><p><img src=/posts/linux/elf/section_header.png alt="Section header"></p><h2 id=示例>示例</h2><div class=highlight><pre class=chroma><code class=language-sh data-lang=sh><span class=ln>1</span>readelf -all a.out
+</code></pre></div><div class=highlight><pre class=chroma><code class=language-fallback data-lang=fallback><span class=ln>  1</span> ELF Header:
+<span class=ln>  2</span>   Magic:   7f 45 4c 46 02 01 01 00 00 00 00 00 00 00 00 00
+<span class=ln>  3</span>   Class:                             ELF64
+<span class=ln>  4</span>   Data:                              2&#39;s complement, little endian
+<span class=ln>  5</span>   Version:                           1 (current)
+<span class=ln>  6</span>   OS/ABI:                            UNIX - System V
+<span class=ln>  7</span>   ABI Version:                       0
+<span class=ln>  8</span>   Type:                              EXEC (Executable file)
+<span class=ln>  9</span>   Machine:                           Advanced Micro Devices X86-64
+<span class=ln> 10</span>   Version:                           0x1
+<span class=ln> 11</span>   Entry point address:               0x4003e0
+<span class=ln> 12</span>   Start of program headers:          64 (bytes into file)
+<span class=ln> 13</span>   Start of section headers:          2488 (bytes into file)
+<span class=ln> 14</span>   Flags:                             0x0
+<span class=ln> 15</span>   Size of this header:               64 (bytes)
+<span class=ln> 16</span>   Size of program headers:           56 (bytes)
+<span class=ln> 17</span>   Number of program headers:         8
+<span class=ln> 18</span>   Size of section headers:           64 (bytes)
+<span class=ln> 19</span>   Number of section headers:         30
+<span class=ln> 20</span>   Section header string table index: 27
+<span class=ln> 21</span>
+<span class=ln> 22</span> Section Headers:
+<span class=ln> 23</span>   [Nr] Name              Type             Address           Offset
+<span class=ln> 24</span>        Size              EntSize          Flags  Link  Info  Align
+<span class=ln> 25</span>   [ 0]                   NULL             0000000000000000  00000000
+<span class=ln> 26</span>        0000000000000000  0000000000000000           0     0     0
+<span class=ln> 27</span>   [ 1] .interp           PROGBITS         0000000000400200  00000200
+<span class=ln> 28</span>        000000000000001c  0000000000000000   A       0     0     1
+<span class=ln> 29</span>   [ 2] .note.ABI-tag     NOTE             000000000040021c  0000021c
+<span class=ln> 30</span>        0000000000000020  0000000000000000   A       0     0     4
+<span class=ln> 31</span>   [ 3] .note.gnu.build-i NOTE             000000000040023c  0000023c
+<span class=ln> 32</span>        0000000000000024  0000000000000000   A       0     0     4
+<span class=ln> 33</span>   [ 4] .gnu.hash         GNU_HASH         0000000000400260  00000260
+<span class=ln> 34</span>        000000000000001c  0000000000000000   A       5     0     8
+<span class=ln> 35</span>   [ 5] .dynsym           DYNSYM           0000000000400280  00000280
+<span class=ln> 36</span>        0000000000000060  0000000000000018   A       6     1     8
+<span class=ln> 37</span>   [ 6] .dynstr           STRTAB           00000000004002e0  000002e0
+<span class=ln> 38</span>        000000000000003d  0000000000000000   A       0     0     1
+<span class=ln> 39</span>   [ 7] .gnu.version      VERSYM           000000000040031e  0000031e
+<span class=ln> 40</span>        0000000000000008  0000000000000002   A       5     0     2
+<span class=ln> 41</span>   [ 8] .gnu.version_r    VERNEED          0000000000400328  00000328
+<span class=ln> 42</span>        0000000000000020  0000000000000000   A       6     1     8
+<span class=ln> 43</span>   [ 9] .rela.dyn         RELA             0000000000400348  00000348
+<span class=ln> 44</span>        0000000000000018  0000000000000018   A       5     0     8
+<span class=ln> 45</span>   [10] .rela.plt         RELA             0000000000400360  00000360
+<span class=ln> 46</span>        0000000000000030  0000000000000018   A       5    12     8
+<span class=ln> 47</span>   [11] .init             PROGBITS         0000000000400390  00000390
+<span class=ln> 48</span>        0000000000000018  0000000000000000  AX       0     0     4
+<span class=ln> 49</span>   [12] .plt              PROGBITS         00000000004003a8  000003a8
+<span class=ln> 50</span>        0000000000000030  0000000000000010  AX       0     0     4
+<span class=ln> 51</span>   [13] .text             PROGBITS         00000000004003e0  000003e0
+<span class=ln> 52</span>        00000000000001e8  0000000000000000  AX       0     0     16
+<span class=ln> 53</span>   [14] .fini             PROGBITS         00000000004005c8  000005c8
+<span class=ln> 54</span>        000000000000000e  0000000000000000  AX       0     0     4
+<span class=ln> 55</span>   [15] .rodata           PROGBITS         00000000004005d8  000005d8
+<span class=ln> 56</span>        000000000000001e  0000000000000000   A       0     0     8
+<span class=ln> 57</span>   [16] .eh_frame_hdr     PROGBITS         00000000004005f8  000005f8
+<span class=ln> 58</span>        0000000000000024  0000000000000000   A       0     0     4
+<span class=ln> 59</span>   [17] .eh_frame         PROGBITS         0000000000400620  00000620
+<span class=ln> 60</span>        000000000000007c  0000000000000000   A       0     0     8
+<span class=ln> 61</span>   [18] .ctors            PROGBITS         00000000006006a0  000006a0
+<span class=ln> 62</span>        0000000000000010  0000000000000000  WA       0     0     8
+<span class=ln> 63</span>   [19] .dtors            PROGBITS         00000000006006b0  000006b0
+<span class=ln> 64</span>        0000000000000010  0000000000000000  WA       0     0     8
+<span class=ln> 65</span>   [20] .jcr              PROGBITS         00000000006006c0  000006c0
+<span class=ln> 66</span>        0000000000000008  0000000000000000  WA       0     0     8
+<span class=ln> 67</span>   [21] .dynamic          DYNAMIC          00000000006006c8  000006c8
+<span class=ln> 68</span>        0000000000000190  0000000000000010  WA       6     0     8
+<span class=ln> 69</span>   [22] .got              PROGBITS         0000000000600858  00000858
+<span class=ln> 70</span>        0000000000000008  0000000000000008  WA       0     0     8
+<span class=ln> 71</span>   [23] .got.plt          PROGBITS         0000000000600860  00000860
+<span class=ln> 72</span>        0000000000000028  0000000000000008  WA       0     0     8
+<span class=ln> 73</span>   [24] .data             PROGBITS         0000000000600888  00000888
+<span class=ln> 74</span>        0000000000000004  0000000000000000  WA       0     0     4
+<span class=ln> 75</span>   [25] .bss              NOBITS           0000000000600890  0000088c
+<span class=ln> 76</span>        0000000000000010  0000000000000000  WA       0     0     8
+<span class=ln> 77</span>   [26] .comment          PROGBITS         0000000000000000  0000088c
+<span class=ln> 78</span>        000000000000002c  0000000000000001  MS       0     0     1
+<span class=ln> 79</span>   [27] .shstrtab         STRTAB           0000000000000000  000008b8
+<span class=ln> 80</span>        00000000000000fe  0000000000000000           0     0     1
+<span class=ln> 81</span>   [28] .symtab           SYMTAB           0000000000000000  00001138
+<span class=ln> 82</span>        0000000000000600  0000000000000018          29    46     8
+<span class=ln> 83</span>   [29] .strtab           STRTAB           0000000000000000  00001738
+<span class=ln> 84</span>        00000000000001f0  0000000000000000           0     0     1
+<span class=ln> 85</span> Key to Flags:
+<span class=ln> 86</span>   W (write), A (alloc), X (execute), M (merge), S (strings)
+<span class=ln> 87</span>   I (info), L (link order), G (group), x (unknown)
+<span class=ln> 88</span>   O (extra OS processing required) o (OS specific), p (processor specific)
+<span class=ln> 89</span>
+<span class=ln> 90</span> There are no section groups in this file.
+<span class=ln> 91</span>
+<span class=ln> 92</span> Program Headers:
+<span class=ln> 93</span>   Type           Offset             VirtAddr           PhysAddr
+<span class=ln> 94</span>                  FileSiz            MemSiz              Flags  Align
+<span class=ln> 95</span>   PHDR           0x0000000000000040 0x0000000000400040 0x0000000000400040
+<span class=ln> 96</span>                  0x00000000000001c0 0x00000000000001c0  R E    8
+<span class=ln> 97</span>   INTERP         0x0000000000000200 0x0000000000400200 0x0000000000400200
+<span class=ln> 98</span>                  0x000000000000001c 0x000000000000001c  R      1
+<span class=ln> 99</span>       [Requesting program interpreter: /lib64/ld-linux-x86-64.so.2]
+<span class=ln>100</span>   LOAD           0x0000000000000000 0x0000000000400000 0x0000000000400000
+<span class=ln>101</span>                  0x000000000000069c 0x000000000000069c  R E    200000
+<span class=ln>102</span>   LOAD           0x00000000000006a0 0x00000000006006a0 0x00000000006006a0
+<span class=ln>103</span>                  0x00000000000001ec 0x0000000000000200  RW     200000
+<span class=ln>104</span>   DYNAMIC        0x00000000000006c8 0x00000000006006c8 0x00000000006006c8
+<span class=ln>105</span>                  0x0000000000000190 0x0000000000000190  RW     8
+<span class=ln>106</span>   NOTE           0x000000000000021c 0x000000000040021c 0x000000000040021c
+<span class=ln>107</span>                  0x0000000000000044 0x0000000000000044  R      4
+<span class=ln>108</span>   GNU_EH_FRAME   0x00000000000005f8 0x00000000004005f8 0x00000000004005f8
+<span class=ln>109</span>                  0x0000000000000024 0x0000000000000024  R      4
+<span class=ln>110</span>   GNU_STACK      0x0000000000000000 0x0000000000000000 0x0000000000000000
+<span class=ln>111</span>                  0x0000000000000000 0x0000000000000000  RW     8
+<span class=ln>112</span>
+<span class=ln>113</span>  Section to Segment mapping:
+<span class=ln>114</span>   Segment Sections...
+<span class=ln>115</span>    00
+<span class=ln>116</span>    01     .interp
+<span class=ln>117</span>    02     .interp .note.ABI-tag .note.gnu.build-id .gnu.hash .dynsym .dynstr .gnu.version .gnu.version_r .rela.dyn .rela.plt .init .plt .text .fini .rodata .eh_frame_hdr .eh_frame
+<span class=ln>118</span>    03     .ctors .dtors .jcr .dynamic .got .got.plt .data .bss
+<span class=ln>119</span>    04     .dynamic
+<span class=ln>120</span>    05     .note.ABI-tag .note.gnu.build-id
+<span class=ln>121</span>    06     .eh_frame_hdr
+<span class=ln>122</span>    07
+<span class=ln>123</span>
+<span class=ln>124</span> Dynamic section at offset 0x6c8 contains 20 entries:
+<span class=ln>125</span>   Tag        Type                         Name/Value
+<span class=ln>126</span>  0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]
+<span class=ln>127</span>  0x000000000000000c (INIT)               0x400390
+<span class=ln>128</span>  0x000000000000000d (FINI)               0x4005c8
+<span class=ln>129</span>  0x000000006ffffef5 (GNU_HASH)           0x400260
+<span class=ln>130</span>  0x0000000000000005 (STRTAB)             0x4002e0
+<span class=ln>131</span>  0x0000000000000006 (SYMTAB)             0x400280
+<span class=ln>132</span>  0x000000000000000a (STRSZ)              61 (bytes)
+<span class=ln>133</span>  0x000000000000000b (SYMENT)             24 (bytes)
+<span class=ln>134</span>  0x0000000000000015 (DEBUG)              0x0
+<span class=ln>135</span>  0x0000000000000003 (PLTGOT)             0x600860
+<span class=ln>136</span>  0x0000000000000002 (PLTRELSZ)           48 (bytes)
+<span class=ln>137</span>  0x0000000000000014 (PLTREL)             RELA
+<span class=ln>138</span>  0x0000000000000017 (JMPREL)             0x400360
+<span class=ln>139</span>  0x0000000000000007 (RELA)               0x400348
+<span class=ln>140</span>  0x0000000000000008 (RELASZ)             24 (bytes)
+<span class=ln>141</span>  0x0000000000000009 (RELAENT)            24 (bytes)
+<span class=ln>142</span>  0x000000006ffffffe (VERNEED)            0x400328
+<span class=ln>143</span>  0x000000006fffffff (VERNEEDNUM)         1
+<span class=ln>144</span>  0x000000006ffffff0 (VERSYM)             0x40031e
+<span class=ln>145</span>  0x0000000000000000 (NULL)               0x0
+<span class=ln>146</span>
+<span class=ln>147</span> Relocation section &#39;.rela.dyn&#39; at offset 0x348 contains 1 entries:
+<span class=ln>148</span>   Offset          Info           Type           Sym. Value    Sym. Name + Addend
+<span class=ln>149</span> 000000600858  000100000006 R_X86_64_GLOB_DAT 0000000000000000 __gmon_start__ + 0
+<span class=ln>150</span>
+<span class=ln>151</span> Relocation section &#39;.rela.plt&#39; at offset 0x360 contains 2 entries:
+<span class=ln>152</span>   Offset          Info           Type           Sym. Value    Sym. Name + Addend
+<span class=ln>153</span> 000000600878  000200000007 R_X86_64_JUMP_SLO 0000000000000000 puts + 0
+<span class=ln>154</span> 000000600880  000300000007 R_X86_64_JUMP_SLO 0000000000000000 __libc_start_main + 0
+<span class=ln>155</span>
+<span class=ln>156</span> There are no unwind sections in this file.
+<span class=ln>157</span>
+<span class=ln>158</span> Symbol table &#39;.dynsym&#39; contains 4 entries:
+<span class=ln>159</span>    Num:    Value          Size Type    Bind   Vis      Ndx Name
+<span class=ln>160</span>      0: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT  UND
+<span class=ln>161</span>      1: 0000000000000000     0 NOTYPE  WEAK   DEFAULT  UND __gmon_start__
+<span class=ln>162</span>      2: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND puts@GLIBC_2.2.5 (2)
+<span class=ln>163</span>      3: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND __libc_start_main@GLIBC_2.2.5 (2)
+<span class=ln>164</span>
+<span class=ln>165</span> Symbol table &#39;.symtab&#39; contains 64 entries:
+<span class=ln>166</span>    Num:    Value          Size Type    Bind   Vis      Ndx Name
+<span class=ln>167</span>      0: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT  UND
+<span class=ln>168</span>      1: 0000000000400200     0 SECTION LOCAL  DEFAULT    1
+<span class=ln>169</span>      2: 000000000040021c     0 SECTION LOCAL  DEFAULT    2
+<span class=ln>170</span>      3: 000000000040023c     0 SECTION LOCAL  DEFAULT    3
+<span class=ln>171</span>      4: 0000000000400260     0 SECTION LOCAL  DEFAULT    4
+<span class=ln>172</span>      5: 0000000000400280     0 SECTION LOCAL  DEFAULT    5
+<span class=ln>173</span>      6: 00000000004002e0     0 SECTION LOCAL  DEFAULT    6
+<span class=ln>174</span>      7: 000000000040031e     0 SECTION LOCAL  DEFAULT    7
+<span class=ln>175</span>      8: 0000000000400328     0 SECTION LOCAL  DEFAULT    8
+<span class=ln>176</span>      9: 0000000000400348     0 SECTION LOCAL  DEFAULT    9
+<span class=ln>177</span>     10: 0000000000400360     0 SECTION LOCAL  DEFAULT   10
+<span class=ln>178</span>     11: 0000000000400390     0 SECTION LOCAL  DEFAULT   11
+<span class=ln>179</span>     12: 00000000004003a8     0 SECTION LOCAL  DEFAULT   12
+<span class=ln>180</span>     13: 00000000004003e0     0 SECTION LOCAL  DEFAULT   13
+<span class=ln>181</span>     14: 00000000004005c8     0 SECTION LOCAL  DEFAULT   14
+<span class=ln>182</span>     15: 00000000004005d8     0 SECTION LOCAL  DEFAULT   15
+<span class=ln>183</span>     16: 00000000004005f8     0 SECTION LOCAL  DEFAULT   16
+<span class=ln>184</span>     17: 0000000000400620     0 SECTION LOCAL  DEFAULT   17
+<span class=ln>185</span>     18: 00000000006006a0     0 SECTION LOCAL  DEFAULT   18
+<span class=ln>186</span>     19: 00000000006006b0     0 SECTION LOCAL  DEFAULT   19
+<span class=ln>187</span>     20: 00000000006006c0     0 SECTION LOCAL  DEFAULT   20
+<span class=ln>188</span>     21: 00000000006006c8     0 SECTION LOCAL  DEFAULT   21
+<span class=ln>189</span>     22: 0000000000600858     0 SECTION LOCAL  DEFAULT   22
+<span class=ln>190</span>     23: 0000000000600860     0 SECTION LOCAL  DEFAULT   23
+<span class=ln>191</span>     24: 0000000000600888     0 SECTION LOCAL  DEFAULT   24
+<span class=ln>192</span>     25: 0000000000600890     0 SECTION LOCAL  DEFAULT   25
+<span class=ln>193</span>     26: 0000000000000000     0 SECTION LOCAL  DEFAULT   26
+<span class=ln>194</span>     27: 000000000040040c     0 FUNC    LOCAL  DEFAULT   13 call_gmon_start
+<span class=ln>195</span>     28: 0000000000000000     0 FILE    LOCAL  DEFAULT  ABS crtstuff.c
+<span class=ln>196</span>     29: 00000000006006a0     0 OBJECT  LOCAL  DEFAULT   18 __CTOR_LIST__
+<span class=ln>197</span>     30: 00000000006006b0     0 OBJECT  LOCAL  DEFAULT   19 __DTOR_LIST__
+<span class=ln>198</span>     31: 00000000006006c0     0 OBJECT  LOCAL  DEFAULT   20 __JCR_LIST__
+<span class=ln>199</span>     32: 0000000000400430     0 FUNC    LOCAL  DEFAULT   13 __do_global_dtors_aux
+<span class=ln>200</span>     33: 0000000000600890     1 OBJECT  LOCAL  DEFAULT   25 completed.6349
+<span class=ln>201</span>     34: 0000000000600898     8 OBJECT  LOCAL  DEFAULT   25 dtor_idx.6351
+<span class=ln>202</span>     35: 00000000004004a0     0 FUNC    LOCAL  DEFAULT   13 frame_dummy
+<span class=ln>203</span>     36: 0000000000000000     0 FILE    LOCAL  DEFAULT  ABS crtstuff.c
+<span class=ln>204</span>     37: 00000000006006a8     0 OBJECT  LOCAL  DEFAULT   18 __CTOR_END__
+<span class=ln>205</span>     38: 0000000000400698     0 OBJECT  LOCAL  DEFAULT   17 __FRAME_END__
+<span class=ln>206</span>     39: 00000000006006c0     0 OBJECT  LOCAL  DEFAULT   20 __JCR_END__
+<span class=ln>207</span>     40: 0000000000400590     0 FUNC    LOCAL  DEFAULT   13 __do_global_ctors_aux
+<span class=ln>208</span>     41: 0000000000000000     0 FILE    LOCAL  DEFAULT  ABS main.c
+<span class=ln>209</span>     42: 0000000000600860     0 OBJECT  LOCAL  DEFAULT   23 _GLOBAL_OFFSET_TABLE_
+<span class=ln>210</span>     43: 000000000060069c     0 NOTYPE  LOCAL  DEFAULT   18 __init_array_end
+<span class=ln>211</span>     44: 000000000060069c     0 NOTYPE  LOCAL  DEFAULT   18 __init_array_start
+<span class=ln>212</span>     45: 00000000006006c8     0 OBJECT  LOCAL  DEFAULT   21 _DYNAMIC
+<span class=ln>213</span>     46: 0000000000600888     0 NOTYPE  WEAK   DEFAULT   24 data_start
+<span class=ln>214</span>     47: 00000000004004f0     2 FUNC    GLOBAL DEFAULT   13 __libc_csu_fini
+<span class=ln>215</span>     48: 00000000004003e0     0 FUNC    GLOBAL DEFAULT   13 _start
+<span class=ln>216</span>     49: 0000000000000000     0 NOTYPE  WEAK   DEFAULT  UND __gmon_start__
+<span class=ln>217</span>     50: 0000000000000000     0 NOTYPE  WEAK   DEFAULT  UND _Jv_RegisterClasses
+<span class=ln>218</span>     51: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND puts@@GLIBC_2.2.5
+<span class=ln>219</span>     52: 00000000004005c8     0 FUNC    GLOBAL DEFAULT   14 _fini
+<span class=ln>220</span>     53: 0000000000000000     0 FUNC    GLOBAL DEFAULT  UND __libc_start_main@@GLIBC_
+<span class=ln>221</span>     54: 00000000004005d8     4 OBJECT  GLOBAL DEFAULT   15 _IO_stdin_used
+<span class=ln>222</span>     55: 0000000000600888     0 NOTYPE  GLOBAL DEFAULT   24 __data_start
+<span class=ln>223</span>     56: 00000000004005e0     0 OBJECT  GLOBAL HIDDEN    15 __dso_handle
+<span class=ln>224</span>     57: 00000000006006b8     0 OBJECT  GLOBAL HIDDEN    19 __DTOR_END__
+<span class=ln>225</span>     58: 0000000000400500   137 FUNC    GLOBAL DEFAULT   13 __libc_csu_init
+<span class=ln>226</span>     59: 000000000060088c     0 NOTYPE  GLOBAL DEFAULT  ABS __bss_start
+<span class=ln>227</span>     60: 00000000006008a0     0 NOTYPE  GLOBAL DEFAULT  ABS _end
+<span class=ln>228</span>     61: 000000000060088c     0 NOTYPE  GLOBAL DEFAULT  ABS _edata
+<span class=ln>229</span>     62: 00000000004004c4    32 FUNC    GLOBAL DEFAULT   13 main
+<span class=ln>230</span>     63: 0000000000400390     0 FUNC    GLOBAL DEFAULT   11 _init
+<span class=ln>231</span>
+<span class=ln>232</span> Version symbols section &#39;.gnu.version&#39; contains 4 entries:
+<span class=ln>233</span>  Addr: 000000000040031e  Offset: 0x00031e  Link: 5 (.dynsym)
+<span class=ln>234</span>   000:   0 (*local*)       0 (*local*)       2 (GLIBC_2.2.5)   2 (GLIBC_2.2.5)
+<span class=ln>235</span>
+<span class=ln>236</span> Version needs section &#39;.gnu.version_r&#39; contains 1 entries:
+<span class=ln>237</span>  Addr: 0x0000000000400328  Offset: 0x000328  Link: 6 (.dynstr)
+<span class=ln>238</span>   000000: Version: 1  File: libc.so.6  Cnt: 1
+<span class=ln>239</span>   0x0010:   Name: GLIBC_2.2.5  Flags: none  Version: 2
+<span class=ln>240</span>
+<span class=ln>241</span> Notes at offset 0x0000021c with length 0x00000020:
+<span class=ln>242</span>   Owner		Data size	Description
+<span class=ln>243</span>   GNU		0x00000010	NT_GNU_ABI_TAG (ABI version tag)
+<span class=ln>244</span>
+<span class=ln>245</span> Notes at offset 0x0000023c with length 0x00000024:
+<span class=ln>246</span>   Owner		Data size	Description
+<span class=ln>247</span>   GNU		0x00000014	NT_GNU_BUILD_ID (unique build ID bitstring)
+</code></pre></div><div id=disqus_thread></div><script type=application/javascript>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return;}
+var d=document,s=d.createElement('script');s.async=true;s.src='//'+"amazingao"+'.disqus.com/embed.js';s.setAttribute('data-timestamp',+new Date());(d.head||d.body).appendChild(s);})();</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></article><aside class=sidebar><section class=sidebar_inner><h2>Amazing Gao</h2><div>Find, discover, explorer and enjoy!</div><a href=/about/ class="button mt-1" role=button>阅读更多</a><h2 class=mt-4>精选文章</h2><ul><li><a href=/posts/2020/11/go-src/sync/mutex/ class=nav-link>Go源码解析之mutex</a></li></ul><h2 class=mt-4>最新文章</h2><ul class=flex-column><li><a href=/posts/2020/11/go-src/sync/mutex/ class=nav-link>Go源码解析之mutex</a></li><li><a href=/posts/2020/11/go/build-constraints/ class=nav-link>Go条件编译</a></li><li><a href=/posts/2020/11/go-src/sync/atomic/ class=nav-link>Go源码解析之atomic</a></li><li><a href=/posts/2020/10/factory/ class=nav-link>Go设计模式之Factory</a></li><li><a href=/posts/2020/09/go-patterns/singleton/ class=nav-link>Go设计模式之Singleton</a></li></ul><div><h2 class="mt-4 taxonomy" id=categories-section>分类</h2><nav class=tags_nav><a href=/categories/go/ class="post_tag button button_translucent">GO
+<span class=button_tally>6</span></a>
+<a href=/categories/linux/ class="post_tag button button_translucent">LINUX
+<span class=button_tally>1</span></a>
+<a href=/categories/unix/ class="post_tag button button_translucent">UNIX
+<span class=button_tally>1</span></a></nav></div><div><h2 class="mt-4 taxonomy" id=series-section>专栏</h2><nav class=tags_nav><a href=/series/go%E5%B7%A5%E5%85%B7%E9%93%BE/ class="post_tag button button_translucent">GO工具链
+<span class=button_tally>2</span></a>
+<a href=/series/go%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/ class="post_tag button button_translucent">GO源码解析
+<span class=button_tally>2</span></a>
+<a href=/series/go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/ class="post_tag button button_translucent">GO设计模式
+<span class=button_tally>2</span></a></nav></div><div><h2 class="mt-4 taxonomy" id=tags-section>标签</h2><nav class=tags_nav><a href=/tags/go/ class="post_tag button button_translucent">GO
+<span class=button_tally>6</span></a>
+<a href=/tags/sync/ class="post_tag button button_translucent">SYNC
+<span class=button_tally>2</span></a>
+<a href=/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/ class="post_tag button button_translucent">设计模式
+<span class=button_tally>2</span></a>
+<a href=/tags/atomic/ class="post_tag button button_translucent">ATOMIC
+<span class=button_tally>1</span></a>
+<a href=/tags/elf/ class="post_tag button button_translucent">ELF
+<span class=button_tally>1</span></a>
+<a href=/tags/go-build/ class="post_tag button button_translucent">GO-BUILD
+<span class=button_tally>1</span></a>
+<a href=/tags/godoc/ class="post_tag button button_translucent">GODOC
+<span class=button_tally>1</span></a>
+<a href=/tags/linux/ class="post_tag button button_translucent">LINUX
+<span class=button_tally>1</span></a>
+<a href=/tags/mutex/ class="post_tag button button_translucent">MUTEX
+<span class=button_tally>1</span></a>
+<a href=/tags/unix/ class="post_tag button button_translucent">UNIX
+<span class=button_tally>1</span></a><br><div class="post_tags_toggle button">所有标签</div><div class=post_tags><div class=tags_list><a href=/tags/atomic/ class="post_tag button button_translucent" data-position=1>ATOMIC<span class=button_tally>1</span></a>
+<a href=/tags/elf/ class="post_tag button button_translucent" data-position=1>ELF<span class=button_tally>1</span></a>
+<a href=/tags/go/ class="post_tag button button_translucent" data-position=6>GO<span class=button_tally>6</span></a>
+<a href=/tags/go-build/ class="post_tag button button_translucent" data-position=1>GO-BUILD<span class=button_tally>1</span></a>
+<a href=/tags/godoc/ class="post_tag button button_translucent" data-position=1>GODOC<span class=button_tally>1</span></a>
+<a href=/tags/linux/ class="post_tag button button_translucent" data-position=1>LINUX<span class=button_tally>1</span></a>
+<a href=/tags/mutex/ class="post_tag button button_translucent" data-position=1>MUTEX<span class=button_tally>1</span></a>
+<a href=/tags/sync/ class="post_tag button button_translucent" data-position=2>SYNC<span class=button_tally>2</span></a>
+<a href=/tags/unix/ class="post_tag button button_translucent" data-position=1>UNIX<span class=button_tally>1</span></a>
+<a href=/tags/%E4%BA%92%E6%96%A5%E9%94%81/ class="post_tag button button_translucent" data-position=1>互斥锁<span class=button_tally>1</span></a>
+<a href=/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/ class="post_tag button button_translucent" data-position=2>设计模式<span class=button_tally>2</span></a><div class=tags_sort><span title="sort alphabetically">[A~Z]</span><span title="sort by count">[0~9]</span></div><span class=tags_hide><svg class="icon"><use xlink:href="#closeme"/></svg></span></div></div></nav></div></section></aside></div></main><svg width="0" height="0" class="hidden"><symbol viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" id="facebook"><path d="M437 0H75C33.648.0.0 33.648.0 75v362c0 41.352 33.648 75 75 75h151V331h-60v-90h60v-61c0-49.629 40.371-90 90-90h91v90h-91v61h91l-15 90h-76v181h121c41.352.0 75-33.648 75-75V75c0-41.352-33.648-75-75-75zm0 0"/></symbol><symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18.001 18.001" id="twitter"><path d="M15.891 4.013c.808-.496 1.343-1.173 1.605-2.034a8.68 8.68.0 01-2.351.861c-.703-.756-1.593-1.14-2.66-1.14-1.043.0-1.924.366-2.643 1.078a3.56 3.56.0 00-1.076 2.605c0 .309.039.585.117.819-3.076-.105-5.622-1.381-7.628-3.837-.34.601-.51 1.213-.51 1.846.0 1.301.549 2.332 1.645 3.089-.625-.053-1.176-.211-1.645-.47.0.929.273 1.705.82 2.388a3.623 3.623.0 002.115 1.291c-.312.08-.641.118-.979.118-.312.0-.533-.026-.664-.083.23.757.664 1.371 1.291 1.841a3.652 3.652.0 002.152.743C4.148 14.173 2.625 14.69.902 14.69c-.422.0-.721-.006-.902-.038 1.697 1.102 3.586 1.649 5.676 1.649 2.139.0 4.029-.542 5.674-1.626 1.645-1.078 2.859-2.408 3.639-3.974a10.77 10.77.0 001.172-4.892v-.468a7.788 7.788.0 001.84-1.921 8.142 8.142.0 01-2.11.593z"/></symbol><symbol aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" id="mail"><path d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V4e2c0 26.5-21.5 48-48 48H48c-26.5.0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5.0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z"/></symbol><symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" id="calendar"><path d="M452 40h-24V0h-40v40H124V0H84v40H60C26.916 40 0 66.916.0 1e2v352c0 33.084 26.916 60 60 60h392c33.084.0 60-26.916 60-60V1e2c0-33.084-26.916-60-60-60zm20 412c0 11.028-8.972 20-20 20H60c-11.028.0-20-8.972-20-20V188h432v264zm0-304H40v-48c0-11.028 8.972-20 20-20h24v40h40V80h264v40h40V80h24c11.028.0 20 8.972 20 20v48z"/><path d="M76 230h40v40H76zm80 0h40v40h-40zm80 0h40v40h-40zm80 0h40v40h-40zm80 0h40v40h-40zM76 310h40v40H76zm80 0h40v40h-40zm80 0h40v40h-40zm80 0h40v40h-40zM76 390h40v40H76zm80 0h40v40h-40zm80 0h40v40h-40zm80 0h40v40h-40zm80-80h40v40h-40z"/></symbol><symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" id="github"><path d="M255.968 5.329C114.624 5.329.0 120.401.0 262.353c0 113.536 73.344 209.856 175.104 243.872 12.8 2.368 17.472-5.568 17.472-12.384.0-6.112-.224-22.272-.352-43.712-71.2 15.52-86.24-34.464-86.24-34.464-11.616-29.696-28.416-37.6-28.416-37.6-23.264-15.936 1.728-15.616 1.728-15.616 25.696 1.824 39.2 26.496 39.2 26.496 22.848 39.264 59.936 27.936 74.528 21.344 2.304-16.608 8.928-27.936 16.256-34.368-56.832-6.496-116.608-28.544-116.608-127.008.0-28.064 9.984-51.008 26.368-68.992-2.656-6.496-11.424-32.64 2.496-68 0 0 21.504-6.912 70.4 26.336 20.416-5.696 42.304-8.544 64.096-8.64 21.728.128 43.648 2.944 64.096 8.672 48.864-33.248 70.336-26.336 70.336-26.336 13.952 35.392 5.184 61.504 2.56 68 16.416 17.984 26.304 40.928 26.304 68.992.0 98.72-59.84 120.448-116.864 126.816 9.184 7.936 17.376 23.616 17.376 47.584.0 34.368-.32 62.08-.32 70.496.0 6.88 4.608 14.88 17.6 12.352C438.72 472.145 512 375.857 512 262.353 512 120.401 397.376 5.329 255.968 5.329z"/></symbol><symbol viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" id="rss"><circle cx="3.429" cy="20.571" r="3.429"/><path d="M11.429 24h4.57C15.999 15.179 8.821 8.001.0 8v4.572c6.302.001 11.429 5.126 11.429 11.428z"/><path d="M24 24C24 10.766 13.234.0.0.0v4.571c10.714.0 19.43 8.714 19.43 19.429z"/></symbol><symbol viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" id="linkedin"><path d="M437 0H75C33.648.0.0 33.648.0 75v362c0 41.352 33.648 75 75 75h362c41.352.0 75-33.648 75-75V75c0-41.352-33.648-75-75-75zM181 406h-60V196h60zm0-240h-60v-60h60zm210 240h-60V286c0-16.54-13.46-30-30-30s-30 13.46-30 30v120h-60V196h60v11.309C286.719 202.422 296.93 196 316 196c40.691.043 75 36.547 75 79.688zm0 0"/></symbol><symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 612 612" id="arrow"><path d="M604.501 440.509 325.398 134.956c-5.331-5.357-12.423-7.627-19.386-7.27-6.989-.357-14.056 1.913-19.387 7.27L7.499 440.509c-9.999 10.024-9.999 26.298.0 36.323s26.223 10.024 36.222.0l262.293-287.164L568.28 476.832c9.999 10.024 26.222 10.024 36.221.0 9.999-10.023 9.999-26.298.0-36.323z"/></symbol><symbol viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" id="carly"><path d="M504.971 239.029 448 182.059V84c0-46.317-37.682-84-84-84h-44c-13.255.0-24 10.745-24 24s10.745 24 24 24h44c19.851.0 36 16.149 36 36v108c0 6.365 2.529 12.47 7.029 16.971L454.059 256l-47.029 47.029A24.002 24.002.0 004e2 320v108c0 19.851-16.149 36-36 36h-44c-13.255.0-24 10.745-24 24s10.745 24 24 24h44c46.318.0 84-37.683 84-84v-98.059l56.971-56.971c9.372-9.372 9.372-24.568.0-33.941zM112 192V84c0-19.851 16.149-36 36-36h44c13.255.0 24-10.745 24-24S205.255.0 192 0h-44c-46.318.0-84 37.683-84 84v98.059l-56.971 56.97c-9.373 9.373-9.373 24.568.0 33.941L64 329.941V428c0 46.317 37.682 84 84 84h44c13.255.0 24-10.745 24-24s-10.745-24-24-24h-44c-19.851.0-36-16.149-36-36V320c0-6.365-2.529-12.47-7.029-16.971L57.941 256l47.029-47.029A24.002 24.002.0 00112 192z"/></symbol><symbol viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" id="copy"><path d="M23 2.75A2.75 2.75.0 0020.25.0H8.75A2.75 2.75.0 006 2.75v13.5A2.75 2.75.0 008.75 19h11.5A2.75 2.75.0 0023 16.25zM18.25 14.5h-7.5a.75.75.0 010-1.5h7.5a.75.75.0 010 1.5zm0-3h-7.5a.75.75.0 010-1.5h7.5a.75.75.0 010 1.5zm0-3h-7.5a.75.75.0 010-1.5h7.5a.75.75.0 010 1.5z"/><path d="M8.75 20.5A4.255 4.255.0 014.5 16.25V2.75c0-.086.02-.166.025-.25H3.75A2.752 2.752.0 001 5.25v16A2.752 2.752.0 003.75 24h12a2.752 2.752.0 002.75-2.75v-.75z"/></symbol><symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512.001 512.001" id="closeme"><path d="M284.286 256.002 506.143 34.144c7.811-7.811 7.811-20.475.0-28.285-7.811-7.81-20.475-7.811-28.285.0L256 227.717 34.143 5.859c-7.811-7.811-20.475-7.811-28.285.0-7.81 7.811-7.811 20.475.0 28.285l221.857 221.857L5.858 477.859c-7.811 7.811-7.811 20.475.0 28.285a19.938 19.938.0 0014.143 5.857 19.94 19.94.0 0014.143-5.857L256 284.287l221.857 221.857c3.905 3.905 9.024 5.857 14.143 5.857s10.237-1.952 14.143-5.857c7.811-7.811 7.811-20.475.0-28.285L284.286 256.002z"/></symbol><symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" id="open-menu"><path d="M492 236H20c-11.046.0-20 8.954-20 20s8.954 20 20 20h472c11.046.0 20-8.954 20-20s-8.954-20-20-20zm0-160H20C8.954 76 0 84.954.0 96s8.954 20 20 20h472c11.046.0 20-8.954 20-20s-8.954-20-20-20zm0 320H20c-11.046.0-20 8.954-20 20s8.954 20 20 20h472c11.046.0 20-8.954 20-20s-8.954-20-20-20z"/></symbol><symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="instagram"><path d="M12 2.163c3.204.0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849.0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204.0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849.0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741.0 8.333.014 7.053.072c-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.668.072 4.948c.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24s3.668-.014 4.948-.072c4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403.0-6.162 2.759-6.162 6.162S8.597 18.163 12 18.163s6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zM12 16c-2.209.0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796.0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795.0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></symbol><symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="youtube"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23.0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23.0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816V8l8 3.993L9 16z"/></symbol></svg><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css integrity=sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js integrity=sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4 crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js integrity=sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa crossorigin=anonymous onload=renderMathInElement(document.body);></script><footer class=footer><div class="footer_inner wrap pale"><img src=/icons/apple-touch-icon.png class="icon icon_2 transparent"><p>Copyright &copy;&nbsp;<span class=year>2020</span>&nbsp;AMAZING-GAO 实在是高. All Rights Reserved</p><a class=to_top href=#documentTop><svg class="icon"><use xlink:href="#arrow"/></svg></a></div></footer><script type=text/javascript src=/js/bundle.min.8b116c5871c1ff939ca10bcc9bbaa00a4673e45d64b836c153bce69c0a4aa6f8f9fb406e700a7f3491d7e6655b056a6a66052fccd6046215b11a9888c229cdc5.js integrity="sha512-ixFsWHHB/5OcoQvMm7qgCkZz5F1kuDbBU7zmnApKpvj5+0BucAp/NJHX5mVbBWpqZgUvzNYEYhWxGpiIwinNxQ==" crossorigin=anonymous></script><script type=text/javascript src=/js/baidu.js></script></body></html>
