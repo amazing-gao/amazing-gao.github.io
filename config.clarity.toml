@@ -16,4 +16,4 @@ figurePositionLabel = "Figure"
 numberOfRecentPosts = 5
 numberOfFeaturedPosts = 5
 dateFormat = "2006-01-02"
-customJS = ["js/baidu.js"]
+customJS = ["js/baidu.js", "//cdn.bootcss.com/mermaid/8.4.8/mermaid.min.js"]
