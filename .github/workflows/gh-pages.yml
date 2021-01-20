@@ -27,7 +27,7 @@ jobs:
             ${{ runner.os }}-hugomod-
 
       - name: Build
-        run: hugo -t clarity --minify --config config.toml,config.clarity.toml
+        run: make build
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
