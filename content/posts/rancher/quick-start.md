@@ -1,6 +1,6 @@
 ---
 title: "Rancher初体验"
-slug: quick-start
+slug: /rancher/quick-start
 description: Rancher 是为使用容器的公司打造的容器管理平台。Rancher 简化了使用 Kubernetes 的流程，开发者可以随处运行 Kubernetes（Run Kubernetes Everywhere），满足 IT 需求规范，赋能 DevOps 团队。这次我们来初次体验一下Rancher到底做的怎么样。
 date: 2021-02-06T16:47:59+08:00
 type: posts
