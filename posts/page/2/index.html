@@ -1,5 +1,10 @@
 <!doctype html><html lang=zh-cn data-figures><head><title>Posts | Amazing-Gao 实在是高</title><meta charset=utf-8><meta name=generator content="Hugo 0.75.1"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta http-equiv=x-ua-compatible content="IE=edge"><meta property="og:locale" content="zh-cn"><meta property="og:type" content="article"><meta name=description content><meta name=twitter:card content="summary"><meta name=twitter:creator content><meta name=twitter:title content="Posts"><meta property="og:url" content="/posts/"><meta property="og:title" content="Posts"><meta property="og:description" content><meta property="og:image" content="/"><link rel=apple-touch-icon sizes=180x180 href=/icons/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/icons/favicon-32x32.png><link rel=manifest href=/icons/site.webmanifest><link rel=mask-icon href=/safari-pinned-tab.svg color=#002538><meta name=msapplication-TileColor content="#002538"><meta name=theme-color content="#002538"><link rel=canonical href=/posts/><link rel=preload href=/css/styles.17bd8db1e1e9d3fde7e52431779c901a12c654a66914bb4472fd4b0c6880c72ea87f9dc818f7ca35bf2e934c65a6a7d6c7afa12a18e60a79ff4e093e3ac621ba.css integrity="sha512-F72NseHp0/3n5SQxd5yQGhLGVKZpFLtEcv1LDGiAxy6of53IGPfKNb8uk0xlpqfWx6+hKhjmCnn/Tgk+OsYhug==" as=style crossorigin=anonymous><link rel=preload href=/js/bundle.min.8b116c5871c1ff939ca10bcc9bbaa00a4673e45d64b836c153bce69c0a4aa6f8f9fb406e700a7f3491d7e6655b056a6a66052fccd6046215b11a9888c229cdc5.js as=script integrity="sha512-ixFsWHHB/5OcoQvMm7qgCkZz5F1kuDbBU7zmnApKpvj5+0BucAp/NJHX5mVbBWpqZgUvzNYEYhWxGpiIwinNxQ==" crossorigin=anonymous><link rel=stylesheet type=text/css href=/css/styles.17bd8db1e1e9d3fde7e52431779c901a12c654a66914bb4472fd4b0c6880c72ea87f9dc818f7ca35bf2e934c65a6a7d6c7afa12a18e60a79ff4e093e3ac621ba.css integrity="sha512-F72NseHp0/3n5SQxd5yQGhLGVKZpFLtEcv1LDGiAxy6of53IGPfKNb8uk0xlpqfWx6+hKhjmCnn/Tgk+OsYhug==" crossorigin=anonymous></head><body data-code=200 data-lines=true id=documentTop><header class=nav_header><nav class=nav><a href=/ class="nav_brand nav_item"><img src=/images/avatar.jpeg class=logo><div class=nav_close><div><svg class="icon"><use xlink:href="#open-menu"/></svg><svg class="icon"><use xlink:href="#closeme"/></svg></div></div></a><div class="nav_body nav_body_left"><div class=nav_parent><a href=/ class=nav_item>Home</a></div><div class=nav_parent><a href=/projects/ class=nav_item>Projects <img src=/icons/caret-icon.svg alt=icon class=nav_icon></a><div class=nav_sub><span class=nav_child></span><a href=https://github.com/boxgo class="nav_child nav_item">BOX</a>
-<a href=https://github.com/oaijs class="nav_child nav_item">OAI.JS</a></div></div><div class=nav_parent><a href=/about/ class=nav_item>About</a></div><div class=follow><div class=color_mode><input type=checkbox class=color_choice id=mode></div></div></div></nav></header><main><div class="grid-inverse wrap content"><ul class=posts id=posts><li class=post_item><div class=excerpt><div class=excerpt_header><h3 class=post_link><a href=/posts/2020/10/factory/>Go设计模式之Factory</a></h3><div class=post_meta><svg class="icon"><use xlink:href="#calendar"/></svg><span class=post_date>2020-10-14</span>
+<a href=https://github.com/oaijs class="nav_child nav_item">OAI.JS</a></div></div><div class=nav_parent><a href=/about/ class=nav_item>About</a></div><div class=follow><div class=color_mode><input type=checkbox class=color_choice id=mode></div></div></div></nav></header><main><div class="grid-inverse wrap content"><ul class=posts id=posts><li class=post_item><div class=excerpt><div class=excerpt_header><h3 class=post_link><a href=/posts/2020/11/go-src/sync/atomic/>Go源码解析之atomic</a></h3><div class=post_meta><svg class="icon"><use xlink:href="#calendar"/></svg><span class=post_date>2020-11-08</span>
+<a href=/tags/go class="post_tag button button_translucent">go</a>
+<a href=/tags/sync class="post_tag button button_translucent">sync</a>
+<a href=/tags/atomic class="post_tag button button_translucent">atomic</a></div></div><div class=excerpt_footer><div><p class=pale>今天我们来聊聊go的atomic pkg，atomic是go并发编程中最为基础的库。如果说它是go并发编程的基石一点也不为过，像标准库中大家使用率非常高的Mutex, RWMutex,WaitGroup,Once等的实现都依赖于atomic。
+Atomic简介 atomic提供一系列用于实现同步功能的、底层的，原子的方法：
+AddT 系列将增量增加到源值上，并返回新值。 CompareAndSwapT 系列比较两个变量的值，并进行交换。 SwapT系列交换值，并返回旧值。 LoadT 系列获取值。 StoreT 系列更新值。 Value 存储器，支持Load,Store。 这些方法是原子操作，不会被CPU中断，也就说在多 …</p><a href=/posts/2020/11/go-src/sync/atomic/ class="excerpt_more button">阅读更多</a></div></div></div></li><li class=post_item><div class=excerpt><div class=excerpt_header><h3 class=post_link><a href=/posts/2020/10/factory/>Go设计模式之Factory</a></h3><div class=post_meta><svg class="icon"><use xlink:href="#calendar"/></svg><span class=post_date>2020-10-14</span>
 <a href=/tags/go class="post_tag button button_translucent">go</a>
 <a href=/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F class="post_tag button button_translucent">设计模式</a></div></div><div class=excerpt_footer><div><p class=pale>Factory - 工厂模式 工厂模式在Go中使用的非常广泛，比如常用于数据的读写模块。假设我们需要从某种介质中读取数据，并将更新后的结果保存到该介质中。考虑到以后可能更换为其他类型的介质，为了避免日后更换介质而大面积变更代码，我们就会用到本模式。
 实现 1.定义工厂方法所创建对象的接口 假设我们的存储模块只有Read和Write两个功能，我们需要先定义存储器inteface。
@@ -14,11 +19,13 @@
 Go团队非常重视文档，文档对项目的可阅读性、可维护性起到重要作用，所以写好文档变得非常重要。Go团队提供了godoc工具以帮助开发者方便、准确，容易的生成项目文档。godoc解析Go源代码（包括注释），并以HTML或纯文本格式生成文档。
 生成文档 提取规则：
 类型、变量、常量、函数，包都可以通过在声明的前面写注释的方法生成文档（中间不要有空行）。
-1// Package doc 包注释 --- good 2package doc 3 4type ( 5 // UserType 类型注释 --- good 6 …</p><a href=/posts/2020/09/go/godoc/ class="excerpt_more button">阅读更多</a></div></div></div></li><li><ul class=pagination><li class=page-item><a href=/posts/ class=page-link aria-label=First><span aria-hidden=true>&#171;&#171;</span></a></li><li class=page-item><a href=/posts/ class=page-link aria-label=Previous><span aria-hidden=true>&#171;</span></a></li><li class=page-item><a class=page-link href=/posts/>1</a></li><li class="page-item active"><a class=page-link href=/posts/page/2/>2</a></li><li class="page-item disabled"><a class=page-link aria-label=Next><span aria-hidden=true>&#187;</span></a></li><li class=page-item><a href=/posts/page/2/ class=page-link aria-label=Last><span aria-hidden=true>&#187;&#187;</span></a></li></ul></li></ul><aside class=sidebar><section class=sidebar_inner><h2>Amazing Gao</h2><div>Find, discover, explorer and enjoy!</div><a href=/about/ class="button mt-1" role=button>阅读更多</a><h2 class=mt-4>精选文章</h2><ul><li><a href=/posts/2021/01/go/cicd/ class=nav-link>Go项目Gitlab CICD提速指南</a></li><li><a href=/posts/2020/12/linux/elf/ class=nav-link>ELF格式简介</a></li><li><a href=/posts/2020/11/go-src/sync/mutex/ class=nav-link>Go源码解析之mutex</a></li></ul><h2 class=mt-4>最新文章</h2><ul class=flex-column><li><a href=/posts/2021/01/go/cicd/ class=nav-link>Go项目Gitlab CICD提速指南</a></li><li><a href=/posts/2020/12/linux/elf/ class=nav-link>ELF格式简介</a></li><li><a href=/posts/2020/11/go-src/sync/mutex/ class=nav-link>Go源码解析之mutex</a></li><li><a href=/posts/2020/11/go/build-constraints/ class=nav-link>Go条件编译</a></li><li><a href=/posts/2020/11/go-src/sync/atomic/ class=nav-link>Go源码解析之atomic</a></li></ul><div><h2 class="mt-4 taxonomy" id=categories-section>分类</h2><nav class=tags_nav><a href=/categories/go/ class="post_tag button button_translucent">GO
+1// Package doc 包注释 --- good 2package doc 3 4type ( 5 // UserType 类型注释 --- good 6 …</p><a href=/posts/2020/09/go/godoc/ class="excerpt_more button">阅读更多</a></div></div></div></li><li><ul class=pagination><li class=page-item><a href=/posts/ class=page-link aria-label=First><span aria-hidden=true>&#171;&#171;</span></a></li><li class=page-item><a href=/posts/ class=page-link aria-label=Previous><span aria-hidden=true>&#171;</span></a></li><li class=page-item><a class=page-link href=/posts/>1</a></li><li class="page-item active"><a class=page-link href=/posts/page/2/>2</a></li><li class="page-item disabled"><a class=page-link aria-label=Next><span aria-hidden=true>&#187;</span></a></li><li class=page-item><a href=/posts/page/2/ class=page-link aria-label=Last><span aria-hidden=true>&#187;&#187;</span></a></li></ul></li></ul><aside class=sidebar><section class=sidebar_inner><h2>Amazing Gao</h2><div>Find, discover, explorer and enjoy!</div><a href=/about/ class="button mt-1" role=button>阅读更多</a><h2 class=mt-4>精选文章</h2><ul><li><a href=/posts/2021/02/quick-start/ class=nav-link>Rancher初体验</a></li><li><a href=/posts/2021/01/go/cicd/ class=nav-link>Go项目Gitlab CICD提速指南</a></li><li><a href=/posts/2020/12/linux/elf/ class=nav-link>ELF格式简介</a></li><li><a href=/posts/2020/11/go-src/sync/mutex/ class=nav-link>Go源码解析之mutex</a></li></ul><h2 class=mt-4>最新文章</h2><ul class=flex-column><li><a href=/posts/2021/02/quick-start/ class=nav-link>Rancher初体验</a></li><li><a href=/posts/2021/01/go/cicd/ class=nav-link>Go项目Gitlab CICD提速指南</a></li><li><a href=/posts/2020/12/linux/elf/ class=nav-link>ELF格式简介</a></li><li><a href=/posts/2020/11/go-src/sync/mutex/ class=nav-link>Go源码解析之mutex</a></li><li><a href=/posts/2020/11/go/build-constraints/ class=nav-link>Go条件编译</a></li></ul><div><h2 class="mt-4 taxonomy" id=categories-section>分类</h2><nav class=tags_nav><a href=/categories/go/ class="post_tag button button_translucent">GO
 <span class=button_tally>7</span></a>
 <a href=/categories/cicd/ class="post_tag button button_translucent">CICD
 <span class=button_tally>1</span></a>
 <a href=/categories/linux/ class="post_tag button button_translucent">LINUX
+<span class=button_tally>1</span></a>
+<a href=/categories/rancher/ class="post_tag button button_translucent">RANCHER
 <span class=button_tally>1</span></a>
 <a href=/categories/unix/ class="post_tag button button_translucent">UNIX
 <span class=button_tally>1</span></a></nav></div><div><h2 class="mt-4 taxonomy" id=series-section>专栏</h2><nav class=tags_nav><a href=/series/go%E5%B7%A5%E5%85%B7%E9%93%BE/ class="post_tag button button_translucent">GO工具链
@@ -26,7 +33,9 @@ Go团队非常重视文档，文档对项目的可阅读性、可维护性起到
 <a href=/series/go%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/ class="post_tag button button_translucent">GO源码解析
 <span class=button_tally>2</span></a>
 <a href=/series/go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/ class="post_tag button button_translucent">GO设计模式
-<span class=button_tally>2</span></a></nav></div><div><h2 class="mt-4 taxonomy" id=tags-section>标签</h2><nav class=tags_nav><a href=/tags/go/ class="post_tag button button_translucent">GO
+<span class=button_tally>2</span></a>
+<a href=/series/rancher%E7%B3%BB%E5%88%97/ class="post_tag button button_translucent">RANCHER系列
+<span class=button_tally>1</span></a></nav></div><div><h2 class="mt-4 taxonomy" id=tags-section>标签</h2><nav class=tags_nav><a href=/tags/go/ class="post_tag button button_translucent">GO
 <span class=button_tally>7</span></a>
 <a href=/tags/sync/ class="post_tag button button_translucent">SYNC
 <span class=button_tally>2</span></a>
@@ -36,25 +45,29 @@ Go团队非常重视文档，文档对项目的可阅读性、可维护性起到
 <span class=button_tally>1</span></a>
 <a href=/tags/cicd/ class="post_tag button button_translucent">CICD
 <span class=button_tally>1</span></a>
+<a href=/tags/devops/ class="post_tag button button_translucent">DEVOPS
+<span class=button_tally>1</span></a>
+<a href=/tags/docker/ class="post_tag button button_translucent">DOCKER
+<span class=button_tally>1</span></a>
 <a href=/tags/elf/ class="post_tag button button_translucent">ELF
 <span class=button_tally>1</span></a>
 <a href=/tags/gilab/ class="post_tag button button_translucent">GILAB
 <span class=button_tally>1</span></a>
 <a href=/tags/go-build/ class="post_tag button button_translucent">GO-BUILD
-<span class=button_tally>1</span></a>
-<a href=/tags/godoc/ class="post_tag button button_translucent">GODOC
-<span class=button_tally>1</span></a>
-<a href=/tags/gomodcache/ class="post_tag button button_translucent">GOMODCACHE
 <span class=button_tally>1</span></a><br><div class="post_tags_toggle button">所有标签</div><div class=post_tags><div class=tags_list><a href=/tags/atomic/ class="post_tag button button_translucent" data-position=1>ATOMIC<span class=button_tally>1</span></a>
 <a href=/tags/cicd/ class="post_tag button button_translucent" data-position=1>CICD<span class=button_tally>1</span></a>
+<a href=/tags/devops/ class="post_tag button button_translucent" data-position=1>DEVOPS<span class=button_tally>1</span></a>
+<a href=/tags/docker/ class="post_tag button button_translucent" data-position=1>DOCKER<span class=button_tally>1</span></a>
 <a href=/tags/elf/ class="post_tag button button_translucent" data-position=1>ELF<span class=button_tally>1</span></a>
 <a href=/tags/gilab/ class="post_tag button button_translucent" data-position=1>GILAB<span class=button_tally>1</span></a>
 <a href=/tags/go/ class="post_tag button button_translucent" data-position=7>GO<span class=button_tally>7</span></a>
 <a href=/tags/go-build/ class="post_tag button button_translucent" data-position=1>GO-BUILD<span class=button_tally>1</span></a>
 <a href=/tags/godoc/ class="post_tag button button_translucent" data-position=1>GODOC<span class=button_tally>1</span></a>
 <a href=/tags/gomodcache/ class="post_tag button button_translucent" data-position=1>GOMODCACHE<span class=button_tally>1</span></a>
+<a href=/tags/k8s/ class="post_tag button button_translucent" data-position=1>K8S<span class=button_tally>1</span></a>
 <a href=/tags/linux/ class="post_tag button button_translucent" data-position=1>LINUX<span class=button_tally>1</span></a>
 <a href=/tags/mutex/ class="post_tag button button_translucent" data-position=1>MUTEX<span class=button_tally>1</span></a>
+<a href=/tags/rancher/ class="post_tag button button_translucent" data-position=1>RANCHER<span class=button_tally>1</span></a>
 <a href=/tags/sync/ class="post_tag button button_translucent" data-position=2>SYNC<span class=button_tally>2</span></a>
 <a href=/tags/unix/ class="post_tag button button_translucent" data-position=1>UNIX<span class=button_tally>1</span></a>
 <a href=/tags/%E4%BA%92%E6%96%A5%E9%94%81/ class="post_tag button button_translucent" data-position=1>互斥锁<span class=button_tally>1</span></a>
