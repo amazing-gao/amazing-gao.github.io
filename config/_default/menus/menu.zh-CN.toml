@@ -18,6 +18,11 @@
   url = "https://github.com/oaijs"
 
 [[main]]
+  name = "Books"
+  url = "booklist/"
+  weight = -107
+
+[[main]]
   name = "About"
   url = "about/"
-  weight = -107
+  weight = -1
