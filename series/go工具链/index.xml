@@ -4,7 +4,7 @@
 多个片段之间的空格表示它们之间是OR的关系。如下，表示GOOS值是linux或者darwin时，本文件参与编译。
 1// +build linux darwin 多个片段之间的,表示它们之间是AND的关系。如下，表示GOOS值是linux且是amd64架构时，本文件参与编译。 1// +build linux,amd64 以!xxx开头的片段表示当tag xxx设置时，当前文件不参与编译。如下，表示GOOS值是linux时，本文件不参与编译。 1// +build !linux 单文件包含多个条件编译指令时，它们是AND的关系。如下，表示GOOS值是linux且是amd64架构时，本文件参与编译。 1// +build linux 2// +build amd64 一些内建的关键字。
 GOOS的值，目标操作系统，如linux,darwin。 GOARCH的值，目标架构，如amd64。 编译器，gc 或者 gccgo。 cgo 如果cgo支持，编译。 gox.x 只在特定go版本进行编译，不支持beta or minor版本号的条件编译。 go build 命令的其他tag。 文件名实现条件编译。条件编译支持以下三种格式（源码文件名去除类型后缀和_test后缀后）：
-*_GOOS GOOS值与文件名中的GOOS一致时参与编译。 *_GOARCH GOARCH值与文件名中的GOARCH一致时参与编译。 *_GOOS_GOARCH GOARCH,GOOS值与文件名中的GOARCH,GOOS一致时参与编译。 如 source_windows_amd64.go 该文件只在windows系统的amd64架构下进行编译。</description></item><item><title>godoc使用指南</title><link>/posts/2020/09/go/godoc/</link><pubDate>Sun, 27 Sep 2020 21:30:30 +0800</pubDate><author>amazing.gao@qq.com (AmazingGao)</author><guid>/posts/2020/09/go/godoc/</guid><description>在写boxgo的过程中，想要生成漂亮的godoc，发现不太熟悉godoc的用法，所以就有了本篇文章，记录一下。
+*_GOOS GOOS值与文件名中的GOOS一致时参与编译。 *_GOARCH GOARCH值与文件名中的GOARCH一致时参与编译。 *_GOOS_GOARCH GOARCH,GOOS值与文件名中的GOARCH,GOOS一致时参与编译。 如 source_windows_amd64.go 该文件只在windows系统的amd64架构下进行编译。</description></item><item><title>Go工具链之godoc</title><link>/posts/2020/09/go/godoc/</link><pubDate>Sun, 27 Sep 2020 21:30:30 +0800</pubDate><author>amazing.gao@qq.com (AmazingGao)</author><guid>/posts/2020/09/go/godoc/</guid><description>在写boxgo的过程中，想要生成漂亮的godoc，发现不太熟悉godoc的用法，所以就有了本篇文章，记录一下。
 Go团队非常重视文档，文档对项目的可阅读性、可维护性起到重要作用，所以写好文档变得非常重要。Go团队提供了godoc工具以帮助开发者方便、准确，容易的生成项目文档。godoc解析Go源代码（包括注释），并以HTML或纯文本格式生成文档。
 生成文档 提取规则：
 类型、变量、常量、函数，包都可以通过在声明的前面写注释的方法生成文档（中间不要有空行）。

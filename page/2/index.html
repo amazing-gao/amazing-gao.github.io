@@ -13,7 +13,7 @@ AddT 系列将增量增加到源值上，并返回新值。 CompareAndSwapT 系�
 <a href=/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F class="post_tag button button_translucent">设计模式</a></div></div><div class=excerpt_footer><div><p class=pale>Singleton - 单例模式 保证一个类仅有一个实例，并提供一个访问它的全局访问点。
 实现 饿汉式 饿汉式单例是指在方法调用前，实例就已经创建好了。
 按照用法使用，可以看到控制台输出10次单例的内存地址是一样的。
-1package main 2 3import ( 4 "fmt" 5 "sync" 6 "time" 7) 8 9type ( 10 server struct { 11 port int 12 } 13) 14 15var ( 16 instance = &server{} 17) 18 19func getServerSingleton() *server …</p><a href=/posts/2020/09/go-patterns/singleton/ class="excerpt_more button">阅读更多</a></div></div></div></li><li class=post_item><div class=excerpt><div class=excerpt_header><h3 class=post_link><a href=/posts/2020/09/go/godoc/>godoc使用指南</a></h3><div class=post_meta><svg class="icon"><use xlink:href="#calendar"/></svg><span class=post_date>2020-09-27</span>
+1package main 2 3import ( 4 "fmt" 5 "sync" 6 "time" 7) 8 9type ( 10 server struct { 11 port int 12 } 13) 14 15var ( 16 instance = &server{} 17) 18 19func getServerSingleton() *server …</p><a href=/posts/2020/09/go-patterns/singleton/ class="excerpt_more button">阅读更多</a></div></div></div></li><li class=post_item><div class=excerpt><div class=excerpt_header><h3 class=post_link><a href=/posts/2020/09/go/godoc/>Go工具链之godoc</a></h3><div class=post_meta><svg class="icon"><use xlink:href="#calendar"/></svg><span class=post_date>2020-09-27</span>
 <a href=/tags/go class="post_tag button button_translucent">go</a>
 <a href=/tags/godoc class="post_tag button button_translucent">godoc</a></div></div><div class=excerpt_footer><div><p class=pale>在写boxgo的过程中，想要生成漂亮的godoc，发现不太熟悉godoc的用法，所以就有了本篇文章，记录一下。
 Go团队非常重视文档，文档对项目的可阅读性、可维护性起到重要作用，所以写好文档变得非常重要。Go团队提供了godoc工具以帮助开发者方便、准确，容易的生成项目文档。godoc解析Go源代码（包括注释），并以HTML或纯文本格式生成文档。

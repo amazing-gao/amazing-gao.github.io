@@ -4,7 +4,7 @@
 <a href=/tags/go-build class="post_tag button button_translucent">go build</a></div></div><div class=excerpt_footer><div><p class=pale>最近在开发过程中遇到一个比较在编码上无解的问题，最终通过条件编译得到一个比较满意的方案。对于Go的条件编译，可能很多人都了解，甚至不知道。Go通过在行注释的前面编写如下代码来实现条件编译。
 1// +build 条件编译的指令可能出现在任何源代码中，不止是*.go文件，可能是go汇编文件。无论是何种源文件，条件编译指令一定都出现在文件的顶部，并且在空行或者其他行注释之前。所以条件编译指令也必须在package语句之前。
 编译规则 可以将 // +build 后面的内容当成一个表达式。当表达式返回true时，当前文件参与编译，反之不参与编译。
-多个片段之间的空格表示它们之间是OR的关系。如下，表示GOOS值是linux或 …</p><a href=/posts/2020/11/go/build-constraints/ class="excerpt_more button">阅读更多</a></div></div></div></li><li class=post_item><div class=excerpt><div class=excerpt_header><h3 class=post_link><a href=/posts/2020/09/go/godoc/>godoc使用指南</a></h3><div class=post_meta><svg class="icon"><use xlink:href="#calendar"/></svg><span class=post_date>2020-09-27</span>
+多个片段之间的空格表示它们之间是OR的关系。如下，表示GOOS值是linux或 …</p><a href=/posts/2020/11/go/build-constraints/ class="excerpt_more button">阅读更多</a></div></div></div></li><li class=post_item><div class=excerpt><div class=excerpt_header><h3 class=post_link><a href=/posts/2020/09/go/godoc/>Go工具链之godoc</a></h3><div class=post_meta><svg class="icon"><use xlink:href="#calendar"/></svg><span class=post_date>2020-09-27</span>
 <a href=/tags/go class="post_tag button button_translucent">go</a>
 <a href=/tags/godoc class="post_tag button button_translucent">godoc</a></div></div><div class=excerpt_footer><div><p class=pale>在写boxgo的过程中，想要生成漂亮的godoc，发现不太熟悉godoc的用法，所以就有了本篇文章，记录一下。
 Go团队非常重视文档，文档对项目的可阅读性、可维护性起到重要作用，所以写好文档变得非常重要。Go团队提供了godoc工具以帮助开发者方便、准确，容易的生成项目文档。godoc解析Go源代码（包括注释），并以HTML或纯文本格式生成文档。
