@@ -1,5 +1,5 @@
 ---
-title: "godoc使用指南"
+title: "Go工具链之godoc"
 slug: /go/godoc
 description: godoc使用指南
 date: 2020-09-27T21:30:30+08:00
