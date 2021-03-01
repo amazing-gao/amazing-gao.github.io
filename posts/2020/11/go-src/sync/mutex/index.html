@@ -431,8 +431,8 @@
 <span class=ln>38</span>	<span class=p>}</span>
 <span class=ln>39</span><span class=p>}</span>
 </code></pre></div><p>到这里我们已经大概清楚 <code>Mutex</code> 加锁与解锁的过程。</p><p>在这个过程中，经过分析和推理，我们可以断定：</p><p>sema是信号量状态标志。</p><p>state被被切分为4块，每块分别有不同的作用，如下表：</p><table><thead><tr><th>31-3位</th><th>2位</th><th>1位</th><th>0位</th></tr></thead><tbody><tr><td>Waiter的数量</td><td>Starving状态</td><td>Woken状态</td><td>Locked状态</td></tr></tbody></table><h2 id=总结>总结</h2><p>通过源码分析，我们了解到Mutex的内部实现非常的巧妙。Go的作者为了保证性能与公平思考的非常多，但是这并不是银弹，在实际开发中我们不能肆无忌惮的使用互斥锁，尤其是一些对性能要求较高的场景和业务。在设计程序时，我们应当使用恰当的锁（比如读写锁），并尽量降低锁的颗粒度避免频繁互斥，或者使用一些无锁的方案。</p><h2 id=参考文档>参考文档</h2><ol><li><a href=http://cbsheng.github.io/posts/%E4%B8%80%E4%BB%BD%E8%AF%A6%E7%BB%86%E6%B3%A8%E9%87%8A%E7%9A%84go-mutex%E6%BA%90%E7%A0%81/>一份详细注释的go Mutex源码</a></li><li><a href=https://purewhite.io/2019/03/28/golang-mutex-source/>源码剖析 golang 中 sync.Mutex</a></li></ol><div id=disqus_thread></div><script type=application/javascript>var disqus_config=function(){};(function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById('disqus_thread').innerHTML='Disqus comments not available by default when the website is previewed locally.';return;}
-var d=document,s=d.createElement('script');s.async=true;s.src='//'+"amazingao"+'.disqus.com/embed.js';s.setAttribute('data-timestamp',+new Date());(d.head||d.body).appendChild(s);})();</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></article><aside class=sidebar><section class=sidebar_inner><h2>Amazing Gao</h2><div>Find, discover, explorer and enjoy!</div><a href=/about/ class="button mt-1" role=button>阅读更多</a><h2 class=mt-4>精选文章</h2><ul><li><a href=/posts/2021/02/rancher/quick-start/ class=nav-link>Rancher初体验</a></li><li><a href=/posts/2021/01/go/cicd/ class=nav-link>Go项目Gitlab CICD提速指南</a></li><li><a href=/posts/2020/12/linux/elf/ class=nav-link>ELF格式简介</a></li></ul><h2 class=mt-4>最新文章</h2><ul class=flex-column><li><a href=/posts/2021/02/rancher/quick-start/ class=nav-link>Rancher初体验</a></li><li><a href=/posts/2021/01/go/cicd/ class=nav-link>Go项目Gitlab CICD提速指南</a></li><li><a href=/posts/2020/12/linux/elf/ class=nav-link>ELF格式简介</a></li><li><a href=/posts/2020/11/go/build-constraints/ class=nav-link>Go条件编译</a></li><li><a href=/posts/2020/11/go-src/sync/atomic/ class=nav-link>Go源码解析之atomic</a></li></ul><div><h2 class="mt-4 taxonomy" id=categories-section>分类</h2><nav class=tags_nav><a href=/categories/go/ class="post_tag button button_translucent">GO
-<span class=button_tally>7</span></a>
+var d=document,s=d.createElement('script');s.async=true;s.src='//'+"amazingao"+'.disqus.com/embed.js';s.setAttribute('data-timestamp',+new Date());(d.head||d.body).appendChild(s);})();</script><noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript><a href=https://disqus.com class=dsq-brlink>comments powered by <span class=logo-disqus>Disqus</span></a></article><aside class=sidebar><section class=sidebar_inner><h2>Amazing Gao</h2><div>Find, discover, explorer and enjoy!</div><a href=/about/ class="button mt-1" role=button>阅读更多</a><h2 class=mt-4>精选文章</h2><ul><li><a href=/posts/2021/02/go/compile/ class=nav-link>Go工具链之compile初探</a></li><li><a href=/posts/2021/02/rancher/quick-start/ class=nav-link>Rancher初体验</a></li><li><a href=/posts/2021/01/go/cicd/ class=nav-link>Go项目Gitlab CICD提速指南</a></li><li><a href=/posts/2020/12/linux/elf/ class=nav-link>ELF格式简介</a></li></ul><h2 class=mt-4>最新文章</h2><ul class=flex-column><li><a href=/posts/2021/02/go/compile/ class=nav-link>Go工具链之compile初探</a></li><li><a href=/posts/2021/02/rancher/quick-start/ class=nav-link>Rancher初体验</a></li><li><a href=/posts/2021/01/go/cicd/ class=nav-link>Go项目Gitlab CICD提速指南</a></li><li><a href=/posts/2020/12/linux/elf/ class=nav-link>ELF格式简介</a></li><li><a href=/posts/2020/11/go/build-constraints/ class=nav-link>Go条件编译</a></li></ul><div><h2 class="mt-4 taxonomy" id=categories-section>分类</h2><nav class=tags_nav><a href=/categories/go/ class="post_tag button button_translucent">GO
+<span class=button_tally>8</span></a>
 <a href=/categories/cicd/ class="post_tag button button_translucent">CICD
 <span class=button_tally>1</span></a>
 <a href=/categories/linux/ class="post_tag button button_translucent">LINUX
@@ -441,14 +441,14 @@ var d=document,s=d.createElement('script');s.async=true;s.src='//'+"amazingao"+'
 <span class=button_tally>1</span></a>
 <a href=/categories/unix/ class="post_tag button button_translucent">UNIX
 <span class=button_tally>1</span></a></nav></div><div><h2 class="mt-4 taxonomy" id=series-section>专栏</h2><nav class=tags_nav><a href=/series/go%E5%B7%A5%E5%85%B7%E9%93%BE/ class="post_tag button button_translucent">GO工具链
-<span class=button_tally>2</span></a>
+<span class=button_tally>3</span></a>
 <a href=/series/go%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/ class="post_tag button button_translucent">GO源码解析
 <span class=button_tally>2</span></a>
 <a href=/series/go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/ class="post_tag button button_translucent">GO设计模式
 <span class=button_tally>2</span></a>
 <a href=/series/rancher%E7%B3%BB%E5%88%97/ class="post_tag button button_translucent">RANCHER系列
 <span class=button_tally>1</span></a></nav></div><div><h2 class="mt-4 taxonomy" id=tags-section>标签</h2><nav class=tags_nav><a href=/tags/go/ class="post_tag button button_translucent">GO
-<span class=button_tally>7</span></a>
+<span class=button_tally>8</span></a>
 <a href=/tags/sync/ class="post_tag button button_translucent">SYNC
 <span class=button_tally>2</span></a>
 <a href=/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/ class="post_tag button button_translucent">设计模式
@@ -457,6 +457,8 @@ var d=document,s=d.createElement('script');s.async=true;s.src='//'+"amazingao"+'
 <span class=button_tally>1</span></a>
 <a href=/tags/cicd/ class="post_tag button button_translucent">CICD
 <span class=button_tally>1</span></a>
+<a href=/tags/compile/ class="post_tag button button_translucent">COMPILE
+<span class=button_tally>1</span></a>
 <a href=/tags/devops/ class="post_tag button button_translucent">DEVOPS
 <span class=button_tally>1</span></a>
 <a href=/tags/docker/ class="post_tag button button_translucent">DOCKER
@@ -464,15 +466,14 @@ var d=document,s=d.createElement('script');s.async=true;s.src='//'+"amazingao"+'
 <a href=/tags/elf/ class="post_tag button button_translucent">ELF
 <span class=button_tally>1</span></a>
 <a href=/tags/gilab/ class="post_tag button button_translucent">GILAB
-<span class=button_tally>1</span></a>
-<a href=/tags/go-build/ class="post_tag button button_translucent">GO-BUILD
 <span class=button_tally>1</span></a><br><div class="post_tags_toggle button">所有标签</div><div class=post_tags><div class=tags_list><a href=/tags/atomic/ class="post_tag button button_translucent" data-position=1>ATOMIC<span class=button_tally>1</span></a>
 <a href=/tags/cicd/ class="post_tag button button_translucent" data-position=1>CICD<span class=button_tally>1</span></a>
+<a href=/tags/compile/ class="post_tag button button_translucent" data-position=1>COMPILE<span class=button_tally>1</span></a>
 <a href=/tags/devops/ class="post_tag button button_translucent" data-position=1>DEVOPS<span class=button_tally>1</span></a>
 <a href=/tags/docker/ class="post_tag button button_translucent" data-position=1>DOCKER<span class=button_tally>1</span></a>
 <a href=/tags/elf/ class="post_tag button button_translucent" data-position=1>ELF<span class=button_tally>1</span></a>
 <a href=/tags/gilab/ class="post_tag button button_translucent" data-position=1>GILAB<span class=button_tally>1</span></a>
-<a href=/tags/go/ class="post_tag button button_translucent" data-position=7>GO<span class=button_tally>7</span></a>
+<a href=/tags/go/ class="post_tag button button_translucent" data-position=8>GO<span class=button_tally>8</span></a>
 <a href=/tags/go-build/ class="post_tag button button_translucent" data-position=1>GO-BUILD<span class=button_tally>1</span></a>
 <a href=/tags/godoc/ class="post_tag button button_translucent" data-position=1>GODOC<span class=button_tally>1</span></a>
 <a href=/tags/gomodcache/ class="post_tag button button_translucent" data-position=1>GOMODCACHE<span class=button_tally>1</span></a>

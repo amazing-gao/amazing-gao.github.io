@@ -4,8 +4,8 @@
 <a href=/tags/unix class="post_tag button button_translucent">unix</a>
 <a href=/tags/elf class="post_tag button button_translucent">ELF</a></div></div><div class=excerpt_footer><div><p class=pale>概要 ELF 是一种文件格式。首次发布在名为 System Release 4 的 Unix 操作系统版本的 ABI 规范中，后来使用在 Tool interface standard中，然后迅速被不同的 Unix 发行版使用。在1999年，ELF 被选为 Unix 和 Unix-like 系统x86处理器的标准二进制文件格式。
 文件格式 ELF 文件由 ELF File Header 和 Data 组成，Data 又由以下部分组成：
-Program header table Section header table 1, 2 表头中引用的数据 ELF file header Program header Section …</p><a href=/posts/2020/12/linux/elf/ class="excerpt_more button">阅读更多</a></div></div></div></li><li></li></ul><aside class=sidebar><section class=sidebar_inner><h2>Amazing Gao</h2><div>Find, discover, explorer and enjoy!</div><a href=/about/ class="button mt-1" role=button>阅读更多</a><h2 class=mt-4>精选文章</h2><ul><li><a href=/posts/2021/02/rancher/quick-start/ class=nav-link>Rancher初体验</a></li><li><a href=/posts/2021/01/go/cicd/ class=nav-link>Go项目Gitlab CICD提速指南</a></li><li><a href=/posts/2020/12/linux/elf/ class=nav-link>ELF格式简介</a></li><li><a href=/posts/2020/11/go-src/sync/mutex/ class=nav-link>Go源码解析之mutex</a></li></ul><h2 class=mt-4>最新文章</h2><ul class=flex-column><li><a href=/posts/2021/02/rancher/quick-start/ class=nav-link>Rancher初体验</a></li><li><a href=/posts/2021/01/go/cicd/ class=nav-link>Go项目Gitlab CICD提速指南</a></li><li><a href=/posts/2020/12/linux/elf/ class=nav-link>ELF格式简介</a></li><li><a href=/posts/2020/11/go-src/sync/mutex/ class=nav-link>Go源码解析之mutex</a></li><li><a href=/posts/2020/11/go/build-constraints/ class=nav-link>Go条件编译</a></li></ul><div><h2 class="mt-4 taxonomy" id=categories-section>分类</h2><nav class=tags_nav><a href=/categories/go/ class="post_tag button button_translucent">GO
-<span class=button_tally>7</span></a>
+Program header table Section header table 1, 2 表头中引用的数据 ELF file header Program header Section …</p><a href=/posts/2020/12/linux/elf/ class="excerpt_more button">阅读更多</a></div></div></div></li><li></li></ul><aside class=sidebar><section class=sidebar_inner><h2>Amazing Gao</h2><div>Find, discover, explorer and enjoy!</div><a href=/about/ class="button mt-1" role=button>阅读更多</a><h2 class=mt-4>精选文章</h2><ul><li><a href=/posts/2021/02/go/compile/ class=nav-link>Go工具链之compile初探</a></li><li><a href=/posts/2021/02/rancher/quick-start/ class=nav-link>Rancher初体验</a></li><li><a href=/posts/2021/01/go/cicd/ class=nav-link>Go项目Gitlab CICD提速指南</a></li><li><a href=/posts/2020/12/linux/elf/ class=nav-link>ELF格式简介</a></li><li><a href=/posts/2020/11/go-src/sync/mutex/ class=nav-link>Go源码解析之mutex</a></li></ul><h2 class=mt-4>最新文章</h2><ul class=flex-column><li><a href=/posts/2021/02/go/compile/ class=nav-link>Go工具链之compile初探</a></li><li><a href=/posts/2021/02/rancher/quick-start/ class=nav-link>Rancher初体验</a></li><li><a href=/posts/2021/01/go/cicd/ class=nav-link>Go项目Gitlab CICD提速指南</a></li><li><a href=/posts/2020/12/linux/elf/ class=nav-link>ELF格式简介</a></li><li><a href=/posts/2020/11/go-src/sync/mutex/ class=nav-link>Go源码解析之mutex</a></li></ul><div><h2 class="mt-4 taxonomy" id=categories-section>分类</h2><nav class=tags_nav><a href=/categories/go/ class="post_tag button button_translucent">GO
+<span class=button_tally>8</span></a>
 <a href=/categories/cicd/ class="post_tag button button_translucent">CICD
 <span class=button_tally>1</span></a>
 <a href=/categories/linux/ class="post_tag button button_translucent">LINUX
@@ -14,14 +14,14 @@ Program header table Section header table 1, 2 表头中引用的数据 ELF file
 <span class=button_tally>1</span></a>
 <a href=/categories/unix/ class="post_tag button button_translucent">UNIX
 <span class=button_tally>1</span></a></nav></div><div><h2 class="mt-4 taxonomy" id=series-section>专栏</h2><nav class=tags_nav><a href=/series/go%E5%B7%A5%E5%85%B7%E9%93%BE/ class="post_tag button button_translucent">GO工具链
-<span class=button_tally>2</span></a>
+<span class=button_tally>3</span></a>
 <a href=/series/go%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/ class="post_tag button button_translucent">GO源码解析
 <span class=button_tally>2</span></a>
 <a href=/series/go%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/ class="post_tag button button_translucent">GO设计模式
 <span class=button_tally>2</span></a>
 <a href=/series/rancher%E7%B3%BB%E5%88%97/ class="post_tag button button_translucent">RANCHER系列
 <span class=button_tally>1</span></a></nav></div><div><h2 class="mt-4 taxonomy" id=tags-section>标签</h2><nav class=tags_nav><a href=/tags/go/ class="post_tag button button_translucent">GO
-<span class=button_tally>7</span></a>
+<span class=button_tally>8</span></a>
 <a href=/tags/sync/ class="post_tag button button_translucent">SYNC
 <span class=button_tally>2</span></a>
 <a href=/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/ class="post_tag button button_translucent">设计模式
@@ -30,6 +30,8 @@ Program header table Section header table 1, 2 表头中引用的数据 ELF file
 <span class=button_tally>1</span></a>
 <a href=/tags/cicd/ class="post_tag button button_translucent">CICD
 <span class=button_tally>1</span></a>
+<a href=/tags/compile/ class="post_tag button button_translucent">COMPILE
+<span class=button_tally>1</span></a>
 <a href=/tags/devops/ class="post_tag button button_translucent">DEVOPS
 <span class=button_tally>1</span></a>
 <a href=/tags/docker/ class="post_tag button button_translucent">DOCKER
@@ -37,15 +39,14 @@ Program header table Section header table 1, 2 表头中引用的数据 ELF file
 <a href=/tags/elf/ class="post_tag button button_translucent">ELF
 <span class=button_tally>1</span></a>
 <a href=/tags/gilab/ class="post_tag button button_translucent">GILAB
-<span class=button_tally>1</span></a>
-<a href=/tags/go-build/ class="post_tag button button_translucent">GO-BUILD
 <span class=button_tally>1</span></a><br><div class="post_tags_toggle button">所有标签</div><div class=post_tags><div class=tags_list><a href=/tags/atomic/ class="post_tag button button_translucent" data-position=1>ATOMIC<span class=button_tally>1</span></a>
 <a href=/tags/cicd/ class="post_tag button button_translucent" data-position=1>CICD<span class=button_tally>1</span></a>
+<a href=/tags/compile/ class="post_tag button button_translucent" data-position=1>COMPILE<span class=button_tally>1</span></a>
 <a href=/tags/devops/ class="post_tag button button_translucent" data-position=1>DEVOPS<span class=button_tally>1</span></a>
 <a href=/tags/docker/ class="post_tag button button_translucent" data-position=1>DOCKER<span class=button_tally>1</span></a>
 <a href=/tags/elf/ class="post_tag button button_translucent" data-position=1>ELF<span class=button_tally>1</span></a>
 <a href=/tags/gilab/ class="post_tag button button_translucent" data-position=1>GILAB<span class=button_tally>1</span></a>
-<a href=/tags/go/ class="post_tag button button_translucent" data-position=7>GO<span class=button_tally>7</span></a>
+<a href=/tags/go/ class="post_tag button button_translucent" data-position=8>GO<span class=button_tally>8</span></a>
 <a href=/tags/go-build/ class="post_tag button button_translucent" data-position=1>GO-BUILD<span class=button_tally>1</span></a>
 <a href=/tags/godoc/ class="post_tag button button_translucent" data-position=1>GODOC<span class=button_tally>1</span></a>
 <a href=/tags/gomodcache/ class="post_tag button button_translucent" data-position=1>GOMODCACHE<span class=button_tally>1</span></a>
