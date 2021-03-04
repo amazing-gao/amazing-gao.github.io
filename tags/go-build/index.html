@@ -4,7 +4,7 @@
 <a href=/tags/go-build class="post_tag button button_translucent">go build</a></div></div><div class=excerpt_footer><div><p class=pale>最近在开发过程中遇到一个比较在编码上无解的问题，最终通过条件编译得到一个比较满意的方案。对于Go的条件编译，可能很多人都了解，甚至不知道。Go通过在行注释的前面编写如下代码来实现条件编译。
 1// +build 条件编译的指令可能出现在任何源代码中，不止是*.go文件，可能是go汇编文件。无论是何种源文件，条件编译指令一定都出现在文件的顶部，并且在空行或者其他行注释之前。所以条件编译指令也必须在package语句之前。
 编译规则 可以将 // +build 后面的内容当成一个表达式。当表达式返回true时，当前文件参与编译，反之不参与编译。
-多个片段之间的空格表示它们之间是OR的关系。如下，表示GOOS值是linux或 …</p><a href=/posts/2020/11/go/build-constraints/ class="excerpt_more button">阅读更多</a></div></div></div></li><li></li></ul><aside class=sidebar><section class=sidebar_inner><h2>Amazing Gao</h2><div>Find, discover, explorer and enjoy!</div><a href=/about/ class="button mt-1" role=button>阅读更多</a><h2 class=mt-4>精选文章</h2><ul><li><a href=/posts/2021/02/go/compile/ class=nav-link>Go工具链之compile初探</a></li><li><a href=/posts/2021/02/rancher/quick-start/ class=nav-link>Rancher初体验</a></li><li><a href=/posts/2021/01/go/cicd/ class=nav-link>Go项目Gitlab CICD提速指南</a></li><li><a href=/posts/2020/12/linux/elf/ class=nav-link>ELF格式简介</a></li><li><a href=/posts/2020/11/go-src/sync/mutex/ class=nav-link>Go源码解析之mutex</a></li></ul><h2 class=mt-4>最新文章</h2><ul class=flex-column><li><a href=/posts/2021/02/go/compile/ class=nav-link>Go工具链之compile初探</a></li><li><a href=/posts/2021/02/rancher/quick-start/ class=nav-link>Rancher初体验</a></li><li><a href=/posts/2021/01/go/cicd/ class=nav-link>Go项目Gitlab CICD提速指南</a></li><li><a href=/posts/2020/12/linux/elf/ class=nav-link>ELF格式简介</a></li><li><a href=/posts/2020/11/go-src/sync/mutex/ class=nav-link>Go源码解析之mutex</a></li></ul><div><h2 class="mt-4 taxonomy" id=categories-section>分类</h2><nav class=tags_nav><a href=/categories/go/ class="post_tag button button_translucent">GO
+多个片段之间的空格表示它们之间是OR的关系。如下，表示GOOS值是linux或 …</p><a href=/posts/2020/11/go/build-constraints/ class="excerpt_more button">阅读更多</a></div></div></div></li><li></li></ul><aside class=sidebar><section class=sidebar_inner><h2>Amazing Gao</h2><div>Find, discover, explorer and enjoy!</div><a href=/about/ class="button mt-1" role=button>阅读更多</a><h2 class=mt-4>精选文章</h2><ul><li><a href=/books/algorithms4/ class=nav-link>Algorithms4</a></li><li><a href=/posts/2021/02/go/compile/ class=nav-link>Go工具链之compile初探</a></li><li><a href=/posts/2021/02/rancher/quick-start/ class=nav-link>Rancher初体验</a></li><li><a href=/posts/2021/01/go/cicd/ class=nav-link>Go项目Gitlab CICD提速指南</a></li><li><a href=/posts/2020/12/linux/elf/ class=nav-link>ELF格式简介</a></li></ul><h2 class=mt-4>最新文章</h2><ul class=flex-column><li><a href=/books/algorithms4/ class=nav-link>Algorithms4</a></li><li><a href=/posts/2021/02/go/compile/ class=nav-link>Go工具链之compile初探</a></li><li><a href=/posts/2021/02/rancher/quick-start/ class=nav-link>Rancher初体验</a></li><li><a href=/posts/2021/01/go/cicd/ class=nav-link>Go项目Gitlab CICD提速指南</a></li><li><a href=/posts/2020/12/linux/elf/ class=nav-link>ELF格式简介</a></li></ul><div><h2 class="mt-4 taxonomy" id=categories-section>分类</h2><nav class=tags_nav><a href=/categories/go/ class="post_tag button button_translucent">GO
 <span class=button_tally>8</span></a>
 <a href=/categories/cicd/ class="post_tag button button_translucent">CICD
 <span class=button_tally>1</span></a>
@@ -28,6 +28,8 @@
 <span class=button_tally>2</span></a>
 <a href=/tags/atomic/ class="post_tag button button_translucent">ATOMIC
 <span class=button_tally>1</span></a>
+<a href=/tags/booknotes/ class="post_tag button button_translucent">BOOKNOTES
+<span class=button_tally>1</span></a>
 <a href=/tags/cicd/ class="post_tag button button_translucent">CICD
 <span class=button_tally>1</span></a>
 <a href=/tags/compile/ class="post_tag button button_translucent">COMPILE
@@ -37,9 +39,8 @@
 <a href=/tags/docker/ class="post_tag button button_translucent">DOCKER
 <span class=button_tally>1</span></a>
 <a href=/tags/elf/ class="post_tag button button_translucent">ELF
-<span class=button_tally>1</span></a>
-<a href=/tags/gilab/ class="post_tag button button_translucent">GILAB
 <span class=button_tally>1</span></a><br><div class="post_tags_toggle button">所有标签</div><div class=post_tags><div class=tags_list><a href=/tags/atomic/ class="post_tag button button_translucent" data-position=1>ATOMIC<span class=button_tally>1</span></a>
+<a href=/tags/booknotes/ class="post_tag button button_translucent" data-position=1>BOOKNOTES<span class=button_tally>1</span></a>
 <a href=/tags/cicd/ class="post_tag button button_translucent" data-position=1>CICD<span class=button_tally>1</span></a>
 <a href=/tags/compile/ class="post_tag button button_translucent" data-position=1>COMPILE<span class=button_tally>1</span></a>
 <a href=/tags/devops/ class="post_tag button button_translucent" data-position=1>DEVOPS<span class=button_tally>1</span></a>
