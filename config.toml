@@ -14,6 +14,7 @@ disqusShortname = "amazingao"
 
 [permalinks]
 posts = "/posts/:year/:month/:slug"
+books = "/books/:slug"
 
 [author]
 email = "amazing.gao@qq.com"
