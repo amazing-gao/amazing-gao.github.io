@@ -15,25 +15,25 @@ type: booklist
 | [《世界简史》](https://book.douban.com/subject/26657357/)    | 2020-12/? |
 
 
-## 计划阅读
+## 未来阅读
 
 | 书名                                                         | 开始/结束 |
 | :----------------------------------------------------------- | :-------- |
+| [《聪明的投资者》](https://book.douban.com/subject/5243775/) |           |
+| [《穷查理宝典》](https://book.douban.com/subject/26831789/)  |           |
+| [《操作系统导论》](https://book.douban.com/subject/33463930/) |           |
 | [《Go语言设计与实现》](https://draveness.me/golang/)         |           |
+| [《Go语言原本》](https://golang.design/under-the-hood/)      |           |
+| [《Linux/UNIX系统编程手册》](https://book.douban.com/subject/25809330/) |           |
 | [《Redis设计与实现》](https://book.douban.com/subject/25900156/) |           |
-| [《中国通史》](https://book.douban.com/subject/6977028/)     |           |
+| [《UNIX环境高级编程 : 第2版》](https://book.douban.com/subject/1788421/) |           |
+| [《费雪论成长股获利》](https://book.douban.com/subject/26260918/) |           |
 | [《卡耐基：魅力口才与演讲艺术》](https://book.douban.com/subject/6966337/) |           |
 | [《领导者习惯 - 卓越管理的22个必备技能》](https://book.douban.com/subject/30379919/) |           |
-| [《Go语言原本》](https://golang.design/under-the-hood/)      |           |
-| [《操作系统导论》](https://book.douban.com/subject/33463930/) |           |
-| [《Linux/UNIX系统编程手册》](https://book.douban.com/subject/25809330/) |           |
-| [《聪明的投资者》](https://book.douban.com/subject/5243775/) |           |
-| [《费雪论成长股获利》](https://book.douban.com/subject/26260918/) |           |
-| [《穷查理宝典》](https://book.douban.com/subject/26831789/)  |           |
-| [《UNIX环境高级编程 : 第2版》](https://book.douban.com/subject/1788421/) |           |
+| [《中国通史》](https://book.douban.com/subject/6977028/)     |           |
 
 
-## 完成阅读
+## 过去阅读
 
 | 书名                                                         | 开始/结束       |
 | :----------------------------------------------------------- | :-------------- |
