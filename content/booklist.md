@@ -9,6 +9,7 @@ type: booklist
 
 | 书名                                                         | 开始/结束 |
 | :----------------------------------------------------------- | :-------- |
+| [《聪明的投资者》](https://book.douban.com/subject/5243775/) |      2021-11     |
 | [《数据结构与算法之美》](https://time.geekbang.org/column/article/41149) | 2021-10   |
 | [《图解TCP/IP》](https://book.douban.com/subject/24737674/)  | 2021-07/? |
 | [《MySQL实战45讲》](https://time.geekbang.org/column/intro/100020801?tab=catalog) | 2021-02/? |
@@ -23,7 +24,6 @@ type: booklist
 
 | 书名                                                         | 开始/结束 |
 | :----------------------------------------------------------- | :-------- |
-| [《聪明的投资者》](https://book.douban.com/subject/5243775/) |           |
 | [《数据密集型应用系统设计》](https://book.douban.com/subject/30329536/) |           |
 | [《穷查理宝典》](https://book.douban.com/subject/26831789/)  |           |
 | [《操作系统导论》](https://book.douban.com/subject/33463930/) |           |
