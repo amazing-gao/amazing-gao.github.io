@@ -28,7 +28,7 @@ series:
 
 ## 跟我们有什么关系？
 
-根据中国证监会科技监管局《关于建立信息技术应用创新工作一把手责任制的通知》（[2021]221号文）要求，公司决定成立信创工作领导小组和执行小组，xx、xx有幸被选中作为首批的试点项目。
+根据xxxxx《xxxxx》（[2021]221号文）要求，xxxxx决定成立信创工作领导小组和执行小组，xx、xx有幸被选中作为首批的试点项目。
 
 ## 我们要做什么？
 
@@ -40,7 +40,7 @@ series:
 
 国产CPU服务器化，对应用侧来说就是将程序部署于国产CPU的服务器之上，目前我们互联网金融的应用程序均部署于公司的微服务平台 — Eagle。
 
-国产服务器硬件层面由 Eagle 与公司基础运维组 统一采购、部署、管理，对于应用侧来说只需将应用程序发布到相应的信创集群即可，那么 Eagle 方面目前提供了哪些方案呢？
+国产服务器硬件层面由 Exxxe 与公司基础运维组 统一采购、部署、管理，对于应用侧来说只需将应用程序发布到相应的信创集群即可，那么 Exxxe 方面目前提供了哪些方案呢？
 
 | 操作系统     | 操作系统研发单位 | CPU型号 | CPU研发单位 | CPU指令集体系 | CPU架构来源 | 是否就绪             |
 | :----------- | :--------------- | :------ | :---------- | :------------ | :---------- | :------------------- |
@@ -48,7 +48,7 @@ series:
 | 银河麒麟 V10 | 麒麟软件         | 飞腾    | 天津飞腾    | ARM           | 指令集授权  | 否                   |
 | 银河麒麟 V10 | 麒麟软件         | 海光    | 天津海光    | x86（AMD）    | IP授权      | 否                   |
 
-Eagle 主推“麒麟+鲲鹏“方案；考虑到服务器交付风险，增加”麒麟+飞腾“备选方案；考虑到业务系统向 ARM 平台迁移改造的适配风险，增加”麒麟+海关“备选方案。
+Exxxe 主推“麒麟+鲲鹏“方案；考虑到服务器交付风险，增加”麒麟+飞腾“备选方案；考虑到业务系统向 ARM 平台迁移改造的适配风险，增加”麒麟+海关“备选方案。
 
 信创主推和备选的是自主化程度较高、基于 ARM 指令集体系方案，对于应用侧来说也是改造最多的，所以这是我们重点关注的方案。
 
@@ -225,7 +225,7 @@ func main() {
 
 ```Dockerfile
 # Go 可执行文件构建阶段
-FROM --platform=$TARGETPLATFORM xxxx/sni-be/go:1.16-alpine3.14 AS builder
+FROM --platform=$TARGETPLATFORM xxxx/go:1.16-alpine3.14 AS builder
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
 
@@ -239,7 +239,7 @@ RUN go build -o /app/server .
 
 
 # Go 可执行文件运行环境构建阶段
-FROM --platform=$TARGETPLATFORM xxxx/sni-be/alpine:3.11
+FROM --platform=$TARGETPLATFORM xxxx/alpine:3.11
 
 COPY --from=builder /app/server /go/bin/server
 ADD config /go/bin/config
@@ -411,7 +411,7 @@ Percentage of the requests served within a certain time (ms)
 #### 改造 Dockerfile
 
 ```Dockerfile
-FROM --platform=$TARGETPLATFORM xxxx/sni-be/go:1.16-alpine3.14 AS builder
+FROM --platform=$TARGETPLATFORM xxxx/go:1.16-alpine3.14 AS builder
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
 
@@ -422,7 +422,7 @@ WORKDIR /app
 RUN go build -o /app/server .
 
 
-FROM --platform=$TARGETPLATFORM xxxx/sni-be/alpine:3.11
+FROM --platform=$TARGETPLATFORM xxxx/alpine:3.11
 
 COPY --from=builder /app/server /go/bin/server
 ADD config /go/bin/config
@@ -468,7 +468,7 @@ variables:
 
 
 ```sh
-skopeo copy -a docker://docker.io/library/alpine:3.11 docker://xxxx/sni-be/alpine:3.11
+skopeo copy -a docker://docker.io/library/alpine:3.11 docker://xxxx/alpine:3.11
 ```
 
 ### buildx 编译时 moby/buildkit 时无法下载或下载太慢，肿么办？
@@ -500,13 +500,13 @@ docker buildx create --driver-opt image=xxxx/moby/buildkit:latest --use
 
 | 说明                 | 镜像地址                                                     |
 | -------------------- | ------------------------------------------------------------ |
-| go 16.3              | [xxxx/sni-be/go:v1.0.0](http://xxxx/sni-be/go:v1.0.0) |
-| alpine 3.13          | [xxxx/sni-be/runtime:v1.0.0](http://xxxx/sni-be/runtime:v1.0.0) |
-| node 6.11.5          | [xxxx/sni-be/runtime:node6.11.5](http://xxxx/sni-be/runtime:node6.11.5) |
-| node 16              | [xxxx/sni-be/runtime:node16-alpine3.14](http://xxxx/sni-be/runtime:node16-alpine3.14) |
-| dind with buildx     | [xxxx/sni-be/dindx:latest](http://xxxx/sni-be/dindx:latest) |
+| go 16.3              | [xxxx/go:v1.0.0](http://xxxx/go:v1.0.0) |
+| alpine 3.13          | [xxxx/runtime:v1.0.0](http://xxxx/runtime:v1.0.0) |
+| node 6.11.5          | [xxxx/runtime:node6.11.5](http://xxxx/runtime:node6.11.5) |
+| node 16              | [xxxx/runtime:node16-alpine3.14](http://xxxx/runtime:node16-alpine3.14) |
+| dind with buildx     | [xxxx/dindx:latest](http://xxxx/dindx:latest) |
 | moby build kit       | [xxxx/moby/buildkit:latest](http://xxxx/moby/buildkit:latest) |
-| gitlab runner helper | [xxxx/sni-be/gitlab-runner-helper:alpine](http://xxxx/sni-be/gitlab-runner-helper:alpine) |
+| gitlab runner helper | [xxxx/gitlab-runner-helper:alpine](http://xxxx/gitlab-runner-helper:alpine) |
 
 
 
