@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>docker on Amazing-Gao 实在是高</title><link>/tags/docker/</link><description>Recent content in docker on Amazing-Gao 实在是高</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><managingEditor>amazing.gao@qq.com (AmazingGao)</managingEditor><webMaster>amazing.gao@qq.com (AmazingGao)</webMaster><copyright>Amazing-Gao — All rights reserved.</copyright><lastBuildDate>Thu, 12 Aug 2021 17:16:02 +0800</lastBuildDate><atom:link href="/tags/docker/index.xml" rel="self" type="application/rss+xml"/><item><title>基于信创的互金应用探索与实践</title><link>/posts/2021/08/sahre/cn-it/</link><pubDate>Thu, 12 Aug 2021 17:16:02 +0800</pubDate><author>amazing.gao@qq.com (AmazingGao)</author><guid>/posts/2021/08/sahre/cn-it/</guid><description>信创是什么？ 信创二字来源于“信息技术应用创新工作委员会”。2016年3月4日工委会成立，是由从事信息技术软硬件关键技术研究、应用和服务的企事业单位发起建立的非营利性社会组织。
 信创产业，即信息技术应用创新产业。信创产业推进的背景在于，过去中国IT底层标准、架构、产品、生态大多数都由国外IT商业公司来制定，由此存在诸多的底层技术、信息安全、数据保存方式被限制的风险。
 全球IT生态格局将由过去的“一极”向未来的“两极”演变，中国要逐步建立基于自己的IT底层架构和标准。基于自有IT底层架构和标准建立起来的IT产业生态便是信创产业的主要内涵。
-跟我们有什么关系？ 根据中国证监会科技监管局《关于建立信息技术应用创新工作一把手责任制的通知》（[2021]221号文）要求，公司决定成立信创工作领导小组和执行小组，xx、xx有幸被选中作为首批的试点项目。
+跟我们有什么关系？ 根据xxxxx《xxxxx》（[2021]221号文）要求，xxxxx决定成立信创工作领导小组和执行小组，xx、xx有幸被选中作为首批的试点项目。
 我们要做什么？ 简单来说，我们的远期目标是实现全面国产化，说实话从我个人来看的话目标的难度非常大，非常具有挑战性。我们的短期目标是什么呢？实现应用程序的国产CPU服务器和国产数据库化。
 国产CPU服务器 国产CPU服务器化，对应用侧来说就是将程序部署于国产CPU的服务器之上，目前我们互联网金融的应用程序均部署于公司的微服务平台 — Eagle。
-国产服务器硬件层面由 Eagle 与公司基础运维组 统一采购、部署、管理，对于应用侧来说只需将应用程序发布到相应的信创集群即可，那么 Eagle 方面目前提供了哪些方案呢？
-操作系统 操作系统研发单位 CPU型号 CPU研发单位 CPU指令集体系 CPU架构来源 是否就绪 银河麒麟 V10 麒麟软件 鲲鹏920 华为 ARM 指令集授权 是（集群标签armcs1） 银河麒麟 V10 麒麟软件 飞腾 天津飞腾 ARM 指令集授权 否 银河麒麟 V10 麒麟软件 海光 天津海光 x86（AMD） IP授权 否 Eagle 主推“麒麟+鲲鹏“方案；考虑到服务器交付风险，增加”麒麟+飞腾“备选方案；考虑到业务系统向 ARM 平台迁移改造的适配风险，增加”麒麟+海关“备选方案。
+国产服务器硬件层面由 Exxxe 与公司基础运维组 统一采购、部署、管理，对于应用侧来说只需将应用程序发布到相应的信创集群即可，那么 Exxxe 方面目前提供了哪些方案呢？
+操作系统 操作系统研发单位 CPU型号 CPU研发单位 CPU指令集体系 CPU架构来源 是否就绪 银河麒麟 V10 麒麟软件 鲲鹏920 华为 ARM 指令集授权 是（集群标签armcs1） 银河麒麟 V10 麒麟软件 飞腾 天津飞腾 ARM 指令集授权 否 银河麒麟 V10 麒麟软件 海光 天津海光 x86（AMD） IP授权 否 Exxxe 主推“麒麟+鲲鹏“方案；考虑到服务器交付风险，增加”麒麟+飞腾“备选方案；考虑到业务系统向 ARM 平台迁移改造的适配风险，增加”麒麟+海关“备选方案。
 信创主推和备选的是自主化程度较高、基于 ARM 指令集体系方案，对于应用侧来说也是改造最多的，所以这是我们重点关注的方案。</description></item><item><title>Rancher初体验</title><link>/posts/2021/02/rancher/quick-start/</link><pubDate>Sat, 06 Feb 2021 16:47:59 +0800</pubDate><author>amazing.gao@qq.com (AmazingGao)</author><guid>/posts/2021/02/rancher/quick-start/</guid><description>Kubernetes 是什么？ 在技术圈大家对大名鼎鼎的 Kubernetes（别名k8s）肯定都是耳熟能详，无论过去、现在和未来，它都将对世界产生非常深远的积极影响。
 在此借用官方介绍：
 Kubernetes 是一个可移植的、可扩展的开源平台，用于管理容器化的工作负载和服务，可促进声明式配置和自动化。 Kubernetes 拥有一个庞大且快速增长的生态系统。Kubernetes 的服务、支持和工具广泛可用。 名称 Kubernetes 源于希腊语，意为“舵手”或“飞行员”。Google 在 2014 年开源了 Kubernetes 项目。 Kubernetes 建立在 Google 在大规模运行生产工作负载方面拥有十几年的经验 的基础上，结合了社区中最好的想法和实践。 Rancher 是什么？ 在此还是借用官方介绍：
