@@ -9,16 +9,16 @@ type: booklist
 
 | 书名                                                         | 开始/结束 |
 | :----------------------------------------------------------- | :-------- |
-| [《聪明的投资者》](https://book.douban.com/subject/5243775/) |      2021-11     |
-| [《数据结构与算法之美》](https://time.geekbang.org/column/article/41149) | 2021-10   |
+| [《如何说孩子才会听，怎么听孩子才肯说》](https://book.douban.com/subject/2275635/) | 2021-03/? |
 | [《图解TCP/IP》](https://book.douban.com/subject/24737674/)  | 2021-07/? |
-| [《MySQL实战45讲》](https://time.geekbang.org/column/intro/100020801?tab=catalog) | 2021-02/? |
 
 ## 搁置阅读
 
 | 书名                                                      | 开始/结束 |
 | :-------------------------------------------------------- | :-------- |
 | [《世界简史》](https://book.douban.com/subject/26657357/) | 2020-12/? |
+| [《数据结构与算法之美》](https://time.geekbang.org/column/article/41149) | 2021-10   |
+| [《MySQL实战45讲》](https://time.geekbang.org/column/intro/100020801?tab=catalog) | 2021-02/? |
 
 ## 未来阅读
 
@@ -37,11 +37,11 @@ type: booklist
 | [《领导者习惯 - 卓越管理的22个必备技能》](https://book.douban.com/subject/30379919/) |           |
 | [《中国通史》](https://book.douban.com/subject/6977028/)     |           |
 
-
 ## 过去阅读
 
 | 书名                                                         | 开始/结束       |
 | :----------------------------------------------------------- | :-------------- |
+| [《聪明的投资者》](https://book.douban.com/subject/5243775/) |      2021-11/2021-03     |
 | [《清华大学公开课：肖星教授《财务分析与决策课程》](https://open.163.com/newview/movie/courseintro?newurl=MDPKDHH4O) | 2021-10/2021-11 |
 | [《投资最重要的事》](https://book.douban.com/subject/33401129/) | 2021-09/2021-11 |
 | [《算法》第4版](/books/algorithms4)                          | 2021-02/2021-08 |
