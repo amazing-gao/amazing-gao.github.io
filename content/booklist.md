@@ -9,14 +9,13 @@ type: booklist
 
 | 书名                                                         | 开始/结束 |
 | :----------------------------------------------------------- | :-------- |
-| [《怎样选择成长股》](https://book.douban.com/subject/27202775/)  | 2022-04/? |
+| [《世界简史》](https://book.douban.com/subject/26657357/) | 2020-12/? |
 | [《图解TCP/IP》](https://book.douban.com/subject/24737674/)  | 2021-07/? |
 
 ## 搁置阅读
 
 | 书名                                                      | 开始/结束 |
 | :-------------------------------------------------------- | :-------- |
-| [《世界简史》](https://book.douban.com/subject/26657357/) | 2020-12/? |
 | [《数据结构与算法之美》](https://time.geekbang.org/column/article/41149) | 2021-10   |
 | [《MySQL实战45讲》](https://time.geekbang.org/column/intro/100020801?tab=catalog) | 2021-02/? |
 
@@ -32,15 +31,16 @@ type: booklist
 | [《Linux/UNIX系统编程手册》](https://book.douban.com/subject/25809330/) |           |
 | [《Redis设计与实现》](https://book.douban.com/subject/25900156/) |           |
 | [《UNIX环境高级编程 : 第2版》](https://book.douban.com/subject/1788421/) |           |
-| [《费雪论成长股获利》](https://book.douban.com/subject/26260918/) |           |
 | [《卡耐基：魅力口才与演讲艺术》](https://book.douban.com/subject/6966337/) |           |
 | [《领导者习惯 - 卓越管理的22个必备技能》](https://book.douban.com/subject/30379919/) |           |
 | [《中国通史》](https://book.douban.com/subject/6977028/)     |           |
+| [《费雪论成长股获利》](https://book.douban.com/subject/26260918/) |           |
 
 ## 过去阅读
 
 | 书名                                                         | 开始/结束       |
 | :----------------------------------------------------------- | :-------------- |
+| [《怎样选择成长股》](https://book.douban.com/subject/27202775/)  | 2022-04 |
 | [《如何说孩子才会听，怎么听孩子才肯说》](/books/talk-listen-kids) | 2022-03 |
 | [《聪明的投资者》](https://book.douban.com/subject/5243775/) |      2021-11/2022-03     |
 | [《清华大学公开课：肖星教授《财务分析与决策课程》](https://open.163.com/newview/movie/courseintro?newurl=MDPKDHH4O) | 2021-10/2021-11 |
