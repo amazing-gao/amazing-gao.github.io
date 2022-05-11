@@ -9,6 +9,7 @@ type: booklist
 
 | 书名                                                         | 开始/结束 |
 | :----------------------------------------------------------- | :-------- |
+| [《领域驱动设计》](https://book.douban.com/subject/26819666/)  | 2022-05/? |
 | [《世界简史》](https://book.douban.com/subject/26657357/) | 2020-12/? |
 | [《图解TCP/IP》](https://book.douban.com/subject/24737674/)  | 2021-07/? |
 
