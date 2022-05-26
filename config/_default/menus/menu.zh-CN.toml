@@ -23,6 +23,11 @@
   weight = -107
 
 [[main]]
+  name = "Links"
+  url = "links/"
+  weight = -106
+
+[[main]]
   name = "About"
   url = "about/"
   weight = -1
